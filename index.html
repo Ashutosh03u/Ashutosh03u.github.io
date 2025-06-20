@@ -2,254 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Habiba | Project Manager & Career Coach</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+    * { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI',sans-serif; }
+    body { background:#f9f9f9; color:#333; line-height:1.6; }
+    header { position:sticky; top:0; background:#fff; padding:1rem 2rem; box-shadow:0 2px 4px rgba(0,0,0,0.05); z-index:1000; }
+    header h1 { font-size:1.8rem; color:#2c3e50; display:inline-block; }
+    nav { display:inline-block; float:right; }
+    nav a { margin:0 15px; text-decoration:none; color:#333; font-weight:500; position:relative; }
+    nav a::after { content:''; position:absolute; width:0; height:2px; background:#4caf50; bottom:-4px; left:0; transition: width 0.3s; }
+    nav a:hover::after { width:100%; }
+
+    .intro { max-width:800px; margin:3rem auto; padding:2rem; background:#fff; border-radius:8px; text-align:center; }
+    .intro img { width:150px; height:150px; border-radius:50%; object-fit:cover; margin-bottom:1rem; }
+    .intro h2 { font-size:2.5rem; margin-bottom:0.5rem; }
+    .intro p { font-size:1.1rem; color:#555; }
+
+    section { max-width:900px; margin:3rem auto; padding:0 1rem; }
+    section h2 { font-size:2rem; color:#2c3e50; margin-bottom:1rem; border-bottom:2px solid #eee; padding-bottom:0.5rem; }
+
+    #services .services-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+    #services .services-grid .card { background:#fff; padding:1.5rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); display:flex; align-items:flex-start; gap:1rem; }
+    #services .card-icon { font-size:2rem; flex-shrink:0; color:#4caf50; }
+    #services .card-content h3 { margin-bottom:0.5rem; color:#2c3e50; }
+    @media(min-width:600px) {
+      #services .services-grid { grid-template-columns:repeat(2,1fr); }
     }
 
-    body {
-      background: #f9f9f9;
-      color: #333;
-    }
+    #contact form { background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); display:grid; gap:1rem; }
+    form input,textarea { width:100%; padding:0.8rem; border:1px solid #ccc; border-radius:6px; }
+    form button { padding:0.8rem 2rem; background:#4caf50; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 
-    header {
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      color: #2c3e50;
-    }
-
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      position: relative;
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: #4CAF50;
-      left: 0;
-      bottom: -4px;
-      transition: width 0.3s;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    .hero {
-      background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80');
-      background-size: cover;
-      background-position: center;
-      height: 85vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .hero h2 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.4);
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: auto;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-
-    section {
-      padding: 4rem 2rem;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    /* SERVICES SECTION */
-    #services {
-      background: linear-gradient(135deg, #f0f9ff, #e0f7fa);
-    }
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      text-align: center;
-      border-left: 5px solid #ccc;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1rem;
-    }
-
-    .card h3 {
-      color: #2c3e50;
-      margin-bottom: 0.5rem;
-    }
-
-    /* CONTACT FORM */
-    form {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-
-    form input, form textarea {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    form button {
-      padding: 0.8rem 2rem;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    form button:hover {
-      background: #45a049;
-    }
-
-    footer {
-      background: #f1f1f1;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .socials {
-      margin-top: 1rem;
-    }
-
-    .socials a {
-      margin: 0 10px;
-      color: #333;
-      font-size: 1.2rem;
-      transition: color 0.3s;
-    }
-
-    .socials a:hover {
-      color: #4CAF50;
-    }
-
-    @media (max-width: 600px) {
-      .hero h2 {
-        font-size: 2rem;
-      }
-    }
+    footer { text-align:center; padding:2rem 0; color:#777; background:#f1f1f1; }
+    .socials a { margin:0 10px; color:#333; font-size:1.2rem; transition:color 0.3s; }
+    .socials a:hover { color:#4caf50; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Habiba</h1>
-    <nav>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<header>
+  <h1>Habiba</h1>
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <section class="hero">
-    <div>
-      <h2>Project Manager & Career Coach</h2>
-      <p>I help professionals land their dream jobs through personalized coaching, resume reviews, and job search strategies.</p>
-    </div>
-  </section>
+<div class="intro">
+  <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80" alt="Habiba Profile" />
+  <h2>Habiba</h2>
+  <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
+</div>
 
-  <section id="services">
-    <h2 style="text-align:center; margin-bottom:2rem; font-size:2rem; color:#2c3e50;">My Services</h2>
-    <div class="services">
-      <div class="card" style="border-left-color: #4CAF50;">
-        <div class="card-icon" style="background-color: #e8f5e9;"><i class="fas fa-file-alt" style="color: #4CAF50;"></i></div>
+<section id="services">
+  <h2>My Services</h2>
+  <div class="services-grid">
+    <div class="card">
+      <i class="fas fa-file-alt card-icon"></i>
+      <div class="card-content">
         <h3>Resume Review</h3>
-        <p>Optimize your resume to stand out and pass ATS filters with proven formatting and keywords.</p>
+        <p>Optimize your resume to stand out and get noticed by recruiters.</p>
       </div>
-      <div class="card" style="border-left-color: #2196F3;">
-        <div class="card-icon" style="background-color: #e3f2fd;"><i class="fas fa-chalkboard-teacher" style="color: #2196F3;"></i></div>
+    </div>
+    <div class="card">
+      <i class="fas fa-chalkboard-teacher card-icon"></i>
+      <div class="card-content">
         <h3>Career Coaching</h3>
-        <p>1-on-1 mentorship to help you choose the right path and grow your career confidently.</p>
+        <p>One-on-one mentorship tailored to your goals and career path.</p>
       </div>
-      <div class="card" style="border-left-color: #FF9800;">
-        <div class="card-icon" style="background-color: #fff3e0;"><i class="fas fa-comments" style="color: #FF9800;"></i></div>
+    </div>
+    <div class="card">
+      <i class="fas fa-comments card-icon"></i>
+      <div class="card-content">
         <h3>Interview Prep</h3>
-        <p>Practice real interview questions and sharpen your answers to feel confident and ready.</p>
+        <p>Mock interviews and strategies to boost your confidence.</p>
       </div>
-      <div class="card" style="border-left-color: #9C27B0;">
-        <div class="card-icon" style="background-color: #f3e5f5;"><i class="fas fa-map-signs" style="color: #9C27B0;"></i></div>
+    </div>
+    <div class="card">
+      <i class="fas fa-map-signs card-icon"></i>
+      <div class="card-content">
         <h3>Job Search Strategy</h3>
-        <p>Smart job search plans tailored to your goals and target industry roles.</p>
+        <p>Effective plans to find the right job faster and smarter.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="contact">
-    <h2 style="text-align:center; margin-bottom:2rem;">Contact Me</h2>
-    <form action="https://formspree.io/f/mzzgaage" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+<section id="contact">
+  <h2>Contact Me</h2>
+  <form action="https://formspree.io/f/mzzgaage" method="POST">
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
 
-  <footer>
-    <p>© 2025 Habiba. All rights reserved.</p>
-    <div class="socials">
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-facebook"></i></a>
-    </div>
-  </footer>
+<footer>
+  <p>© 2025 Habiba</p>
+  <div class="socials">
+    <a href="#"><i class="fab fa-linkedin"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+</footer>
 
 </body>
 </html>
