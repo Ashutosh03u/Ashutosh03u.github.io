@@ -23,15 +23,18 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      scroll-behavior: smooth;
     }
 
     /* Header */
     header {
-      background: #fff;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      background: rgba(255 255 255 / 0.95);
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: saturate(180%) blur(10px);
+      transition: background-color 0.3s ease;
     }
     nav {
       max-width: 1100px;
@@ -46,17 +49,33 @@
       font-size: 28px;
       color: #2a52be;
       cursor: default;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
+      user-select: none;
     }
     nav a {
       color: #555;
       text-decoration: none;
-      margin-left: 25px;
+      margin-left: 30px;
       font-weight: 500;
-      transition: color 0.3s;
+      font-size: 1.05rem;
+      position: relative;
+      transition: color 0.3s ease;
     }
-    nav a:hover {
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0%;
+      height: 2px;
+      background: #2a52be;
+      transition: width 0.3s ease;
+    }
+    nav a:hover, nav a:focus {
       color: #2a52be;
+    }
+    nav a:hover::after, nav a:focus::after {
+      width: 100%;
     }
 
     /* Hero Section */
@@ -64,164 +83,224 @@
       background: linear-gradient(135deg, #4a90e2 0%, #357ABD 100%);
       color: #fff;
       text-align: center;
-      padding: 100px 20px 120px;
+      padding: 120px 20px 140px;
       box-shadow: inset 0 0 0 1000px rgb(255 255 255 / 0.1);
     }
     #home h1 {
-      font-size: 3rem;
+      font-size: 3.8rem;
       font-weight: 700;
-      margin-bottom: 15px;
-      letter-spacing: 1.2px;
+      margin-bottom: 20px;
+      letter-spacing: 1.4px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     #home p {
-      font-size: 1.3rem;
-      max-width: 700px;
-      margin: 0 auto 25px;
+      font-size: 1.5rem;
+      max-width: 750px;
+      margin: 0 auto 30px;
       font-weight: 300;
+      line-height: 1.5;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.15);
     }
 
     /* Section headings */
     section h2 {
       max-width: 900px;
-      margin: 60px auto 30px;
+      margin: 70px auto 35px;
       font-weight: 700;
-      font-size: 2rem;
+      font-size: 2.3rem;
       color: #2a52be;
       text-align: center;
+      letter-spacing: 1px;
+      user-select: none;
     }
 
     /* Services Section */
     #services {
       max-width: 900px;
-      margin: 0 auto 60px;
+      margin: 0 auto 80px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
       padding: 0 20px;
     }
     .service {
       background: #fff;
-      border-radius: 12px;
-      padding: 30px 25px;
-      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 16px;
+      padding: 35px 30px;
+      box-shadow: 0 10px 25px rgb(0 0 0 / 0.12);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
       cursor: default;
       text-align: center;
+      user-select: none;
     }
-    .service:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 30px rgb(0 0 0 / 0.15);
+    .service:hover, .service:focus-within {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgb(0 0 0 / 0.18);
     }
     .service-icon {
-      font-size: 40px;
-      margin-bottom: 20px;
+      font-size: 48px;
+      margin-bottom: 25px;
       color: #2a52be;
+      transition: transform 0.3s ease;
+    }
+    .service:hover .service-icon {
+      transform: scale(1.2);
     }
     .service h3 {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       font-weight: 600;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       color: #1c3c8c;
+      user-select: text;
     }
     .service p {
       font-weight: 300;
       color: #555;
-      font-size: 1rem;
+      font-size: 1.05rem;
+      user-select: text;
+      line-height: 1.5;
     }
 
     /* About Section */
     #about {
       background: #fff;
       max-width: 900px;
-      margin: 0 auto 80px;
-      padding: 30px 30px 50px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+      margin: 0 auto 90px;
+      padding: 40px 40px 55px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgb(0 0 0 / 0.12);
       font-weight: 300;
-      font-size: 1.1rem;
+      font-size: 1.18rem;
       color: #444;
-      line-height: 1.8;
+      line-height: 1.85;
       text-align: center;
+      user-select: text;
     }
 
     /* Contact Section */
     #contact {
-      max-width: 500px;
-      margin: 0 auto 60px;
+      max-width: 540px;
+      margin: 0 auto 80px;
       padding: 0 20px;
+    }
+    #contact h2 {
+      margin-bottom: 40px;
     }
     #contact form {
       background: #fff;
-      padding: 30px 25px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgb(0 0 0 / 0.12);
       display: flex;
       flex-direction: column;
+      user-select: none;
     }
     #contact label {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
       color: #2a52be;
+      user-select: text;
     }
     #contact input,
     #contact textarea {
-      padding: 12px 15px;
-      margin-bottom: 18px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
       border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: 10px;
+      font-size: 1.1rem;
       font-family: 'Poppins', sans-serif;
-      transition: border-color 0.3s;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
       resize: vertical;
+      user-select: text;
+    }
+    #contact input::placeholder,
+    #contact textarea::placeholder {
+      color: #999;
+      font-style: italic;
     }
     #contact input:focus,
     #contact textarea:focus {
       border-color: #2a52be;
       outline: none;
-      box-shadow: 0 0 8px #2a52beaa;
+      box-shadow: 0 0 10px #2a52becc;
     }
     #contact button {
-      background: #2a52be;
+      background: linear-gradient(135deg, #2a52be, #4a90e2);
       color: white;
       border: none;
-      padding: 14px;
-      font-size: 1.1rem;
-      border-radius: 8px;
+      padding: 16px 0;
+      font-size: 1.2rem;
+      border-radius: 12px;
       cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s;
+      font-weight: 700;
+      box-shadow: 0 6px 15px rgb(42 82 190 / 0.7);
+      transition: background-position 0.5s ease, box-shadow 0.3s ease;
+      background-size: 200% 200%;
+      background-position: left;
+      user-select: none;
     }
-    #contact button:hover {
-      background: #1a3679;
+    #contact button:hover, #contact button:focus {
+      background-position: right;
+      box-shadow: 0 10px 30px rgb(42 82 190 / 0.85);
     }
 
     /* Footer */
     footer {
       text-align: center;
-      padding: 25px 10px;
+      padding: 30px 15px;
       color: #777;
-      font-size: 0.9rem;
+      font-size: 1rem;
       border-top: 1px solid #ddd;
       margin-top: auto;
       background: #f9f9f9;
+      user-select: none;
+    }
+    footer .socials {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    footer .socials a {
+      color: #555;
+      font-size: 1.6rem;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    footer .socials a:hover {
+      color: #2a52be;
     }
 
     /* Responsive */
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       nav {
         flex-direction: column;
       }
       nav a {
-        margin: 12px 0 0 0;
+        margin: 14px 0 0 0;
       }
       #services {
         grid-template-columns: 1fr;
         max-width: 90vw;
       }
+      #home h1 {
+        font-size: 2.8rem;
+      }
+      #home p {
+        font-size: 1.1rem;
+        max-width: 90vw;
+      }
+      #about {
+        font-size: 1.05rem;
+        padding: 25px 20px 40px;
+      }
     }
   </style>
 
   <!-- You can add Google Analytics here later if you want -->
+
+  <!-- FontAwesome CDN for social icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -239,41 +318,80 @@
 </header>
 
 <main>
-  <section id="home">
+  <section id="home" tabindex="-1">
     <h1>Hi, I'm Habiba</h1>
     <p>Certified Project Manager & Dedicated Career Coach passionate about helping you land your dream job.</p>
     <p>With years of experience in project management and mentoring, I offer practical, personalized guidance to move your career forward.</p>
   </section>
 
-  <section id="services">
+  <section id="services" tabindex="-1">
     <h2>Services I Offer</h2>
-    <div class="service">
-      <div class="service-icon">📝</div>
+    <div class="service" tabindex="0" aria-label="Resume Review and Optimization">
+      <div class="service-icon" aria-hidden="true">📝</div>
       <h3>Resume Review & Optimization</h3>
       <p>Improve your resume to stand out and get noticed by recruiters.</p>
     </div>
-    <div class="service">
-      <div class="service-icon">🎯</div>
+    <div class="service" tabindex="0" aria-label="Career Coaching and One-on-One Mentorship">
+      <div class="service-icon" aria-hidden="true">🎯</div>
       <h3>Career Coaching & 1-on-1 Mentorship</h3>
       <p>Personalized coaching tailored to your goals and career path.</p>
     </div>
-    <div class="service">
-      <div class="service-icon">💬</div>
+    <div class="service" tabindex="0" aria-label="Interview Preparation">
+      <div class="service-icon" aria-hidden="true">💬</div>
       <h3>Interview Preparation</h3>
       <p>Mock interviews and strategies to boost your confidence.</p>
     </div>
-    <div class="service">
-      <div class="service-icon">🧭</div>
+    <div class="service" tabindex="0" aria-label="Job Search Strategy">
+      <div class="service-icon" aria-hidden="true">🧭</div>
       <h3>Job Search Strategy</h3>
       <p>Effective techniques and plans to find the right job faster.</p>
     </div>
   </section>
 
-  <section id="about">
+  <section id="about" tabindex="-1">
     <h2>About Me</h2>
     <p>I am a certified project manager and dedicated career coach who is passionate about helping people land their dream jobs. I have years of experience managing projects and mentoring professionals to grow their careers. I believe practical, personalized guidance is the key to success, and I am here to support your journey.</p>
   </section>
 
-  <section id="contact">
+  <section id="contact" tabindex="-1">
     <h2>Contact Me</h2>
-    <form action
+    <form action="https://formspree.io/f/mzzgaage" method="POST">
+      <label for="name">Name <span aria-hidden="true" style="color:red">*</span></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Your full name"
+        required
+        autocomplete="name"
+      />
+
+      <label for="email">Email <span aria-hidden="true" style="color:red">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="_replyto"
+        placeholder="your.email@example.com"
+        required
+        autocomplete="email"
+      />
+
+      <label for="message">Message <span aria-hidden="true" style="color:red">*</span></label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Write your message here..."
+        rows="5"
+        required
+      ></textarea>
+
+      <button type="submit" aria-label="Send message">Send Message</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Habiba. All rights reserved.</p>
+  <div class="socials" aria-label="Social media links">
+    <a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></
