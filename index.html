@@ -2,112 +2,227 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Career Coach & Project Manager – [Your Name]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Habiba | Project Manager & Career Coach</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* Basic Reset */
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      line-height: 1.6;
-      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: #f9f9f9;
       color: #333;
+      line-height: 1.6;
     }
     header {
-      background: #4a90e2;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
+      background: #ffffff;
+      padding: 20px 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    nav {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 1rem 0;
+    header nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    nav a {
-      color: white;
-      margin: 0 15px;
+    header nav a {
+      color: #333;
       text-decoration: none;
+      margin-left: 25px;
+      font-weight: 600;
+      transition: color 0.3s;
     }
+    header nav a:hover {
+      color: #007BFF;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 24px;
+      color: #007BFF;
+    }
+
     section {
-      padding: 2rem;
       max-width: 900px;
-      margin: auto;
-      background: white;
-      margin-top: 1rem;
-      border-radius: 8px;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #333;
-      color: white;
-      margin-top: 2rem;
+      margin: 40px auto;
+      padding: 0 20px;
     }
     h1, h2 {
-      color: #333;
+      margin-bottom: 15px;
+      color: #222;
     }
-    .button {
-      display: inline-block;
-      background: #4a90e2;
-      color: white;
-      padding: 10px 20px;
-      margin-top: 10px;
-      text-decoration: none;
-      border-radius: 5px;
+    p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
     }
-    .services ul {
-      list-style: none;
-      padding: 0;
+    /* Landing Section */
+    #home {
+      text-align: center;
+      padding: 80px 20px 100px;
+      background: #e9f0ff;
+      border-radius: 8px;
     }
-    .services li {
-      background: #e6f0ff;
-      margin: 10px 0;
+    #home h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+    #home p {
+      font-size: 1.3rem;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #555;
+    }
+    /* Services Section */
+    #services .service-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 25px;
+    }
+    .service {
+      background: #fff;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s;
+    }
+    .service:hover {
+      box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    }
+    .service h3 {
+      margin-bottom: 12px;
+      color: #007BFF;
+    }
+    /* About Section */
+    #about {
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    }
+    /* Contact Section */
+    #contact form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    #contact label {
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    #contact input, #contact textarea {
       padding: 10px;
-      border-radius: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    #contact button {
+      background: #007BFF;
+      border: none;
+      color: white;
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #contact button:hover {
+      background: #0056b3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 0.9rem;
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
+    }
+    @media (max-width: 600px) {
+      header nav {
+        flex-direction: column;
+      }
+      header nav a {
+        margin: 10px 0 0 0;
+      }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>[Your Name]</h1>
-  <p>Certified Project Manager & Career Coach</p>
+  <nav>
+    <div class="logo">Habiba</div>
+    <div>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 </header>
 
-<nav>
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#contact">Contact</a>
-</nav>
+<main>
+  <section id="home">
+    <h1>Hi, I'm Habiba</h1>
+    <p>Certified Project Manager & Dedicated Career Coach passionate about helping you land your dream job.</p>
+    <p>With years of experience in project management and mentoring, I offer practical, personalized guidance to move your career forward.</p>
+  </section>
 
-<section id="about">
-  <h2>About Me</h2>
-  <p>
-    I'm a certified project manager and dedicated career coach with a passion for helping people land their dream jobs. With years of experience in project management and mentoring, I offer practical, personalized guidance to move your career forward.
-  </p>
-</section>
+  <section id="services">
+    <h2>Services I Offer</h2>
+    <div class="service-list">
+      <div class="service">
+        <h3>📝 Resume Review & Optimization</h3>
+        <p>Improve your resume to stand out and get noticed by recruiters.</p>
+      </div>
+      <div class="service">
+        <h3>🎯 Career Coaching & 1-on-1 Mentorship</h3>
+        <p>Personalized coaching tailored to your goals and career path.</p>
+      </div>
+      <div class="service">
+        <h3>💬 Interview Preparation</h3>
+        <p>Mock interviews and strategies to boost your confidence.</p>
+      </div>
+      <div class="service">
+        <h3>🧭 Job Search Strategy</h3>
+        <p>Effective techniques and plans to find the right job faster.</p>
+      </div>
+    </div>
+  </section>
 
-<section id="services" class="services">
-  <h2>My Services</h2>
-  <ul>
-    <li><strong>📝 Resume Review & Optimization:</strong> Tailored feedback and formatting to pass ATS and impress recruiters.</li>
-    <li><strong>🎯 Career Coaching & 1-on-1 Mentorship:</strong> Personalized sessions to align your goals and build confidence.</li>
-    <li><strong>💬 Interview Preparation:</strong> Mock interviews and proven techniques to help you stand out.</li>
-    <li><strong>🧭 Job Search Strategy:</strong> Custom strategies for targeting the right roles and companies.</li>
-  </ul>
-  <a href="#contact" class="button">Book a Free Discovery Call</a>
-</section>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am a certified project manager and dedicated career coach who is passionate about helping people land their dream jobs. I have years of experience managing projects and mentoring professionals to grow their careers. I believe practical, personalized guidance is the key to success, and I am here to support your journey.</p>
+  </section>
 
-<section id="contact">
-  <h2>Contact Me</h2>
-  <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
-  <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></p>
-</section>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form action="mailto:your-email@example.com" method="POST" enctype="text/plain">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required />
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required />
+      
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
+      
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+</main>
 
 <footer>
-  <p>© 2025 [Your Name]. All rights reserved.</p>
+  &copy; 2025 Habiba | Project Manager & Career Coach
 </footer>
 
 </body>
