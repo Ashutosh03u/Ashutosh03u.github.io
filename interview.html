@@ -6,39 +6,92 @@
   <title>Interview Preparation | Habiba Bhombal</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
+
+  <!-- AOS animation (optional, if used site-wide) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html#about">About</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#contact">Contact</a>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </div>
     </nav>
   </header>
 
-  <main style="margin-top: 100px; max-width: 900px; padding: 1rem; margin-left: auto; margin-right: auto;">
-    <h1>Interview Preparation</h1>
-    <p>Build confidence and master the art of interviewing with targeted coaching and feedback.</p>
+  <!-- Main Content -->
+  <main class="page-content container">
+    <section class="service-details" style="margin-top: 100px;" data-aos="fade-up">
+      <h1 class="section-title">Interview Preparation Coaching</h1>
 
-    <h2>What’s Included:</h2>
-    <ul>
-      <li>Mock Interview Sessions with Real-Time Feedback</li>
-      <li>Common Question Strategies & STAR Technique</li>
-      <li>Non-verbal Communication and Confidence Building</li>
-      <li>Feedback Tailored to Your Target Role & Industry</li>
-    </ul>
+      <p class="section-intro">
+        Whether you're preparing for your first interview or a senior-level role, this service will help you feel confident, prepared, and in control.
+        With expert guidance, you'll learn how to communicate your skills clearly and handle tough questions with ease.
+      </p>
 
-    <p><a href="index.html" class="btn-primary">← Back to Home</a></p>
+      <div class="section-highlight" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="subheading">This is ideal for:</h2>
+        <ul class="features-list">
+          <li>🎯 Recent graduates entering the job market</li>
+          <li>🎯 Mid-career professionals making a pivot or promotion</li>
+          <li>🎯 Project managers, analysts, and consultants targeting leadership roles</li>
+          <li>🎯 Anyone who struggles with articulating their experience confidently</li>
+        </ul>
+      </div>
+
+      <div class="section-details" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="subheading">What You’ll Get:</h2>
+        <ul class="features-list">
+          <li>✅ Two 1:1 mock interview sessions tailored to your industry</li>
+          <li>✅ Real-time feedback with actionable suggestions</li>
+          <li>✅ Guidance on behavioral and situational questions (STAR method)</li>
+          <li>✅ Techniques for managing nerves and speaking with confidence</li>
+          <li>✅ Body language coaching and virtual presence tips (for Zoom/Teams interviews)</li>
+          <li>✅ Follow-up email templates and thank-you etiquette tips</li>
+        </ul>
+      </div>
+
+      <div class="section-benefits" data-aos="fade-up" data-aos-delay="300">
+        <h2 class="subheading">You’ll Walk Away With:</h2>
+        <ul class="features-list">
+          <li>💡 A clear story that connects your experience to the role</li>
+          <li>💡 Prepared responses to common and tricky questions</li>
+          <li>💡 Increased confidence and clarity in high-pressure situations</li>
+        </ul>
+      </div>
+
+      <div class="cta" style="margin-top: 2rem;" data-aos="fade-up" data-aos-delay="400">
+        <a href="index.html#contact" class="btn-primary">Book a Session</a>
+        <p style="margin-top: 1rem;"><a href="index.html" class="text-link">← Back to Home</a></p>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/your_twitter/" target="_blank"><i class="fab fa-twitter"></i></a>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.instagram.com/pmprohabiba/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com/your_twitter/" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+      <p>&copy; 2025 Habiba Bhombal — All rights reserved.</p>
     </div>
-    &copy; 2025 Habiba - All rights reserved
   </footer>
+
+  <!-- AOS init (optional) -->
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
-
