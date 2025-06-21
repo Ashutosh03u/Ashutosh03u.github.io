@@ -1,13 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Resume Review & Optimization | Habiba Bhombal</title>
-  <link rel="stylesheet" href="styles.css" /> <!-- Optional: move styles to a separate file -->
+  <link rel="stylesheet" href="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: white;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: #023e8a;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 120px auto 50px;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #023e8a;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.7rem;
+      color: #0077b6;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+      color: #444;
+    }
+
+    .btn-primary {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #0096c7;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: #023e8a;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.3rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: #90e0ef;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      main {
+        margin-top: 140px;
+      }
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <nav>
       <a href="index.html#about">About</a>
@@ -16,17 +143,34 @@
     </nav>
   </header>
 
-  <main style="margin-top: 100px; max-width: 900px; padding: 1rem; margin-left: auto; margin-right: auto;">
+  <main>
     <h1>Resume Review & Optimization</h1>
-    <p>I provide professional feedback to improve the clarity, structure, and effectiveness of your resume. We'll tailor your resume to the job you're aiming for, highlight your achievements, and ensure you stand out.</p>
+    <p>Your resume is your first impression—make it stand out. I specialize in transforming ordinary resumes into impactful, job-winning documents tailored to your target roles and industry expectations.</p>
 
-    <h2>What’s Included:</h2>
+    <h2>What You’ll Get:</h2>
     <ul>
-      <li>Detailed line-by-line resume review</li>
-      <li>Keyword optimization for ATS systems</li>
-      <li>Actionable suggestions</li>
+      <li>Professional review and detailed feedback on formatting, structure, and content</li>
+      <li>Customized recommendations to align your resume with your career goals</li>
+      <li>Keyword optimization to pass Applicant Tracking Systems (ATS)</li>
+      <li>Highlighting accomplishments and measurable impact</li>
     </ul>
-    <p><a href="index.html" class="btn-primary">← Back to Home</a></p>
+
+    <h2>Who This Is For:</h2>
+    <ul>
+      <li>Recent graduates looking for their first job</li>
+      <li>Professionals aiming to pivot industries or roles</li>
+      <li>Anyone who hasn’t updated their resume in years</li>
+    </ul>
+
+    <p>Whether you're starting from scratch or refining an existing resume, I’ll provide personalized, actionable advice to help you succeed.</p>
+
+    <div class="back-link">
+      <a href="index.html#contact" class="btn-primary">Start My Resume Review</a>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html" class="btn-primary">← Back to Home</a>
+    </div>
   </main>
 
   <footer>
@@ -37,5 +181,6 @@
     </div>
     &copy; 2025 Habiba - All rights reserved
   </footer>
+
 </body>
 </html>
