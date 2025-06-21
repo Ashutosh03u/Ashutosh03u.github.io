@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Habiba Bhombal - Project Manager & Career Coach</title>
+  <title>Habiba - Project Manager & Career Coach</title>
   <style>
-    /* Reset & base styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -25,7 +24,6 @@
       text-decoration: underline;
     }
 
-    /* Header */
     header {
       background: white;
       position: fixed;
@@ -50,7 +48,6 @@
       cursor: pointer;
     }
 
-    /* Main Section */
     main {
       max-width: 900px;
       margin: 100px auto 50px;
@@ -84,7 +81,6 @@
       background: #0096c7;
     }
 
-    /* About Section */
     #about {
       background: white;
       border-radius: 12px;
@@ -104,55 +100,69 @@
       line-height: 1.7;
     }
 
-    /* Services Section */
+    /* Services Section - Enhanced */
     #services {
-      background: #e0f0ff;
-      border-radius: 12px;
-      padding: 2rem;
+      background: linear-gradient(135deg, #d0f1ff, #e0f7fa);
+      border-radius: 20px;
+      padding: 3rem 2rem;
       margin-bottom: 3rem;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-    }
-    #services h2 {
-      color: #023e8a;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-      text-align: center;
-    }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-    .service-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .service-icon {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-      color: #0077b6;
-    }
-    .service-title {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 0.7rem;
-      color: #023e8a;
-    }
-    .service-desc {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.4;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
-    /* Contact Section (from previous code) */
+    #services h2 {
+      color: #023e8a;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: white;
+      padding: 2rem 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 119, 182, 0.1);
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border: 1px solid #e0e0e0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 119, 182, 0.25);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #0077b6;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      transform: scale(1.15);
+      color: #023e8a;
+    }
+
+    .service-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #023e8a;
+      margin-bottom: 0.7rem;
+    }
+
+    .service-desc {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
     #contact {
       background: white;
       border-radius: 12px;
@@ -160,7 +170,6 @@
       max-width: 600px;
       margin: 0 auto 3rem;
       box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-      text-align: center;
     }
     #contact h2 {
       color: #023e8a;
@@ -168,29 +177,28 @@
       font-size: 2rem;
       text-align: center;
     }
-    #contact form {
+    form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    #contact input[type="text"],
-    #contact input[type="email"],
-    #contact textarea {
+    input[type="text"],
+    input[type="email"],
+    textarea {
       padding: 0.9rem 1rem;
       border-radius: 8px;
       border: 1.8px solid #ddd;
       font-size: 1rem;
       resize: vertical;
       transition: border-color 0.3s ease;
-      font-family: inherit;
     }
-    #contact input[type="text"]:focus,
-    #contact input[type="email"]:focus,
-    #contact textarea:focus {
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
       border-color: #0077b6;
       outline: none;
     }
-    #contact button[type="submit"] {
+    button[type="submit"] {
       background: #0077b6;
       color: white;
       border: none;
@@ -203,7 +211,7 @@
       transition: background 0.3s ease;
       text-transform: uppercase;
     }
-    #contact button[type="submit"]:hover {
+    button[type="submit"]:hover {
       background: #0096c7;
     }
     #form-message {
@@ -213,7 +221,6 @@
       display: none;
     }
 
-    /* Footer / Social */
     footer {
       text-align: center;
       padding: 1.5rem 1rem;
@@ -222,6 +229,7 @@
       font-size: 0.9rem;
       user-select: none;
     }
+
     .social-links {
       margin-bottom: 1rem;
     }
@@ -236,7 +244,6 @@
       color: #90e0ef;
     }
 
-    /* Profile Image */
     .profile-img {
       width: 160px;
       height: 160px;
@@ -248,12 +255,10 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     }
 
-    /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       nav {
         justify-content: center;
@@ -265,7 +270,6 @@
     }
   </style>
 
-  <!-- Font Awesome CDN for icons -->
   <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -295,27 +299,27 @@
     </section>
 
     <section id="services">
-      <h2>Services</h2>
+      <h2>What I Offer</h2>
       <div class="services-grid">
         <div class="service-card">
           <div class="service-icon"><i class="fas fa-file-alt"></i></div>
-          <div class="service-title">Resume Review & Optimization</div>
-          <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
+          <div class="service-title">Resume Review</div>
+          <div class="service-desc">Get expert feedback to make your resume stand out to recruiters.</div>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-bullseye"></i></div>
-          <div class="service-title">Career Coaching & 1-on-1 Mentorship</div>
-          <div class="service-desc">Personalized guidance to navigate your career path effectively.</div>
+          <div class="service-icon"><i class="fas fa-user-friends"></i></div>
+          <div class="service-title">1-on-1 Coaching</div>
+          <div class="service-desc">Personalized mentoring sessions to guide your career path.</div>
         </div>
         <div class="service-card">
           <div class="service-icon"><i class="fas fa-comments"></i></div>
-          <div class="service-title">Interview Preparation</div>
-          <div class="service-desc">Sharpen your interview skills and boost your confidence.</div>
+          <div class="service-title">Interview Prep</div>
+          <div class="service-desc">Sharpen your skills and increase your confidence for interviews.</div>
         </div>
         <div class="service-card">
-          <div class="service-icon"><i class="fas fa-compass"></i></div>
+          <div class="service-icon"><i class="fas fa-search"></i></div>
           <div class="service-title">Job Search Strategy</div>
-          <div class="service-desc">Tailored strategies to find and secure your ideal job.</div>
+          <div class="service-desc">Learn effective methods to land interviews and offers.</div>
         </div>
       </div>
     </section>
@@ -334,24 +338,17 @@
 
   <footer>
     <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="https://www.instagram.com/your_instagram/" target="_blank" rel="noopener" aria-label="Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://twitter.com/your_twitter/" target="_blank" rel="noopener" aria-label="Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/your_instagram/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/your_twitter/" target="_blank"><i class="fab fa-twitter"></i></a>
     </div>
     &copy; 2025 Habiba - All rights reserved
   </footer>
 
-  <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function () {
-      emailjs.init("XNiOqDSRhrGlQKdHX"); // Your User ID (public key)
+      emailjs.init("XNiOqDSRhrGlQKdHX");
     })();
 
     const form = document.getElementById("contact-form");
@@ -366,7 +363,7 @@
           message.style.color = "#4caf50";
           message.style.display = "block";
           form.reset();
-        }, function (error) {
+        }, function () {
           message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
           message.style.color = "red";
           message.style.display = "block";
