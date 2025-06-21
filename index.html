@@ -3,246 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Habiba | Project Manager & Career Coach</title>
-  <meta name="description" content="Certified Project Manager & Career Coach offering personalized career coaching, resume reviews, interview prep, and job search strategies." />
-  <meta name="keywords" content="Career Coaching, Project Management, Resume Review, Interview Preparation, Job Search, Mentorship" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    crossorigin="anonymous"
-  />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Habiba Bhombal - Project Manager & Career Coach</title>
   <style>
-    /* Background subtle pattern */
-    body {
-      background-color: #f9f9f9;
-      background-image:
-        radial-gradient(circle at 1px 1px, #d7efd7 1px, transparent 1px),
-        radial-gradient(circle at 4px 4px, #d7efd7 1px, transparent 1px);
-      background-size: 20px 20px;
-      background-position: 0 0, 10px 10px;
-    }
-
     /* Reset & base styles */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    }
-    html {
-      scroll-behavior: smooth;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
+      background: #f9f9f9;
       color: #333;
       line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    }
+    a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
 
     /* Header */
     header {
-      position: sticky;
+      background: white;
+      position: fixed;
       top: 0;
-      background: #fff;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      color: #2c3e50;
-      cursor: default;
     }
     nav {
+      max-width: 900px;
+      margin: auto;
       display: flex;
-      gap: 20px;
+      justify-content: flex-end;
+      padding: 1rem;
+      gap: 2rem;
     }
     nav a {
-      text-decoration: none;
-      color: #333;
       font-weight: 600;
-      position: relative;
-      font-size: 1.1rem;
-      padding-bottom: 4px;
-      transition: color 0.3s ease;
-    }
-    nav a::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: #4caf50;
-      bottom: 0;
-      left: 0;
-      transition: width 0.3s;
-    }
-    nav a:hover {
-      color: #4caf50;
-    }
-    nav a:hover::after {
-      width: 100%;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      cursor: pointer;
     }
 
-    /* Main container */
+    /* Main Section */
     main {
-      flex: 1;
       max-width: 900px;
-      margin: 3rem auto;
+      margin: 100px auto 50px;
       padding: 0 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-    }
-
-    /* Fade-in animation */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* HERO/INTRO SECTION */
-    .hero {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
-      padding: 2.5rem 2rem;
       text-align: center;
     }
-    .hero p {
-      font-size: 1.4rem;
-      color: #2c3e50;
+    main h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #023e8a;
+    }
+    main p {
+      font-size: 1.2rem;
       margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      color: #555;
     }
-    .btn-primary {
-      display: inline-block;
-      background: #4caf50;
+    main .btn-primary {
+      background: #0077b6;
       color: white;
-      padding: 0.8rem 2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
+      border: none;
+      padding: 0.75rem 2rem;
       font-size: 1.1rem;
-      transition: background-color 0.3s, box-shadow 0.3s;
+      border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
     }
-    .btn-primary:hover,
-    .btn-primary:focus {
-      background-color: #43a047;
-      box-shadow: 0 6px 12px rgba(67, 160, 71, 0.7);
-      outline: none;
+    main .btn-primary:hover {
+      background: #0096c7;
     }
 
-    /* ABOUT SECTION */
+    /* About Section */
     #about {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
-      padding: 2rem 2rem;
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-      flex-wrap: wrap;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem 2rem 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: left;
     }
-    #about img {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #4caf50;
-      flex-shrink: 0;
+    #about h2 {
+      color: #023e8a;
+      margin-bottom: 1rem;
+      font-size: 2rem;
     }
-    #about .about-text {
-      flex: 1;
-      color: #2c3e50;
+    #about p {
       font-size: 1.1rem;
-      line-height: 1.5;
+      color: #444;
+      line-height: 1.7;
     }
 
-    /* SERVICES SECTION */
+    /* Services Section */
     #services {
-      background: #e8f5e9;
-      padding: 3rem 1rem;
+      background: #e0f0ff;
       border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
     }
     #services h2 {
-      color: #2c3e50;
+      color: #023e8a;
       margin-bottom: 1.5rem;
-      border-bottom: 3px solid #4caf50;
-      padding-bottom: 0.5rem;
       font-size: 2rem;
+      text-align: center;
     }
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
     }
-    .card {
+    .service-card {
       background: white;
-      border-left: 6px solid #4caf50;
-      box-shadow: 0 4px 10px rgb(76 175 80 / 0.2);
-      border-radius: 8px;
       padding: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
     }
-    .card:nth-child(2) {
-      border-left-color: #81c784;
-      box-shadow: 0 4px 10px rgb(129 199 132 / 0.2);
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
-    .card:nth-child(3) {
-      border-left-color: #a5d6a7;
-      box-shadow: 0 4px 10px rgb(165 214 167 / 0.2);
-    }
-    .card:nth-child(4) {
-      border-left-color: #c8e6c9;
-      box-shadow: 0 4px 10px rgb(200 230 201 / 0.2);
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
-    }
-    .card-icon {
-      color: #4caf50;
-      font-size: 2.5rem;
+    .service-icon {
+      font-size: 2.8rem;
       margin-bottom: 1rem;
-      flex-shrink: 0;
+      color: #0077b6;
     }
-    .card:nth-child(2) .card-icon {
-      color: #81c784;
+    .service-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+      color: #023e8a;
     }
-    .card:nth-child(3) .card-icon {
-      color: #a5d6a7;
-    }
-    .card:nth-child(4) .card-icon {
-      color: #c8e6c9;
-    }
-    .card h3 {
-      margin-bottom: 0.75rem;
-      color: #2c3e50;
-    }
-    .card p {
+    .service-desc {
+      font-size: 1rem;
       color: #555;
-      flex-grow: 1;
+      line-height: 1.4;
     }
 
-    /* CONTACT SECTION - replaced with previous styles */
+    /* Contact Section (from previous code) */
     #contact {
       background: white;
       border-radius: 12px;
@@ -258,103 +168,109 @@
       font-size: 2rem;
       text-align: center;
     }
-    #contact p {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 2rem;
-    }
-    form {
+    #contact form {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
     }
-    form label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #023e8a;
-      text-align: left;
-    }
-    form input[type="text"],
-    form input[type="email"],
-    form textarea {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      border: 2px solid #023e8a;
-      border-radius: 6px;
+    #contact input[type="text"],
+    #contact input[type="email"],
+    #contact textarea {
+      padding: 0.9rem 1rem;
+      border-radius: 8px;
+      border: 1.8px solid #ddd;
       font-size: 1rem;
-      font-family: inherit;
       resize: vertical;
       transition: border-color 0.3s ease;
+      font-family: inherit;
     }
-    form input[type="text"]:focus,
-    form input[type="email"]:focus,
-    form textarea:focus {
-      outline: none;
+    #contact input[type="text"]:focus,
+    #contact input[type="email"]:focus,
+    #contact textarea:focus {
       border-color: #0077b6;
-      box-shadow: 0 0 8px rgba(0, 119, 182, 0.3);
-    }
-    form textarea {
-      min-height: 100px;
-    }
-    form button {
-      background-color: #023e8a;
-      color: white;
-      padding: 0.8rem 2rem;
-      border: none;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
-      align-self: flex-start;
-    }
-    form button:hover,
-    form button:focus {
-      background-color: #0077b6;
       outline: none;
+    }
+    #contact button[type="submit"] {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 1rem 0;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+    }
+    #contact button[type="submit"]:hover {
+      background: #0096c7;
+    }
+    #form-message {
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1rem;
+      display: none;
     }
 
-    /* FOOTER */
+    /* Footer / Social */
     footer {
-      background-color: #e6e6e6;
       text-align: center;
-      padding: 1rem 0;
+      padding: 1.5rem 1rem;
+      background: #023e8a;
+      color: white;
       font-size: 0.9rem;
-      color: #444;
-      border-top: 1px solid #ccc;
-      margin-top: auto;
+      user-select: none;
+    }
+    .social-links {
+      margin-bottom: 1rem;
+    }
+    .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.3rem;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      color: #90e0ef;
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #0077b6;
+      margin: 1.5rem auto 2rem;
+      display: block;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
       nav {
-        gap: 10px;
+        justify-content: center;
+        gap: 1rem;
       }
       main {
-        margin: 2rem 1rem;
-        padding: 0;
-      }
-      #about {
-        flex-direction: column;
-        text-align: center;
-      }
-      #about .about-text {
-        margin-top: 1rem;
-      }
-      .card {
-        align-items: center;
-        text-align: center;
-      }
-      .card p {
-        font-size: 0.95rem;
+        margin: 140px 1rem 50px;
       }
     }
   </style>
+
+  <!-- Font Awesome CDN for icons -->
+  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
   <header>
-    <h1>Habiba</h1>
     <nav>
       <a href="#about">About</a>
       <a href="#services">Services</a>
@@ -363,45 +279,44 @@
   </header>
 
   <main>
-    <section class="hero fade-in visible" aria-label="Introduction">
-      <p>Certified Project Manager & Career Coach offering personalized career coaching, resume reviews, interview preparation, and job search strategies.</p>
-      <a href="#contact" class="btn-primary">Get In Touch</a>
+    <h1>Your journey to a successful career starts here.</h1>
+    <p>Mentorship, job support, and career transformation tailored to you.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
+
+    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Certified Project Manager & Career Coach passionate about helping you land your dream job.
+        With years of project management and mentoring experience, I offer practical,
+        personalized guidance to move your career forward.
+      </p>
     </section>
 
-    <section id="about" class="fade-in" tabindex="-1" aria-labelledby="about-title">
-      <img src="https://i.imgur.com/RyT6v1B.jpg" alt="Habiba smiling" />
-      <div class="about-text">
-        <h2 id="about-title">About Habiba</h2>
-        <p>
-          I am a certified Project Manager and Career Coach dedicated to helping professionals unlock their full potential. 
-          With over 5 years of experience, I specialize in personalized coaching, resume reviews, interview preparation, and strategic job searching to accelerate your career growth.
-        </p>
-      </div>
-    </section>
-
-    <section id="services" class="fade-in" tabindex="-1" aria-labelledby="services-title">
-      <h2 id="services-title">Services</h2>
+    <section id="services">
+      <h2>Services</h2>
       <div class="services-grid">
-        <article class="card" aria-label="Career Coaching">
-          <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
-          <h3>Career Coaching</h3>
-          <p>One-on-one sessions tailored to your unique career goals and challenges.</p>
-        </article>
-        <article class="card" aria-label="Resume Review">
-          <div class="card-icon"><i class="fa-solid fa-file-lines"></i></div>
-          <h3>Resume Review</h3>
-          <p>Expert feedback to optimize your resume and stand out to employers.</p>
-        </article>
-        <article class="card" aria-label="Interview Preparation">
-          <div class="card-icon"><i class="fa-solid fa-comments"></i></div>
-          <h3>Interview Preparation</h3>
-          <p>Practice sessions and tips to boost your confidence and performance.</p>
-        </article>
-        <article class="card" aria-label="Job Search Strategies">
-          <div class="card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <h3>Job Search Strategies</h3>
-          <p>Effective approaches to finding opportunities and networking efficiently.</p>
-        </article>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="service-title">Resume Review & Optimization</div>
+          <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-bullseye"></i></div>
+          <div class="service-title">Career Coaching & 1-on-1 Mentorship</div>
+          <div class="service-desc">Personalized guidance to navigate your career path effectively.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-comments"></i></div>
+          <div class="service-title">Interview Preparation</div>
+          <div class="service-desc">Sharpen your interview skills and boost your confidence.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-compass"></i></div>
+          <div class="service-title">Job Search Strategy</div>
+          <div class="service-desc">Tailored strategies to find and secure your ideal job.</div>
+        </div>
       </div>
     </section>
 
@@ -418,11 +333,22 @@
   </main>
 
   <footer>
-    &copy; 2025 Habiba. All rights reserved.
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://twitter.com/your_twitter/" target="_blank" rel="noopener" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+    &copy; 2025 Habiba - All rights reserved
   </footer>
 
   <!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function () {
       emailjs.init("XNiOqDSRhrGlQKdHX"); // Your User ID (public key)
@@ -447,5 +373,6 @@
         });
     });
   </script>
+
 </body>
 </html>
