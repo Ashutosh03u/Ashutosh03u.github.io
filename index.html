@@ -242,80 +242,112 @@
       flex-grow: 1;
     }
 
-    /* CONTACT SECTION */
+    /* CONTACT SECTION - replaced with previous styles */
     #contact {
-      background: #fff;
+      background: white;
       border-radius: 12px;
-      padding: 3rem 2rem;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: center;
     }
     #contact h2 {
+      color: #023e8a;
+      margin-bottom: 1.5rem;
       font-size: 2rem;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 0.5rem;
+      text-align: center;
+    }
+    #contact p {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 2rem;
     }
     form {
-      display: grid;
-      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
     }
-    input,
-    textarea {
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #023e8a;
+      text-align: left;
+    }
+    form input[type="text"],
+    form input[type="email"],
+    form textarea {
       width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #ccc;
+      padding: 0.7rem 1rem;
+      border: 2px solid #023e8a;
       border-radius: 6px;
       font-size: 1rem;
       font-family: inherit;
       resize: vertical;
+      transition: border-color 0.3s ease;
     }
-    button {
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form textarea:focus {
+      outline: none;
+      border-color: #0077b6;
+      box-shadow: 0 0 8px rgba(0, 119, 182, 0.3);
+    }
+    form textarea {
+      min-height: 100px;
+    }
+    form button {
+      background-color: #023e8a;
+      color: white;
       padding: 0.8rem 2rem;
-      background: #4caf50;
-      color: #fff;
       border: none;
       border-radius: 6px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: background-color 0.3s;
-      justify-self: start;
-      width: fit-content;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      align-self: flex-start;
     }
-    button:hover {
-      background-color: #43a047;
+    form button:hover,
+    form button:focus {
+      background-color: #0077b6;
+      outline: none;
     }
 
-    /* Footer */
+    /* FOOTER */
     footer {
+      background-color: #e6e6e6;
       text-align: center;
-      padding: 2rem 0;
-      color: #777;
-      background: #f1f1f1;
-    }
-    .socials a {
-      margin: 0 10px;
-      color: #333;
-      font-size: 1.3rem;
-      transition: color 0.3s;
-    }
-    .socials a:hover {
-      color: #4caf50;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      color: #444;
+      border-top: 1px solid #ccc;
+      margin-top: auto;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
+      nav {
+        gap: 10px;
+      }
+      main {
+        margin: 2rem 1rem;
+        padding: 0;
+      }
       #about {
         flex-direction: column;
-        align-items: center;
         text-align: center;
       }
       #about .about-text {
-        font-size: 1rem;
+        margin-top: 1rem;
       }
-      .hero p {
-        font-size: 1.2rem;
+      .card {
+        align-items: center;
+        text-align: center;
+      }
+      .card p {
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -331,86 +363,88 @@
   </header>
 
   <main>
-    <section class="hero fade-in">
-      <p>Your journey to a successful career starts here. Mentorship, job support, and career transformation tailored to you.</p>
-      <a href="#contact" class="btn-primary">Get in Touch</a>
+    <section class="hero fade-in visible" aria-label="Introduction">
+      <p>Certified Project Manager & Career Coach offering personalized career coaching, resume reviews, interview preparation, and job search strategies.</p>
+      <a href="#contact" class="btn-primary">Get In Touch</a>
     </section>
 
-    <section id="about" class="fade-in">
-      <img src="habiba1.jpeg" alt="Habiba" />
+    <section id="about" class="fade-in" tabindex="-1" aria-labelledby="about-title">
+      <img src="https://i.imgur.com/RyT6v1B.jpg" alt="Habiba smiling" />
       <div class="about-text">
-        <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
+        <h2 id="about-title">About Habiba</h2>
+        <p>
+          I am a certified Project Manager and Career Coach dedicated to helping professionals unlock their full potential. 
+          With over 5 years of experience, I specialize in personalized coaching, resume reviews, interview preparation, and strategic job searching to accelerate your career growth.
+        </p>
       </div>
     </section>
 
-    <section id="services" class="fade-in">
-      <h2>Services</h2>
+    <section id="services" class="fade-in" tabindex="-1" aria-labelledby="services-title">
+      <h2 id="services-title">Services</h2>
       <div class="services-grid">
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>Resume Review & Optimization</h3>
-          <p>Polish your resume to make it stand out and get noticed by recruiters and hiring managers.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-bullseye card-icon"></i>
-          <h3>Career Coaching & 1-on-1 Mentorship</h3>
-          <p>Personalized coaching to help you identify goals and create an actionable career plan.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-comments card-icon"></i>
+        <article class="card" aria-label="Career Coaching">
+          <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+          <h3>Career Coaching</h3>
+          <p>One-on-one sessions tailored to your unique career goals and challenges.</p>
+        </article>
+        <article class="card" aria-label="Resume Review">
+          <div class="card-icon"><i class="fa-solid fa-file-lines"></i></div>
+          <h3>Resume Review</h3>
+          <p>Expert feedback to optimize your resume and stand out to employers.</p>
+        </article>
+        <article class="card" aria-label="Interview Preparation">
+          <div class="card-icon"><i class="fa-solid fa-comments"></i></div>
           <h3>Interview Preparation</h3>
-          <p>Mock interviews and tips to boost your confidence and ace your next interview.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-compass card-icon"></i>
-          <h3>Job Search Strategy</h3>
-          <p>Tailored strategies to find the right job faster and effectively navigate your search.</p>
-        </div>
+          <p>Practice sessions and tips to boost your confidence and performance.</p>
+        </article>
+        <article class="card" aria-label="Job Search Strategies">
+          <div class="card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>Job Search Strategies</h3>
+          <p>Effective approaches to finding opportunities and networking efficiently.</p>
+        </article>
       </div>
     </section>
 
-    <section id="contact" class="fade-in">
+    <section id="contact">
       <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/mzzgaage" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="_replyto" placeholder="Your Email" required />
+      <form id="contact-form">
+        <input type="text" name="from_name" placeholder="Your Name" required />
+        <input type="email" name="reply_to" placeholder="Your Email" required />
         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
         <button type="submit">Send</button>
+        <p id="form-message"></p>
       </form>
     </section>
   </main>
 
   <footer>
-    <div class="socials">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/yourtwitter/" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-    </div>
+    &copy; 2025 Habiba. All rights reserved.
   </footer>
 
+  <!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    // Scroll fade-in effect for sections
-    const faders = document.querySelectorAll(".fade-in");
+    (function () {
+      emailjs.init("XNiOqDSRhrGlQKdHX"); // Your User ID (public key)
+    })();
 
-    const appearOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    };
+    const form = document.getElementById("contact-form");
+    const message = document.getElementById("form-message");
 
-    const appearOnScroll = new IntersectionObserver(function (
-      entries,
-      appearOnScroll
-    ) {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("visible");
-        appearOnScroll.unobserve(entry.target);
-      });
-    },
-    appearOptions);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    faders.forEach((fader) => {
-      appearOnScroll.observe(fader);
+      emailjs.sendForm('service_vyhuqcr', 'template_886hln8', this)
+        .then(function () {
+          message.textContent = "✅ Thank you! Your message has been sent.";
+          message.style.color = "#4caf50";
+          message.style.display = "block";
+          form.reset();
+        }, function (error) {
+          message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
+          message.style.color = "red";
+          message.style.display = "block";
+        });
     });
   </script>
 </body>
