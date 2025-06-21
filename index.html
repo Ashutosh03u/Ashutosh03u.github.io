@@ -4,12 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Habiba | Project Manager & Career Coach</title>
+  <meta name="description" content="Certified Project Manager & Career Coach offering personalized career coaching, resume reviews, interview prep, and job search strategies." />
+  <meta name="keywords" content="Career Coaching, Project Management, Resume Review, Interview Preparation, Job Search, Mentorship" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     crossorigin="anonymous"
   />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
+    /* Background subtle pattern */
+    body {
+      background-color: #f9f9f9;
+      background-image:
+        radial-gradient(circle at 1px 1px, #d7efd7 1px, transparent 1px),
+        radial-gradient(circle at 4px 4px, #d7efd7 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+    }
+
+    /* Reset & base styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,13 +34,14 @@
       scroll-behavior: smooth;
     }
     body {
-      background: #f9f9f9;
       color: #333;
       line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
+
+    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -54,6 +69,7 @@
       position: relative;
       font-size: 1.1rem;
       padding-bottom: 4px;
+      transition: color 0.3s ease;
     }
     nav a::after {
       content: "";
@@ -65,10 +81,14 @@
       left: 0;
       transition: width 0.3s;
     }
+    nav a:hover {
+      color: #4caf50;
+    }
     nav a:hover::after {
       width: 100%;
     }
 
+    /* Main container */
     main {
       flex: 1;
       max-width: 900px;
@@ -77,6 +97,17 @@
       display: flex;
       flex-direction: column;
       gap: 3rem;
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* HERO/INTRO SECTION */
@@ -105,11 +136,15 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1rem;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, box-shadow 0.3s;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
     }
-    .btn-primary:hover {
+    .btn-primary:hover,
+    .btn-primary:focus {
       background-color: #43a047;
+      box-shadow: 0 6px 12px rgba(67, 160, 71, 0.7);
+      outline: none;
     }
 
     /* ABOUT SECTION */
@@ -252,6 +287,7 @@
       background-color: #43a047;
     }
 
+    /* Footer */
     footer {
       text-align: center;
       padding: 2rem 0;
@@ -288,78 +324,94 @@
   <header>
     <h1>Habiba</h1>
     <nav>
+      <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" aria-label="Introduction and call to action">
-      <p>
-        Your journey to a successful career starts here. Mentorship, job support, and career transformation tailored to you.
-      </p>
+    <section class="hero fade-in">
+      <p>Your journey to a successful career starts here. Mentorship, job support, and career transformation tailored to you.</p>
       <a href="#contact" class="btn-primary">Get in Touch</a>
     </section>
 
-    <section id="about" aria-label="About Habiba">
-      <img src="habiba1.jpeg" alt="Habiba Profile Picture" />
+    <section id="about" class="fade-in">
+      <img src="habiba1.jpeg" alt="Habiba" />
       <div class="about-text">
-        <p>
-          Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.
-        </p>
+        <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
       </div>
     </section>
 
-    <section id="services" aria-label="Services Offered">
-      <h2>My Services</h2>
+    <section id="services" class="fade-in">
+      <h2>Services</h2>
       <div class="services-grid">
         <div class="card">
-          <i class="fas fa-file-alt card-icon" aria-hidden="true"></i>
-          <h3>Resume Review</h3>
-          <p>Optimize your resume to stand out and get noticed by recruiters.</p>
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Resume Review & Optimization</h3>
+          <p>Polish your resume to make it stand out and get noticed by recruiters and hiring managers.</p>
         </div>
         <div class="card">
-          <i class="fas fa-chalkboard-teacher card-icon" aria-hidden="true"></i>
-          <h3>Career Coaching</h3>
-          <p>One-on-one mentorship tailored to your goals and career path.</p>
+          <i class="fas fa-bullseye card-icon"></i>
+          <h3>Career Coaching & 1-on-1 Mentorship</h3>
+          <p>Personalized coaching to help you identify goals and create an actionable career plan.</p>
         </div>
         <div class="card">
-          <i class="fas fa-comments card-icon" aria-hidden="true"></i>
-          <h3>Interview Prep</h3>
-          <p>Mock interviews and strategies to boost your confidence.</p>
+          <i class="fas fa-comments card-icon"></i>
+          <h3>Interview Preparation</h3>
+          <p>Mock interviews and tips to boost your confidence and ace your next interview.</p>
         </div>
         <div class="card">
-          <i class="fas fa-map-signs card-icon" aria-hidden="true"></i>
+          <i class="fas fa-compass card-icon"></i>
           <h3>Job Search Strategy</h3>
-          <p>Effective plans to find the right job faster and smarter.</p>
+          <p>Tailored strategies to find the right job faster and effectively navigate your search.</p>
         </div>
       </div>
     </section>
 
-    <section id="contact" aria-label="Contact Form">
+    <section id="contact" class="fade-in">
       <h2>Contact Me</h2>
       <form action="https://formspree.io/f/mzzgaage" method="POST">
-        <input type="text" name="name" placeholder="Name" required aria-required="true" />
-        <input type="email" name="email" placeholder="Email" required aria-required="true" />
-        <textarea name="message" rows="5" placeholder="Your Message" required aria-required="true"></textarea>
-        <button type="submit">Send Message</button>
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="_replyto" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send</button>
       </form>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 Habiba</p>
-    <div class="socials" aria-label="Social media links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="https://www.instagram.com/your-instagram" target="_blank" rel="noopener" aria-label="Instagram Profile">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://twitter.com/your-twitter" target="_blank" rel="noopener" aria-label="Twitter Profile">
-        <i class="fab fa-twitter"></i>
-      </a>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/yourinsta/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/yourtwitter/" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
     </div>
   </footer>
+
+  <script>
+    // Scroll fade-in effect for sections
+    const faders = document.querySelectorAll(".fade-in");
+
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (
+      entries,
+      appearOnScroll
+    ) {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        appearOnScroll.unobserve(entry.target);
+      });
+    },
+    appearOptions);
+
+    faders.forEach((fader) => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
 </body>
 </html>
