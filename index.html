@@ -4,20 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Habiba - Project Manager & Career Coach</title>
-
-  <!-- AOS CSS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <style>
-    :root {
-      --primary: #0077b6;
-      --secondary: #023e8a;
-      --light-bg: #f9f9f9;
-      --dark-bg: #1a1a1a;
-      --light-text: #333;
-      --dark-text: #eee;
-    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -25,13 +13,16 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: var(--light-bg);
-      color: var(--light-text);
-      transition: all 0.3s ease;
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
     }
-    body.dark-mode {
-      background: var(--dark-bg);
-      color: var(--dark-text);
+    a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
     header {
       background: white;
@@ -40,101 +31,143 @@
       width: 100%;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 1000;
+    }
+    nav {
+      max-width: 900px;
+      margin: auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
+      justify-content: flex-end;
+      padding: 1rem;
+      gap: 2rem;
     }
     nav a {
-      margin-left: 2rem;
+      font-weight: 600;
       text-transform: uppercase;
       font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--primary);
-    }
-    .theme-toggle {
+      letter-spacing: 1px;
       cursor: pointer;
-      font-size: 1.2rem;
     }
     main {
       max-width: 900px;
-      margin: 120px auto 50px;
+      margin: 100px auto 50px;
       padding: 0 1rem;
       text-align: center;
     }
-    main .btn-primary {
-      background: var(--primary);
+    main h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #023e8a;
+    }
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #555;
+    }
+    .btn-primary {
+      background: #0077b6;
       color: white;
       border: none;
       padding: 0.75rem 2rem;
       font-size: 1.1rem;
       border-radius: 30px;
       cursor: pointer;
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
     }
-    section {
-      margin: 3rem auto;
-      padding: 2rem;
-      border-radius: 12px;
+    .btn-primary:hover {
+      background: #0096c7;
+    }
+    #about {
       background: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: left;
     }
-    .dark-mode section {
-      background: #2b2b2b;
+    #about h2 {
+      color: #023e8a;
+      margin-bottom: 1rem;
+      font-size: 2rem;
     }
-    #services .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
+    #about p {
+      font-size: 1.1rem;
+      color: #444;
     }
-    .service-card {
-      background: var(--light-bg);
-      padding: 1.5rem;
-      border-radius: 15px;
-      transition: 0.3s;
-    }
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .testimonial {
-      background: #f1f1f1;
-      border-left: 5px solid var(--primary);
-      margin-bottom: 1.5rem;
-      padding: 1rem 1.5rem;
-      font-style: italic;
-      border-radius: 8px;
-    }
-    .calendar-embed {
-      width: 100%;
-      height: 600px;
-      border: none;
-      margin-top: 1rem;
-    }
-    footer {
-      background: #111;
-      color: #ccc;
-      padding: 2rem 1rem;
+    #services {
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, #f0f9ff, #dff1ff);
+      border-radius: 20px;
+      margin-bottom: 4rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
       text-align: center;
     }
-    .social-links a {
-      margin: 0 0.5rem;
-      color: #ccc;
-      font-size: 1.3rem;
+    .section-title {
+      font-size: 2.2rem;
+      color: #023e8a;
+      margin-bottom: 2rem;
     }
-    .social-links a:hover {
-      color: var(--primary);
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .service-card {
+      background: white;
+      padding: 2rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+    .service-icon-wrapper {
+      background: #0077b6;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .service-icon {
+      font-size: 1.8rem;
+      color: white;
+    }
+    .service-title {
+      font-size: 1.3rem;
+      color: #023e8a;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+    .service-desc {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #0077b6;
+      margin: 1.5rem auto 2rem;
+      display: block;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     }
   </style>
+  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <div class="theme-toggle" onclick="toggleTheme()">
-      <i class="fas fa-adjust"></i>
-    </div>
     <nav>
       <a href="#about">About</a>
       <a href="#services">Services</a>
-      <a href="#testimonials">Testimonials</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -143,106 +176,49 @@
     <h1>Your journey to a successful career starts here.</h1>
     <p>Mentorship, job support, and career transformation tailored to you.</p>
     <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
-    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" style="margin-top:2rem; width: 160px; border-radius: 50%;" />
+    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
 
-    <section id="about" data-aos="fade-up">
+    <section id="about">
       <h2>About Me</h2>
       <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
     </section>
 
     <section id="services" data-aos="fade-up">
-      <h2>Services</h2>
+      <h2 class="section-title">What I Offer</h2>
       <div class="services-grid">
-        <div class="service-card">
-          <i class="fas fa-file-alt"></i>
-          <h4>Resume Review</h4>
-          <p>Optimize your resume to highlight your strengths and achievements.</p>
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="service-icon-wrapper">
+            <i class="fas fa-file-alt service-icon"></i>
+          </div>
+          <h3 class="service-title">Resume Optimization</h3>
+          <p class="service-desc">Crafted resumes tailored to stand out and get you noticed by recruiters and ATS systems.</p>
         </div>
-        <div class="service-card">
-          <i class="fas fa-user-tie"></i>
-          <h4>1-on-1 Coaching</h4>
-          <p>Get tailored mentoring for career growth and confidence building.</p>
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="service-icon-wrapper">
+            <i class="fas fa-user-tie service-icon"></i>
+          </div>
+          <h3 class="service-title">Career Coaching</h3>
+          <p class="service-desc">1-on-1 coaching to define your goals, boost confidence, and plan a strong career trajectory.</p>
         </div>
-        <div class="service-card">
-          <i class="fas fa-comments"></i>
-          <h4>Interview Prep</h4>
-          <p>Practice and prepare with expert strategies and feedback.</p>
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
+          <div class="service-icon-wrapper">
+            <i class="fas fa-comments service-icon"></i>
+          </div>
+          <h3 class="service-title">Interview Preparation</h3>
+          <p class="service-desc">Mock interviews, feedback, and strategy to help you confidently ace every job interview.</p>
         </div>
-        <div class="service-card">
-          <i class="fas fa-search"></i>
-          <h4>Job Search Strategy</h4>
-          <p>Discover hidden opportunities and stand out in your job hunt.</p>
+        <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
+          <div class="service-icon-wrapper">
+            <i class="fas fa-search service-icon"></i>
+          </div>
+          <h3 class="service-title">Job Search Strategy</h3>
+          <p class="service-desc">Custom job search plans and tools to streamline your applications and increase success.</p>
         </div>
       </div>
     </section>
-
-    <section id="testimonials" data-aos="fade-up">
-      <h2>Testimonials</h2>
-      <div class="testimonial">“Habiba helped me completely transform my resume. I landed interviews in just a week!” – Aditi S.</div>
-      <div class="testimonial">“Her coaching gave me the clarity and confidence I needed to switch careers.” – Rohan P.</div>
-    </section>
-
-    <section id="contact" data-aos="fade-up">
-      <h2>Contact Me</h2>
-      <form id="contact-form">
-        <input type="text" name="from_name" placeholder="Your Name" required />
-        <input type="email" name="reply_to" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-        <button type="submit">Send</button>
-        <p id="form-message"></p>
-      </form>
-    </section>
-
-    <section data-aos="fade-up">
-      <h2>Book a Free Consultation</h2>
-      <iframe class="calendar-embed" src="https://calendly.com/YOUR_USERNAME/15min"></iframe>
-    </section>
   </main>
 
-  <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-    &copy; 2025 Habiba Bhombal – All Rights Reserved
-  </footer>
-
-  <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>AOS.init();</script>
-
-  <!-- Theme toggle -->
-  <script>
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-    }
-  </script>
-
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function () {
-      emailjs.init("XNiOqDSRhrGlQKdHX");
-    })();
-
-    const form = document.getElementById("contact-form");
-    const message = document.getElementById("form-message");
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      emailjs.sendForm('service_vyhuqcr', 'template_886hln8', this)
-        .then(function () {
-          message.textContent = "✅ Thank you! Your message has been sent.";
-          message.style.color = "#4caf50";
-          message.style.display = "block";
-          form.reset();
-        }, function (error) {
-          message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
-          message.style.color = "red";
-          message.style.display = "block";
-        });
-    });
-  </script>
 </body>
 </html>
