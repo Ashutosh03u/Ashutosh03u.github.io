@@ -214,10 +214,10 @@
     /* Footer / Social */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem;
-      background: #023e8a;
+      padding: 2rem 1rem;
+      background: #111;
       color: white;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       user-select: none;
     }
     .social-links {
@@ -225,13 +225,14 @@
     }
     .social-links a {
       color: white;
-      margin: 0 10px;
-      font-size: 1.3rem;
-      transition: color 0.3s ease;
+      margin: 0 12px;
+      font-size: 1.5rem;
+      transition: color 0.3s, transform 0.3s;
       text-decoration: none;
     }
     .social-links a:hover {
-      color: #90e0ef;
+      color: #00b4d8;
+      transform: scale(1.2);
     }
 
     /* Profile Image */
@@ -333,9 +334,9 @@
   <footer>
     <div class="social-links">
       <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <i class="fab fa-linkedin"></i>
+        <i class="fab fa-linkedin-in"></i>
       </a>
-      <a href="https://www.instagram.com/your_instagram/" target="_blank" rel="noopener" aria-label="Instagram">
+      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" rel="noopener" aria-label="Instagram">
         <i class="fab fa-instagram"></i>
       </a>
       <a href="https://twitter.com/your_twitter/" target="_blank" rel="noopener" aria-label="Twitter">
@@ -349,7 +350,7 @@
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function () {
-      emailjs.init("XNiOqDSRhrGlQKdHX"); // Your User ID (public key)
+      emailjs.init("XNiOqDSRhrGlQKdHX");
     })();
 
     const form = document.getElementById("contact-form");
