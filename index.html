@@ -16,10 +16,16 @@
       padding: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background: #f9f9f9;
       color: #333;
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     header {
       position: sticky;
@@ -28,22 +34,26 @@
       padding: 1rem 2rem;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     header h1 {
       font-size: 1.8rem;
       color: #2c3e50;
-      display: inline-block;
+      cursor: default;
     }
     nav {
-      display: inline-block;
-      float: right;
+      display: flex;
+      gap: 20px;
     }
     nav a {
-      margin: 0 15px;
       text-decoration: none;
       color: #333;
-      font-weight: 500;
+      font-weight: 600;
       position: relative;
+      font-size: 1.1rem;
+      padding-bottom: 4px;
     }
     nav a::after {
       content: "";
@@ -51,7 +61,7 @@
       width: 0;
       height: 2px;
       background: #4caf50;
-      bottom: -4px;
+      bottom: 0;
       left: 0;
       transition: width 0.3s;
     }
@@ -59,30 +69,73 @@
       width: 100%;
     }
 
-    .intro {
-      max-width: 800px;
+    main {
+      flex: 1;
+      max-width: 900px;
       margin: 3rem auto;
-      padding: 2rem;
-      background: #fff;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
     }
-    .intro img {
-      width: 150px;
-      height: 150px;
+
+    /* HERO/INTRO SECTION */
+    .hero {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .hero p {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: #4caf50;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background-color: #43a047;
+    }
+
+    /* ABOUT SECTION */
+    #about {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
+      padding: 2rem 2rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #about img {
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 1rem;
       border: 4px solid #4caf50;
+      flex-shrink: 0;
     }
-    .intro h2 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .intro p {
+    #about .about-text {
+      flex: 1;
+      color: #2c3e50;
       font-size: 1.1rem;
-      color: #555;
+      line-height: 1.5;
     }
 
     /* SERVICES SECTION */
@@ -90,8 +143,6 @@
       background: #e8f5e9;
       padding: 3rem 1rem;
       border-radius: 12px;
-      max-width: 900px;
-      margin: 3rem auto;
     }
     #services h2 {
       color: #2c3e50;
@@ -158,9 +209,10 @@
 
     /* CONTACT SECTION */
     #contact {
-      max-width: 900px;
-      margin: 3rem auto 5rem auto;
-      padding: 0 1rem;
+      background: #fff;
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
     }
     #contact h2 {
       font-size: 2rem;
@@ -170,10 +222,6 @@
       padding-bottom: 0.5rem;
     }
     form {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       display: grid;
       gap: 1rem;
     }
@@ -185,6 +233,7 @@
       border-radius: 6px;
       font-size: 1rem;
       font-family: inherit;
+      resize: vertical;
     }
     button {
       padding: 0.8rem 2rem;
@@ -194,7 +243,10 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
+      font-weight: 600;
       transition: background-color 0.3s;
+      justify-self: start;
+      width: fit-content;
     }
     button:hover {
       background-color: #43a047;
@@ -215,6 +267,21 @@
     .socials a:hover {
       color: #4caf50;
     }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      #about {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      #about .about-text {
+        font-size: 1rem;
+      }
+      .hero p {
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -226,63 +293,70 @@
     </nav>
   </header>
 
-  <div class="intro">
-    <img src="habiba1.jpeg" alt="Habiba Profile" />
-    <h2>Habiba</h2>
-    <p>
-      Certified Project Manager & Career Coach passionate about helping you
-      land your dream job. With years of project management and mentoring
-      experience, I offer practical, personalized guidance to move your career
-      forward.
-    </p>
-  </div>
+  <main>
+    <section class="hero" aria-label="Introduction and call to action">
+      <p>
+        Your journey to a successful career starts here. Mentorship, job support, and career transformation tailored to you.
+      </p>
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+    </section>
 
-  <section id="services">
-    <h2>My Services</h2>
-    <div class="services-grid">
-      <div class="card">
-        <i class="fas fa-file-alt card-icon"></i>
-        <h3>Resume Review</h3>
-        <p>Optimize your resume to stand out and get noticed by recruiters.</p>
+    <section id="about" aria-label="About Habiba">
+      <img src="habiba1.jpeg" alt="Habiba Profile Picture" />
+      <div class="about-text">
+        <p>
+          Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.
+        </p>
       </div>
-      <div class="card">
-        <i class="fas fa-chalkboard-teacher card-icon"></i>
-        <h3>Career Coaching</h3>
-        <p>One-on-one mentorship tailored to your goals and career path.</p>
-      </div>
-      <div class="card">
-        <i class="fas fa-comments card-icon"></i>
-        <h3>Interview Prep</h3>
-        <p>Mock interviews and strategies to boost your confidence.</p>
-      </div>
-      <div class="card">
-        <i class="fas fa-map-signs card-icon"></i>
-        <h3>Job Search Strategy</h3>
-        <p>Effective plans to find the right job faster and smarter.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <form action="https://formspree.io/f/mzzgaage" method="POST">
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+    <section id="services" aria-label="Services Offered">
+      <h2>My Services</h2>
+      <div class="services-grid">
+        <div class="card">
+          <i class="fas fa-file-alt card-icon" aria-hidden="true"></i>
+          <h3>Resume Review</h3>
+          <p>Optimize your resume to stand out and get noticed by recruiters.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-chalkboard-teacher card-icon" aria-hidden="true"></i>
+          <h3>Career Coaching</h3>
+          <p>One-on-one mentorship tailored to your goals and career path.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-comments card-icon" aria-hidden="true"></i>
+          <h3>Interview Prep</h3>
+          <p>Mock interviews and strategies to boost your confidence.</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-map-signs card-icon" aria-hidden="true"></i>
+          <h3>Job Search Strategy</h3>
+          <p>Effective plans to find the right job faster and smarter.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-label="Contact Form">
+      <h2>Contact Me</h2>
+      <form action="https://formspree.io/f/mzzgaage" method="POST">
+        <input type="text" name="name" placeholder="Name" required aria-required="true" />
+        <input type="email" name="email" placeholder="Email" required aria-required="true" />
+        <textarea name="message" rows="5" placeholder="Your Message" required aria-required="true"></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
 
   <footer>
     <p>© 2025 Habiba</p>
-    <div class="socials">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener">
+    <div class="socials" aria-label="Social media links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" rel="noopener">
+      <a href="https://www.instagram.com/your-instagram" target="_blank" rel="noopener" aria-label="Instagram Profile">
         <i class="fab fa-instagram"></i>
       </a>
-      <a href="https://twitter.com/your-twitter" target="_blank" rel="noopener">
+      <a href="https://twitter.com/your-twitter" target="_blank" rel="noopener" aria-label="Twitter Profile">
         <i class="fab fa-twitter"></i>
       </a>
     </div>
