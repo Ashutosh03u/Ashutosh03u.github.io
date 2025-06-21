@@ -3,475 +3,376 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Habiba Bhombal | Career Coach & Project Manager</title>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Certified Project Manager & Career Coach helping you land your dream job with personalized career coaching, resume reviews, and interview preparation." />
-  <meta name="keywords" content="Career Coach, Project Manager, Resume Review, Interview Preparation, Job Search, Mentorship" />
-  <meta name="author" content="Habiba Bhombal" />
-  <meta name="robots" content="index, follow" />
-  
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="Habiba Bhombal | Career Coach & Project Manager" />
-  <meta property="og:description" content="Mentorship, job support, and career transformation tailored to you." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://pmprohabiba.com" />
-  <meta property="og:image" content="https://pmprohabiba.com/habiba1.jpeg" />
-  
-  <!-- AOS Animation Library CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  
+  <title>Habiba Bhombal - Project Manager & Career Coach</title>
   <style>
-    /* Reset & base */
+    /* Reset & base styles */
     * {
       box-sizing: border-box;
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      scroll-behavior: smooth;
     }
     body {
-      background: linear-gradient(135deg, #f0f4ff, #d9e2ff);
-      color: #222;
+      background: #f9f9f9;
+      color: #333;
       line-height: 1.6;
-      font-size: 16px;
     }
     a {
-      color: #3a6df0;
+      color: #0077b6;
       text-decoration: none;
-      transition: color 0.3s ease;
     }
-    a:hover, a:focus {
-      color: #1a3cb8;
-      outline: none;
+    a:hover {
+      text-decoration: underline;
     }
 
-    /* Header and Navigation */
+    /* Header */
     header {
-      position: sticky;
+      background: white;
+      position: fixed;
       top: 0;
-      background: rgba(255 255 255 / 0.95);
-      backdrop-filter: saturate(180%) blur(10px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 999;
-      padding: 1rem 2rem;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    nav {
+      max-width: 900px;
+      margin: auto;
       display: flex;
       justify-content: flex-end;
-      align-items: center;
-      gap: 2rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    /* Nav links container */
-    nav {
-      display: flex;
+      padding: 1rem;
       gap: 2rem;
     }
     nav a {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
       cursor: pointer;
-      position: relative;
-    }
-    nav a::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -4px;
-      left: 0;
-      background-color: #3a6df0;
-      transition: width 0.3s ease;
-    }
-    nav a:hover::after,
-    nav a:focus::after {
-      width: 100%;
-    }
-    nav a:focus {
-      outline: 2px solid #3a6df0;
-      outline-offset: 2px;
     }
 
-    /* Hamburger button */
-    #hamburger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 28px;
-      height: 22px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1001;
-    }
-    #hamburger span,
-    #hamburger span::before,
-    #hamburger span::after {
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 3px;
-      background-color: #3a6df0;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    #hamburger span {
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    #hamburger span::before {
-      content: '';
-      top: -8px;
-    }
-    #hamburger span::after {
-      content: '';
-      top: 8px;
-    }
-    /* Hamburger active state */
-    #hamburger.active span {
-      background-color: transparent;
-    }
-    #hamburger.active span::before {
-      top: 0;
-      transform: rotate(45deg);
-    }
-    #hamburger.active span::after {
-      top: 0;
-      transform: rotate(-45deg);
-    }
-
-    /* Responsive Navigation Menu */
-    @media (max-width: 768px) {
-      nav {
-        position: fixed;
-        top: 0; right: 0;
-        height: 100vh;
-        width: 240px;
-        background: white;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        flex-direction: column;
-        padding-top: 5rem;
-        gap: 1.5rem;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-      }
-      nav.open {
-        transform: translateX(0);
-      }
-      header {
-        justify-content: space-between;
-      }
-      #hamburger {
-        display: block;
-      }
-    }
-
+    /* Main Section */
     main {
       max-width: 900px;
-      margin: 3rem auto 5rem auto;
+      margin: 100px auto 50px;
       padding: 0 1rem;
+      text-align: center;
     }
-    section {
-      margin-bottom: 4rem;
-    }
-    h1, h2 {
-      color: #1a3cb8;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 0.5rem;
-    }
-    h2 {
-      font-size: 2rem;
-      border-bottom: 3px solid #3a6df0;
-      padding-bottom: 0.3rem;
-      width: fit-content;
-      margin-bottom: 1.5rem;
-    }
-    
-    /* Hero Section */
-    #hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 2px solid #3a6df0;
-    }
-    #hero img {
-      width: 180px;
-      border-radius: 50%;
-      box-shadow: 0 8px 15px rgba(58, 109, 240, 0.3);
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-    #hero img:hover,
-    #hero img:focus {
-      transform: scale(1.05);
-      outline: none;
-    }
-    #hero-text {
-      flex: 1;
-      font-size: 1.3rem;
-      color: #34495e;
-    }
-    #hero-text p {
-      margin-bottom: 1.5rem;
-    }
-    #hero-text a.btn {
-      display: inline-block;
-      padding: 0.65rem 1.5rem;
-      background-color: #3a6df0;
-      color: white;
-      font-weight: 600;
-      border-radius: 5px;
-      box-shadow: 0 4px 10px rgba(58,109,240,0.4);
-      transition: background-color 0.3s ease;
-    }
-    #hero-text a.btn:hover,
-    #hero-text a.btn:focus {
-      background-color: #1a3cb8;
-      box-shadow: 0 6px 15px rgba(26,60,184,0.6);
-      outline: none;
-    }
-
-    /* Services */
-    #services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 2rem;
-    }
-    .service-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.8rem 1.5rem;
-      box-shadow: 0 10px 20px rgba(58,109,240,0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: default;
-    }
-    .service-card:hover,
-    .service-card:focus-within {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 30px rgba(58,109,240,0.3);
-      outline: none;
-    }
-    .service-icon {
+    main h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
-      color: #3a6df0;
-      display: inline-block;
+      color: #023e8a;
     }
-    .service-title {
-      font-weight: 700;
-      font-size: 1.25rem;
-      margin-bottom: 0.7rem;
-      color: #1a3cb8;
-    }
-    .service-desc {
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
       color: #555;
-      font-size: 1rem;
-      line-height: 1.4;
+    }
+    main .btn-primary {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+    }
+    main .btn-primary:hover {
+      background: #0096c7;
     }
 
     /* About Section */
+    #about {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem 2rem 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    #about h2 {
+      color: #023e8a;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
     #about p {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #444;
-      max-width: 700px;
       line-height: 1.7;
     }
 
-    /* Contact Section */
-    #contact form {
-      background: white;
-      padding: 2rem 2.5rem;
+    /* Services Section */
+    #services {
+      background: #e0f0ff;
       border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(58,109,240,0.15);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    }
+    #services h2 {
+      color: #023e8a;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .service-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: #0077b6;
+    }
+    .service-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+      color: #023e8a;
+    }
+    .service-desc {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* Contact Section (from previous code) */
+    #contact {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
       max-width: 600px;
-      margin: 0 auto;
+      margin: 0 auto 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    #contact h2 {
+      color: #023e8a;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+    #contact form {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
     }
-    #contact label {
-      font-weight: 600;
-      color: #1a3cb8;
-    }
-    #contact input, 
+    #contact input[type="text"],
+    #contact input[type="email"],
     #contact textarea {
-      padding: 0.7rem 1rem;
-      border: 2px solid #ccc;
+      padding: 0.9rem 1rem;
       border-radius: 8px;
+      border: 1.8px solid #ddd;
       font-size: 1rem;
       resize: vertical;
       transition: border-color 0.3s ease;
+      font-family: inherit;
     }
-    #contact input:focus, 
+    #contact input[type="text"]:focus,
+    #contact input[type="email"]:focus,
     #contact textarea:focus {
-      border-color: #3a6df0;
+      border-color: #0077b6;
       outline: none;
-      box-shadow: 0 0 8px rgba(58,109,240,0.5);
     }
-    #contact button {
-      align-self: flex-start;
-      background-color: #3a6df0;
+    #contact button[type="submit"] {
+      background: #0077b6;
       color: white;
-      font-weight: 700;
-      padding: 0.75rem 2rem;
       border: none;
-      border-radius: 8px;
+      padding: 1rem 0;
+      font-size: 1.2rem;
+      border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 6px 15px rgba(58,109,240,0.5);
-      transition: background-color 0.3s ease;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      transition: background 0.3s ease;
+      text-transform: uppercase;
     }
-    #contact button:hover,
-    #contact button:focus {
-      background-color: #1a3cb8;
-      outline: none;
-      box-shadow: 0 8px 20px rgba(26,60,184,0.7);
+    #contact button[type="submit"]:hover {
+      background: #0096c7;
+    }
+    #form-message {
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1rem;
+      display: none;
     }
 
-    /* Footer */
+    /* Footer / Social */
     footer {
       text-align: center;
-      padding: 2rem 1rem;
-      background: #f5f8ff;
-      color: #3a6df0;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-top: 4rem;
+      padding: 1.5rem 1rem;
+      background: #023e8a;
+      color: white;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .social-links {
+      margin-bottom: 1rem;
+    }
+    .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.3rem;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      color: #90e0ef;
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #0077b6;
+      margin: 1.5rem auto 2rem;
+      display: block;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
-      #hero {
-        flex-direction: column;
-        text-align: center;
+      nav {
+        justify-content: center;
+        gap: 1rem;
       }
-      #hero img {
-        width: 140px;
-        margin: 0 auto;
-      }
-      #hero-text {
-        font-size: 1.15rem;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-      h2 {
-        font-size: 1.5rem;
-      }
-      #services {
-        grid-template-columns: 1fr;
-      }
-      #contact form {
-        padding: 1.5rem 1rem;
-      }
-      header {
-        padding: 1rem 1.5rem;
+      main {
+        margin: 140px 1rem 50px;
       }
     }
   </style>
+
+  <!-- Font Awesome CDN for icons -->
+  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header role="banner" aria-label="Primary navigation">
-    <button id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
-      <span></span>
-    </button>
-    <nav id="primary-navigation" role="navigation">
-      <a href="#hero" tabindex="0">Home</a>
-      <a href="#services" tabindex="0">Services</a>
-      <a href="#about" tabindex="0">About</a>
-      <a href="#contact" tabindex="0">Contact</a>
+
+  <header>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <main>
-    <section id="hero" aria-label="Introduction" data-aos="fade-up" data-aos-duration="1000">
-      <img src="habiba1.jpeg" alt="Photo of Habiba Bhombal smiling" tabindex="0" />
-      <div id="hero-text">
-        <h1>Habiba Bhombal</h1>
-        <p>Certified Project Manager & Career Coach dedicated to empowering your career journey with expert mentorship, personalized coaching, and actionable job strategies.</p>
-        <a href="#contact" class="btn" tabindex="0" aria-label="Contact Habiba for coaching services">Get in Touch</a>
+    <h1>Your journey to a successful career starts here.</h1>
+    <p>Mentorship, job support, and career transformation tailored to you.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
+
+    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Certified Project Manager & Career Coach passionate about helping you land your dream job.
+        With years of project management and mentoring experience, I offer practical,
+        personalized guidance to move your career forward.
+      </p>
+    </section>
+
+    <section id="services">
+      <h2>Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="service-title">Resume Review & Optimization</div>
+          <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-bullseye"></i></div>
+          <div class="service-title">Career Coaching & 1-on-1 Mentorship</div>
+          <div class="service-desc">Personalized guidance to navigate your career path effectively.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-comments"></i></div>
+          <div class="service-title">Interview Preparation</div>
+          <div class="service-desc">Sharpen your interview skills and boost your confidence.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-compass"></i></div>
+          <div class="service-title">Job Search Strategy</div>
+          <div class="service-desc">Tailored strategies to find and secure your ideal job.</div>
+        </div>
       </div>
     </section>
 
-    <section id="services" aria-label="Services offered" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-      <h2>What I Offer</h2>
-      <article class="service-card" tabindex="0" aria-describedby="service1-desc">
-        <span class="service-icon" aria-hidden="true">📋</span>
-        <h3 class="service-title">Resume Review</h3>
-        <p id="service1-desc" class="service-desc">Expert feedback to make your resume stand out to recruiters and ATS systems.</p>
-      </article>
-      <article class="service-card" tabindex="0" aria-describedby="service2-desc">
-        <span class="service-icon" aria-hidden="true">🎯</span>
-        <h3 class="service-title">Career Coaching</h3>
-        <p id="service2-desc" class="service-desc">Personalized guidance to clarify your goals and develop your career roadmap.</p>
-      </article>
-      <article class="service-card" tabindex="0" aria-describedby="service3-desc">
-        <span class="service-icon" aria-hidden="true">💬</span>
-        <h3 class="service-title">Interview Preparation</h3>
-        <p id="service3-desc" class="service-desc">Mock interviews and tailored tips to boost your confidence and performance.</p>
-      </article>
-      <article class="service-card" tabindex="0" aria-describedby="service4-desc">
-        <span class="service-icon" aria-hidden="true">🔍</span>
-        <h3 class="service-title">Job Search Strategy</h3>
-        <p id="service4-desc" class="service-desc">Effective tactics to target the right roles and networks for your dream job.</p>
-      </article>
-    </section>
-
-    <section id="about" aria-label="About Habiba Bhombal" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
-      <h2>About Me</h2>
-      <p>Hello! I'm Habiba Bhombal, a certified project manager and passionate career coach. With years of experience guiding professionals through career transitions and job search challenges, I am here to support you every step of the way. My approach is tailored, practical, and focused on your unique strengths and aspirations.</p>
-    </section>
-
-    <section id="contact" aria-label="Contact form" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+    <section id="contact">
       <h2>Contact Me</h2>
-      <form action="mailto:habiba@example.com" method="post" enctype="text/plain" aria-describedby="contact-desc">
-        <p id="contact-desc">Fill out the form below to get in touch. I look forward to hearing from you!</p>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="Name" required aria-required="true" />
-        <label for="email">Email</label>
-        <input type="email" id="email" name="Email" required aria-required="true" />
-        <label for="message">Message</label>
-        <textarea id="message" name="Message" rows="5" required aria-required="true"></textarea>
+      <form id="contact-form">
+        <input type="text" name="from_name" placeholder="Your Name" required />
+        <input type="email" name="reply_to" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
         <button type="submit">Send</button>
+        <p id="form-message"></p>
       </form>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Habiba Bhombal | Empowering Your Career Journey
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://www.instagram.com/your_instagram/" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://twitter.com/your_twitter/" target="_blank" rel="noopener" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+    &copy; 2025 Habiba - All rights reserved
   </footer>
 
-  <!-- AOS Animation Library JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    AOS.init({
-      once: true,
-      easing: 'ease-in-out',
-    });
+    (function () {
+      emailjs.init("XNiOqDSRhrGlQKdHX"); // Your User ID (public key)
+    })();
 
-    // Hamburger menu toggle
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('primary-navigation');
+    const form = document.getElementById("contact-form");
+    const message = document.getElementById("form-message");
 
-    hamburger.addEventListener('click', () => {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
-      hamburger.setAttribute('aria-expanded', !expanded);
-      hamburger.classList.toggle('active');
-      nav.classList.toggle('open');
-    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    // Close menu on link click (for better UX on mobile)
-    document.querySelectorAll('#primary-navigation a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          hamburger.classList.remove('active');
-          hamburger.setAttribute('aria-expanded', false);
-        }
-      });
+      emailjs.sendForm('service_vyhuqcr', 'template_886hln8', this)
+        .then(function () {
+          message.textContent = "✅ Thank you! Your message has been sent.";
+          message.style.color = "#4caf50";
+          message.style.display = "block";
+          form.reset();
+        }, function (error) {
+          message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
+          message.style.color = "red";
+          message.style.display = "block";
+        });
     });
   </script>
+
 </body>
 </html>
