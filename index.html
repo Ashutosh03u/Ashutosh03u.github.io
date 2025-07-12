@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <!-- AOS (Animate on Scroll) -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <style>
@@ -46,6 +46,9 @@
       color: var(--text);
       line-height: 1.6;
       transition: all 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     a {
@@ -72,6 +75,7 @@
       display: flex;
       justify-content: space-between;
       padding: 1rem;
+      align-items: center;
     }
 
     .nav-links {
@@ -79,15 +83,47 @@
       gap: 1.5rem;
     }
 
+    .nav-links a {
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 6px 0;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--primary);
+      left: 0;
+      bottom: -3px;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
     .dark-toggle {
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    .dark-toggle:hover {
+      color: var(--accent);
     }
 
     main {
       max-width: 900px;
       margin: 100px auto 50px;
       padding: 0 1rem;
+      flex-grow: 1;
       text-align: center;
     }
 
@@ -110,6 +146,7 @@
       border-radius: 30px;
       border: none;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     .btn-primary:hover {
@@ -124,6 +161,11 @@
       margin: 2rem auto;
       display: block;
       border: 4px solid var(--primary);
+      transition: filter 0.3s ease;
+    }
+
+    [data-theme="dark"] .profile-img {
+      filter: brightness(0.85);
     }
 
     section {
@@ -132,6 +174,7 @@
       padding: 2rem;
       margin-bottom: 3rem;
       box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: left;
     }
 
     section h2 {
@@ -153,22 +196,35 @@
       text-align: center;
       transition: transform 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
     }
 
     .service-icon {
       font-size: 2.5rem;
       color: var(--primary);
       margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      color: var(--accent);
     }
 
     .service-title {
       font-weight: 700;
       font-size: 1.2rem;
       color: var(--accent);
+      margin-bottom: 0.5rem;
     }
 
     .service-desc {
       font-size: 1rem;
+      color: var(--text);
     }
 
     #contact form {
@@ -184,6 +240,31 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 1rem;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--card-bg);
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    #contact button[type="submit"] {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #contact button[type="submit"]:hover {
+      background: var(--accent);
     }
 
     #form-message {
@@ -198,12 +279,18 @@
       color: white;
       text-align: center;
       padding: 2rem 1rem;
+      user-select: none;
     }
 
     .social-links a {
       color: white;
       margin: 0 10px;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
     }
 
     html {
@@ -227,113 +314,145 @@
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
       </div>
-      <div class="dark-toggle" onclick="toggleDarkMode()">
-        <i class="fas fa-moon"></i>
+      <div class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" role="button" tabindex="0">
+        <i id="darkModeIcon" class="fas fa-moon"></i>
       </div>
     </nav>
   </header>
 
   <main>
-    <h1>Your journey to a successful career starts here.</h1>
-    <p>Mentorship, job support, and career transformation tailored to you.</p>
-    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
+    <h1 data-aos="fade-down">Your journey to a successful career starts here.</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Mentorship, job support, and career transformation tailored to you.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" data-aos="zoom-in" data-aos-delay="200">Get in Touch</button>
 
-    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
+    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" data-aos="fade-up" data-aos-delay="300" />
 
-    <section id="about" data-aos="fade-up">
+    <section id="about" data-aos="fade-up" data-aos-delay="100">
       <h2>About Me</h2>
       <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
     </section>
 
-    <section id="services" data-aos="fade-up">
+    <section id="services" data-aos="fade-up" data-aos-delay="150">
       <h2>Services</h2>
       <div class="services-grid">
-        <a href="resume.html">
-          <div class="service-card">
+        <a href="resume.html" aria-label="Resume Review & Optimization">
+          <div class="service-card" tabindex="0">
             <div class="service-icon"><i class="fas fa-file-alt"></i></div>
             <div class="service-title">Resume Review & Optimization</div>
             <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
           </div>
         </a>
-        <a href="coaching.html">
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-bullseye"></i></div>
-            <div class="service-title">Career Coaching & Mentorship</div>
-            <div class="service-desc">Personalized guidance to navigate your career path effectively.</div>
-          </div>
-        </a>
-        <a href="interview.html">
-          <div class="service-card">
+        <a href="coaching.html" aria-label="Career Coaching">
+          <div class="service-card" tabindex="0">
             <div class="service-icon"><i class="fas fa-comments"></i></div>
-            <div class="service-title">Interview Preparation</div>
-            <div class="service-desc">Sharpen your interview skills and boost your confidence.</div>
+            <div class="service-title">Career Coaching</div>
+            <div class="service-desc">One-on-one sessions to build confidence and strategy.</div>
           </div>
         </a>
-        <a href="jobsearch.html">
-          <div class="service-card">
-            <div class="service-icon"><i class="fas fa-compass"></i></div>
+        <a href="interview.html" aria-label="Interview Preparation">
+          <div class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-microphone"></i></div>
+            <div class="service-title">Interview Preparation</div>
+            <div class="service-desc">Practice and perfect your interview skills.</div>
+          </div>
+        </a>
+        <a href="jobsearch.html" aria-label="Job Search Strategy">
+          <div class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-search"></i></div>
             <div class="service-title">Job Search Strategy</div>
-            <div class="service-desc">Tailored strategies to find and secure your ideal job.</div>
+            <div class="service-desc">Effective techniques to find the right opportunities.</div>
           </div>
         </a>
       </div>
     </section>
 
-    <section id="contact" data-aos="fade-up">
+    <section id="contact" data-aos="fade-up" data-aos-delay="200">
       <h2>Contact Me</h2>
-      <form id="contact-form">
-        <input type="text" name="from_name" placeholder="Your Name" required />
-        <input type="email" name="reply_to" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-        <button type="submit">Send</button>
-        <p id="form-message"></p>
+      <form id="contact-form" onsubmit="return sendEmail(event)">
+        <input type="text" id="name" name="name" placeholder="Your Name" required autocomplete="name" />
+        <input type="email" id="email" name="email" placeholder="Your Email" required autocomplete="email" />
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+        <div id="form-message"></div>
       </form>
     </section>
   </main>
 
   <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/pmprohabiba" target="_blank"><i class="fab fa-twitter"></i></a>
+    <div>© 2025 Habiba Bhombal</div>
+    <div class="social-links" aria-label="Social Media Links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/habibabhombal/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/habibabhombal" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
     </div>
-    &copy; 2025 Habiba Bhombal. All rights reserved.
   </footer>
 
   <script>
+    // Initialize AOS
     AOS.init();
 
-    emailjs.init("XNiOqDSRhrGlQKdHX");
+    // EmailJS init
+    (function(){
+      emailjs.init('YOUR_PUBLIC_KEY'); // Replace YOUR_PUBLIC_KEY with your actual EmailJS user/public key
+    })();
 
-    const form = document.getElementById("contact-form");
-    const message = document.getElementById("form-message");
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      emailjs.sendForm('service_vyhuqcr', 'template_886hln8', this)
-        .then(() => {
-          message.textContent = "✅ Thank you! Your message has been sent.";
-          message.style.color = "#4caf50";
-          message.style.display = "block";
-          form.reset();
-        }, () => {
-          message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
-          message.style.color = "red";
-          message.style.display = "block";
-        });
-    });
-
+    // Dark mode toggle
     function toggleDarkMode() {
-      const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme);
+      const root = document.documentElement;
+      const icon = document.getElementById('darkModeIcon');
+      if (root.getAttribute('data-theme') === 'dark') {
+        root.removeAttribute('data-theme');
+        icon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+      }
     }
 
-    // Load stored theme
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", savedTheme);
+    // On page load, set theme from localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme');
+      const root = document.documentElement;
+      const icon = document.getElementById('darkModeIcon');
+
+      if (savedTheme === 'dark') {
+        root.setAttribute('data-theme', 'dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+      } else {
+        root.removeAttribute('data-theme');
+        icon.classList.replace('fa-sun', 'fa-moon');
+      }
     });
+
+    // Email sending with EmailJS
+    function sendEmail(event) {
+      event.preventDefault();
+      const form = event.target;
+      const messageDiv = document.getElementById('form-message');
+
+      const serviceID = 'default_service'; // or your custom EmailJS service ID
+      const templateID = 'template_XXXXXXXX'; // replace with your EmailJS template ID
+
+      messageDiv.style.display = 'none';
+      messageDiv.textContent = '';
+
+      emailjs.sendForm(serviceID, templateID, form)
+        .then(() => {
+          messageDiv.style.color = 'green';
+          messageDiv.textContent = 'Message sent successfully!';
+          messageDiv.style.display = 'block';
+          form.reset();
+        }, (err) => {
+          messageDiv.style.color = 'red';
+          messageDiv.textContent = 'Failed to send message. Please try again.';
+          messageDiv.style.display = 'block';
+          console.error(err);
+        });
+
+      return false;
+    }
   </script>
 </body>
 </html>
