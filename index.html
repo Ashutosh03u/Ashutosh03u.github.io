@@ -11,175 +11,164 @@
   <meta name="twitter:card" content="summary_large_image" />
   <title>Habiba Bhombal - Project Manager & Career Coach</title>
 
+  <!-- Font Awesome & AOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+  
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  
   <style>
+    /* Root & dark theme colors */
     :root {
-      --bg: #f9f9f9;
-      --text: #333;
-      --primary: #0077b6;
-      --accent: #023e8a;
-      --card-bg: white;
-      --footer-bg: #023e8a;
+      --bg: #f9f9f9; --text: #333; --primary: #0077b6; --accent: #023e8a;
+      --card-bg: white; --footer-bg: #023e8a;
     }
-
     [data-theme="dark"] {
-      --bg: #121212;
-      --text: #e0e0e0;
-      --primary: #90e0ef;
-      --accent: #00b4d8;
-      --card-bg: #1e1e1e;
-      --footer-bg: #000000;
+      --bg: #121212; --text: #e0e0e0; --primary: #90e0ef;
+      --accent: #00b4d8; --card-bg: #1e1e1e; --footer-bg: #000;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
+    /* Global reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.3s ease;
+      background: var(--bg); color: var(--text);
+      display: flex; flex-direction: column; min-height: 100vh;
+      transition: all 0.3s ease;
     }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .btn-primary {
+      background: var(--primary); color: white;
+      padding: .75rem 2rem; font-size: 1rem;
+      border: none; border-radius: 30px; cursor: pointer;
+      transition: background .3s;
+    }
+    .btn-primary:hover { background: var(--accent); }
 
     header {
-      background: var(--card-bg);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
+      background: var(--card-bg); position: fixed;
+      width: 100%; top: 0; z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
     }
-
     nav {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
+      max-width: 1200px; margin: auto;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 1rem;
     }
-
     .nav-links a {
-      margin: 0 1rem;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: bold;
+      margin: 0 1rem; font-weight: bold;
     }
+    .dark-toggle {
+      cursor: pointer; font-size: 1.4rem; color: var(--primary);
+      display: flex; align-items: center; user-select: none;
+      transition: color .3s;
+    }
+    .dark-toggle:hover { color: var(--accent); }
 
+    /* Hero */
     .hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      padding: 8rem 2rem 4rem;
-      max-width: 1200px;
-      margin: auto;
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: center;
+      padding: 8rem 2rem 4rem; max-width: 1200px; margin: auto;
     }
-
     .hero-content {
-      flex: 1;
-      padding-right: 2rem;
-      min-width: 280px;
+      flex: 1; padding-right: 2rem; min-width: 280px;
+      text-align: left;
+    }
+    .hero-content h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+    .hero-content p { font-size: 1.2rem; margin-bottom: 2rem; }
+    .hero-image { flex: 1; min-width: 280px; max-width: 500px; }
+    .hero-image img {
+      width: 100%; border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,.1);
     }
 
-    .hero-content h1 {
-      font-size: 2.5rem;
-      color: var(--accent);
+    /* Sections */
+    section { max-width: 1200px; margin: 3rem auto; padding: 0 1rem; }
+    section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+
+    /* Services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--card-bg); padding: 1.5rem;
+      border-radius: 15px; text-align: center;
+      box-shadow: 0 3px 7px rgba(0,0,0,.1);
+      transition: transform .3s ease;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 15px rgba(0,0,0,.15);
+    }
+    .service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; transition: color .3s; }
+    .service-card:hover .service-icon { color: var(--accent); }
+    .service-title { font-weight: 700; font-size: 1.2rem; color: var(--accent); margin-bottom: .5rem; }
+    .service-desc { font-size: 1rem; color: var(--text); }
+
+    /* Testimonials and Calendly */
+    .testimonial {
+      background: var(--card-bg); padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 10px rgba(0,0,0,.05);
       margin-bottom: 1rem;
     }
-
-    .hero-content p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
+    iframe {
+      width: 100%; height: 600px; border: none; border-radius: 12px;
     }
 
-    .hero-image {
-      flex: 1;
-      min-width: 280px;
-      max-width: 500px;
+    /* Contact form */
+    #contact form {
+      display: flex; flex-direction: column;
+      gap: 1rem; max-width: 500px; margin: auto;
     }
-
-    .hero-image img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    input, textarea {
+      padding: .8rem; border-radius: 8px;
+      border: 1px solid #ccc; font-size: 1rem;
+      font-family: inherit; resize: vertical;
+      background: var(--card-bg); color: var(--text);
+      transition: border-color .3s;
     }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
+    input:focus, textarea:focus {
+      border-color: var(--primary); outline: none;
     }
-
-    .btn-primary:hover {
+    #contact button[type="submit"] {
+      background: var(--primary); color: white;
+      border: none; padding: .9rem; border-radius: 8px;
+      font-size: 1.1rem; cursor: pointer;
+      transition: background-color .3s;
+    }
+    #contact button[type="submit"]:hover {
       background: var(--accent);
     }
-
-    section {
-      max-width: 1200px;
-      margin: 3rem auto;
-      padding: 0 1rem;
+    #form-message {
+      font-weight: 600; text-align: center;
+      margin-top: 1rem; display: none;
     }
 
-    h2 {
-      color: var(--accent);
-      margin-bottom: 1rem;
-      font-size: 2rem;
-    }
-
-    .testimonial {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.05);
-      margin-bottom: 1rem;
-    }
-
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 12px;
-    }
-
+    /* Footer */
     footer {
-      background: var(--footer-bg);
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
+      background: var(--footer-bg); color: white;
+      text-align: center; padding: 2rem 1rem; margin-top: auto;
     }
-
     .social-icons a {
-      margin: 0 10px;
-      font-size: 1.5rem;
-      color: white;
-      transition: color 0.3s;
+      margin: 0 10px; font-size: 1.5rem;
+      color: white; transition: color .3s;
     }
-
     .social-icons a:hover {
       color: var(--primary);
     }
 
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
+    html { scroll-behavior: smooth; }
 
-      .hero-content {
-        padding-right: 0;
-      }
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; text-align: center; }
+      .hero-content { padding-right: 0; }
     }
   </style>
 </head>
@@ -189,9 +178,10 @@
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
         <a href="#contact">Contact</a>
       </div>
-      <div class="dark-toggle" onclick="toggleDarkMode()">
+      <div class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" role="button" tabindex="0">
         <i id="darkModeIcon" class="fas fa-moon"></i>
       </div>
     </nav>
@@ -201,34 +191,58 @@
     <div class="hero-content" data-aos="fade-right">
       <h1>Your journey to a successful career starts here.</h1>
       <p>Mentorship, job support, and career transformation tailored to you.</p>
-      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get in Touch</button>
     </div>
     <div class="hero-image" data-aos="fade-left">
       <img src="habiba1.jpeg" alt="Habiba Bhombal" />
     </div>
   </section>
 
-  <section id="about">
+  <section id="about" data-aos="fade-up">
     <h2>About Me</h2>
     <p>Certified Project Manager & Career Coach dedicated to empowering you to achieve your career goals. With extensive experience in project management and personalized mentoring, I provide actionable insights and tailored support to help you land your dream job and advance your professional journey.</p>
   </section>
 
-  <section id="services">
+  <section id="services" data-aos="fade-up">
     <h2>Services</h2>
-    <ul>
-      <li>Resume Review & Optimization</li>
-      <li>Career Coaching</li>
-      <li>Interview Preparation</li>
-      <li>Job Search Strategy</li>
-    </ul>
+    <div class="services-grid">
+      <a href="resume.html" aria-label="Resume Review & Optimization">
+        <div class="service-card" tabindex="0">
+          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="service-title">Resume Review & Optimization</div>
+          <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
+        </div>
+      </a>
+      <a href="coaching.html" aria-label="Career Coaching">
+        <div class="service-card" tabindex="0">
+          <div class="service-icon"><i class="fas fa-comments"></i></div>
+          <div class="service-title">Career Coaching</div>
+          <div class="service-desc">One-on-one sessions to build confidence and strategy.</div>
+        </div>
+      </a>
+      <a href="interview.html" aria-label="Interview Preparation">
+        <div class="service-card" tabindex="0">
+          <div class="service-icon"><i class="fas fa-microphone"></i></div>
+          <div class="service-title">Interview Preparation</div>
+          <div class="service-desc">Practice and perfect your interview skills.</div>
+        </div>
+      </a>
+      <a href="jobsearch.html" aria-label="Job Search Strategy">
+        <div class="service-card" tabindex="0">
+          <div class="service-icon"><i class="fas fa-search"></i></div>
+          <div class="service-title">Job Search Strategy</div>
+          <div class="service-desc">Effective techniques to find the right opportunities.</div>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <section>
+  <section id="calendar" data-aos="fade-up">
     <h2>Book a Session</h2>
     <iframe src="https://calendly.com/pmprohabiba" title="Calendly Booking Widget"></iframe>
   </section>
 
-  <section>
+  <section id="testimonials" data-aos="fade-up">
     <h2>Testimonials</h2>
     <div class="testimonial">
       "Habiba's coaching changed my career direction. Her sessions are impactful and supportive!"
@@ -238,13 +252,14 @@
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="5" placeholder="Your Message" required></textarea>
+  <section id="contact" data-aos="fade-up">
+    <h2>Contact Me</h2>
+    <form id="contact-form" onsubmit="return sendEmail(event)">
+      <input type="text" id="name" name="name" placeholder="Your Name" required autocomplete="name" />
+      <input type="email" id="email" name="email" placeholder="Your Email" required autocomplete="email" />
+      <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
       <button type="submit" class="btn-primary">Send Message</button>
+      <div id="form-message"></div>
     </form>
   </section>
 
@@ -260,6 +275,11 @@
 
   <script>
     AOS.init();
+
+    // EmailJS init
+    (function(){
+      emailjs.init('XNiOqDSRhrGlQKdHX');
+    })();
 
     function toggleDarkMode() {
       const root = document.documentElement;
@@ -279,12 +299,38 @@
       const savedTheme = localStorage.getItem('theme');
       const root = document.documentElement;
       const icon = document.getElementById('darkModeIcon');
-
       if (savedTheme === 'dark') {
         root.setAttribute('data-theme', 'dark');
         icon.classList.replace('fa-moon', 'fa-sun');
       }
     });
+
+    // EmailJS form submission
+    function sendEmail(event) {
+      event.preventDefault();
+      const form = event.target;
+      const messageDiv = document.getElementById('form-message');
+      const serviceID = 'service_vyhuqcr';
+      const templateID = 'template_886hln8';
+
+      messageDiv.style.display = 'none';
+      messageDiv.textContent = '';
+
+      emailjs.sendForm(serviceID, templateID, form)
+        .then(() => {
+          messageDiv.style.color = 'green';
+          messageDiv.textContent = 'Message sent successfully!';
+          messageDiv.style.display = 'block';
+          form.reset();
+        }, (err) => {
+          messageDiv.style.color = 'red';
+          messageDiv.textContent = 'Failed to send message. Please try again.';
+          messageDiv.style.display = 'block';
+          console.error(err);
+        });
+
+      return false;
+    }
   </script>
 </body>
 </html>
