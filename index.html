@@ -1,42 +1,19 @@
+
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Habiba Bhombal - Project Manager & Career Coach</title>
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome for icons -->
   <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
-
-  <!-- AOS CSS -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <style>
-    :root {
-      --primary: #0077b6;
-      --secondary: #023e8a;
-      --bg: #f9f9f9;
-      --text: #333;
-      --card: white;
-      --accent: #e0f0ff;
-      --footer: #023e8a;
-      --footer-text: white;
-    }
-
-    [data-theme="dark"] {
-      --primary: #90e0ef;
-      --secondary: #48cae4;
-      --bg: #121212;
-      --text: #f1f1f1;
-      --card: #1e1e1e;
-      --accent: #1a2b3c;
-      --footer: #0a192f;
-      --footer-text: #eee;
-    }
-
+    /* Reset & base styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -45,14 +22,13 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: #f9f9f9;
+      color: #333;
       line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
     }
 
     a {
-      color: var(--primary);
+      color: #0077b6;
       text-decoration: none;
     }
 
@@ -61,7 +37,7 @@
     }
 
     header {
-      background: var(--card);
+      background: white;
       position: fixed;
       top: 0;
       width: 100%;
@@ -70,18 +46,12 @@
     }
 
     nav {
-      max-width: 1000px;
+      max-width: 900px;
       margin: auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: flex-end;
       padding: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
     }
 
     nav a {
@@ -92,21 +62,6 @@
       cursor: pointer;
     }
 
-    .toggle-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: background 0.3s ease;
-    }
-
-    .toggle-btn:hover {
-      background: var(--secondary);
-    }
-
     main {
       max-width: 900px;
       margin: 100px auto 50px;
@@ -114,8 +69,20 @@
       text-align: center;
     }
 
+    main h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #023e8a;
+    }
+
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #555;
+    }
+
     .btn-primary {
-      background: var(--primary);
+      background: #0077b6;
       color: white;
       border: none;
       padding: 0.75rem 2rem;
@@ -123,12 +90,13 @@
       border-radius: 30px;
       cursor: pointer;
       transition: background 0.3s ease;
-      font-weight: 700;
       text-transform: uppercase;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
     }
 
     .btn-primary:hover {
-      background: var(--secondary);
+      background: #0096c7;
     }
 
     .profile-img {
@@ -136,22 +104,46 @@
       height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid var(--primary);
-      margin: 2rem auto;
+      border: 4px solid #0077b6;
+      margin: 1.5rem auto 2rem;
       display: block;
       box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     }
 
-    section {
-      margin-bottom: 3rem;
-      padding: 2rem;
-      background: var(--card);
+    #about {
+      background: white;
       border-radius: 12px;
+      padding: 2rem 2rem 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+
+    #about h2 {
+      color: #023e8a;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    #about p {
+      font-size: 1.1rem;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    #services {
+      background: #e0f0ff;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
       box-shadow: 0 6px 12px rgba(0,0,0,0.05);
     }
 
-    h1, h2 {
-      color: var(--secondary);
+    #services h2 {
+      color: #023e8a;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      text-align: center;
     }
 
     .services-grid {
@@ -161,81 +153,152 @@
     }
 
     .service-card {
-      background: var(--card);
+      background: white;
       padding: 1.5rem;
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       transition: transform 0.3s ease;
+      position: relative;
       cursor: pointer;
     }
 
     .service-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
     .service-icon {
       font-size: 2.8rem;
       margin-bottom: 1rem;
-      color: var(--primary);
+      color: #0077b6;
+      transition: transform 0.3s ease;
     }
 
     .service-card:hover .service-icon {
       transform: scale(1.2) rotate(5deg);
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 1rem;
+    .service-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+      color: #023e8a;
+    }
+
+    .service-desc {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .service-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    #contact {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    #contact h2 {
+      color: #023e8a;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+
+    #contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    #contact input[type="text"],
+    #contact input[type="email"],
+    #contact textarea {
+      padding: 0.9rem 1rem;
       border-radius: 8px;
-      border: 1.5px solid #ccc;
-      background: var(--bg);
-      color: var(--text);
+      border: 1.8px solid #ddd;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+      font-family: inherit;
     }
 
-    input:focus, textarea:focus {
+    #contact input[type="text"]:focus,
+    #contact input[type="email"]:focus,
+    #contact textarea:focus {
+      border-color: #0077b6;
       outline: none;
-      border-color: var(--primary);
     }
 
-    button[type="submit"] {
-      margin-top: 1rem;
-      background: var(--primary);
+    #contact button[type="submit"] {
+      background: #0077b6;
       color: white;
       border: none;
-      padding: 1rem;
+      padding: 1rem 0;
+      font-size: 1.2rem;
       border-radius: 30px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    #contact button[type="submit"]:hover {
+      background: #0096c7;
+    }
+
+    #form-message {
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1rem;
+      display: none;
     }
 
     footer {
       text-align: center;
-      padding: 2rem 1rem;
-      background: var(--footer);
-      color: var(--footer-text);
+      padding: 1.5rem 1rem;
+      background: #023e8a;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .social-links {
+      margin-bottom: 1rem;
     }
 
     .social-links a {
+      color: white;
       margin: 0 10px;
-      font-size: 1.4rem;
-      color: var(--footer-text);
+      font-size: 1.3rem;
+      transition: color 0.3s ease;
     }
 
     .social-links a:hover {
-      color: var(--primary);
+      color: #90e0ef;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     @media (max-width: 600px) {
       nav {
         justify-content: center;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .nav-links {
         gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
+      }
+
+      main {
+        margin: 140px 1rem 50px;
       }
     }
   </style>
@@ -244,62 +307,63 @@
 
   <header>
     <nav>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <main>
-    <h1 data-aos="fade-down">Your journey to a successful career starts here.</h1>
-    <p data-aos="fade-up">Mentorship, job support, and career transformation tailored to you.</p>
+    <h1>Your journey to a successful career starts here.</h1>
+    <p>Mentorship, job support, and career transformation tailored to you.</p>
     <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
 
-    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" data-aos="zoom-in" />
+    <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
 
-    <section id="about" data-aos="fade-up">
+    <section id="about">
       <h2>About Me</h2>
-      <p>Certified Project Manager & Career Coach passionate about helping you land your dream job.</p>
+      <p>
+        Certified Project Manager & Career Coach passionate about helping you land your dream job.
+        With years of project management and mentoring experience, I offer practical,
+        personalized guidance to move your career forward.
+      </p>
     </section>
 
-    <section id="services" data-aos="fade-up">
+    <section id="services">
       <h2>Services</h2>
       <div class="services-grid">
         <a href="resume.html">
-          <div class="service-card" data-aos="fade-up">
+          <div class="service-card">
             <div class="service-icon"><i class="fas fa-file-alt"></i></div>
-            <div class="service-title">Resume Review</div>
-            <div class="service-desc">Optimize your resume to highlight strengths and achievements.</div>
+            <div class="service-title">Resume Review & Optimization</div>
+            <div class="service-desc">Optimize your resume to highlight your strengths and achievements.</div>
           </div>
         </a>
         <a href="coaching.html">
-          <div class="service-card" data-aos="fade-up">
+          <div class="service-card">
             <div class="service-icon"><i class="fas fa-bullseye"></i></div>
-            <div class="service-title">Career Coaching</div>
-            <div class="service-desc">Personalized guidance for your career journey.</div>
+            <div class="service-title">Career Coaching & Mentorship</div>
+            <div class="service-desc">Personalized guidance to navigate your career path effectively.</div>
           </div>
         </a>
         <a href="interview.html">
-          <div class="service-card" data-aos="fade-up">
+          <div class="service-card">
             <div class="service-icon"><i class="fas fa-comments"></i></div>
-            <div class="service-title">Interview Prep</div>
-            <div class="service-desc">Boost your confidence and polish your skills.</div>
+            <div class="service-title">Interview Preparation</div>
+            <div class="service-desc">Sharpen your interview skills and boost your confidence.</div>
           </div>
         </a>
         <a href="jobsearch.html">
-          <div class="service-card" data-aos="fade-up">
+          <div class="service-card">
             <div class="service-icon"><i class="fas fa-compass"></i></div>
             <div class="service-title">Job Search Strategy</div>
-            <div class="service-desc">Find and secure your ideal job effectively.</div>
+            <div class="service-desc">Tailored strategies to find and secure your ideal job.</div>
           </div>
         </a>
       </div>
     </section>
 
-    <section id="contact" data-aos="fade-up">
+    <section id="contact">
       <h2>Contact Me</h2>
       <form id="contact-form">
         <input type="text" name="from_name" placeholder="Your Name" required />
@@ -310,17 +374,6 @@
       </form>
     </section>
   </main>
-
-  <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/pmprohabiba" target="_blank"><i class="fab fa-twitter"></i></a>
-    </div>
-    &copy; 2025 Habiba - All rights reserved
-  </footer>
-
-  <!-- Scripts -->
   <script>
     (function () {
       emailjs.init("XNiOqDSRhrGlQKdHX");
@@ -337,25 +390,11 @@
           message.style.color = "#4caf50";
           message.style.display = "block";
           form.reset();
-        }, () => {
-          message.textContent = "⚠️ Oops! Something went wrong.";
+        }, (error) => {
+          message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
           message.style.color = "red";
           message.style.display = "block";
         });
-    });
-
-    function toggleDarkMode() {
-      const html = document.documentElement;
-      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
-    }
-  </script>
-
-  <!-- AOS JS -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 800,
-      once: true,
     });
   </script>
 </body>
