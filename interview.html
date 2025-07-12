@@ -3,184 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Resume Review & Optimization | Habiba Bhombal</title>
-  <link rel="stylesheet" href="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous" />
+  <title>Interview Preparation | Habiba Bhombal</title>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <!-- AOS Scroll Animation -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
   <style>
+    /* Typography & colors consistent with your site */
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       color: #333;
+      background-color: #fff;
+      line-height: 1.6;
     }
 
-    header {
-      background: white;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    nav {
-      max-width: 900px;
-      margin: auto;
-      display: flex;
-      justify-content: flex-end;
-      padding: 1rem;
-      gap: 2rem;
-    }
-
-    nav a {
-      color: #023e8a;
-      text-decoration: none;
+    h1.section-title, h2.subheading {
+      color: #222;
       font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
     }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 120px auto 50px;
-      padding: 0 1rem;
-    }
-
-    h1 {
-      font-size: 2.4rem;
-      color: #023e8a;
-      margin-bottom: 0.5rem;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 2rem;
-      margin-bottom: 0.7rem;
-      color: #0077b6;
-    }
-
-    p {
+    .section-intro, .features-list li {
       font-size: 1.1rem;
-      line-height: 1.7;
-      color: #444;
-      margin-bottom: 1rem;
-    }
-
-    ul {
-      list-style: disc;
-      padding-left: 1.5rem;
-      margin-bottom: 2rem;
       color: #444;
     }
 
     .btn-primary {
-      background: #0077b6;
-      color: white;
-      border: none;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      border-radius: 30px;
-      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      padding: 0.7rem 1.5rem;
       text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      border-radius: 4px;
+      font-weight: 600;
       display: inline-block;
+      transition: background-color 0.3s ease;
     }
-
     .btn-primary:hover {
-      background: #0096c7;
+      background-color: #0056b3;
     }
 
-    .back-link {
-      text-align: center;
-      margin-top: 3rem;
+    .text-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .text-link:hover {
+      text-decoration: underline;
     }
 
-    footer {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      background: #023e8a;
-      color: white;
-      font-size: 0.9rem;
-      margin-top: 4rem;
-    }
-
-    .social-links a {
-      color: white;
-      margin: 0 10px;
-      font-size: 1.3rem;
+    /* Footer social icons */
+    .site-footer .social-links a i {
+      color: #555;
       transition: color 0.3s ease;
+      font-size: 1.25rem;
+      margin-right: 1rem;
+    }
+    .site-footer .social-links a:hover i {
+      color: #007bff;
     }
 
-    .social-links a:hover {
-      color: #90e0ef;
+    /* Container for centered content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
     }
 
-    @media (max-width: 600px) {
-      nav {
-        justify-content: center;
-        gap: 1rem;
-      }
+    /* Spacing for lists */
+    ul.features-list {
+      list-style: none;
+      padding-left: 0;
+    }
 
-      main {
-        margin-top: 140px;
-      }
+    ul.features-list li {
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <nav>
-      <a href="index.html#about">About</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#contact">Contact</a>
+  <!-- Header -->
+  <header class="site-header" style="background:#f8f9fa; padding:1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 100;">
+    <nav class="navbar container" style="display: flex; gap: 1.5rem; justify-content: center;">
+      <a href="index.html#about" class="nav-link" style="color:#007bff; font-weight: 600;">About</a>
+      <a href="index.html#services" class="nav-link" style="color:#007bff; font-weight: 600;">Services</a>
+      <a href="index.html#contact" class="nav-link" style="color:#007bff; font-weight: 600;">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <h1>Resume Review & Optimization</h1>
-    <p>Your resume is your first impression—make it stand out. I specialize in transforming ordinary resumes into impactful, job-winning documents tailored to your target roles and industry expectations.</p>
+  <!-- Main Content -->
+  <main class="page-content container" style="margin-top: 100px;">
+    <section class="service-details" data-aos="fade-up">
+      <h1 class="section-title">Interview Preparation Coaching</h1>
 
-    <h2>What You’ll Get:</h2>
-    <ul>
-      <li>Professional review and detailed feedback on formatting, structure, and content</li>
-      <li>Customized recommendations to align your resume with your career goals</li>
-      <li>Keyword optimization to pass Applicant Tracking Systems (ATS)</li>
-      <li>Highlighting accomplishments and measurable impact</li>
-    </ul>
+      <p class="section-intro">
+        Whether you're preparing for your first interview or a senior-level role, this service will help you feel confident, prepared, and in control.
+        With expert guidance, you'll learn how to communicate your skills clearly and handle tough questions with ease.
+      </p>
 
-    <h2>Who This Is For:</h2>
-    <ul>
-      <li>Recent graduates looking for their first job</li>
-      <li>Professionals aiming to pivot industries or roles</li>
-      <li>Anyone who hasn’t updated their resume in years</li>
-    </ul>
+      <div class="section-highlight" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="subheading">This is ideal for:</h2>
+        <ul class="features-list">
+          <li>🎯 Recent graduates entering the job market</li>
+          <li>🎯 Mid-career professionals making a pivot or promotion</li>
+          <li>🎯 Project managers, analysts, and consultants targeting leadership roles</li>
+          <li>🎯 Anyone who struggles with articulating their experience confidently</li>
+        </ul>
+      </div>
 
-    <p>Whether you're starting from scratch or refining an existing resume, I’ll provide personalized, actionable advice to help you succeed.</p>
+      <div class="section-details" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="subheading">What You’ll Get:</h2>
+        <ul class="features-list">
+          <li>✅ Two 1:1 mock interview sessions tailored to your industry</li>
+          <li>✅ Real-time feedback with actionable suggestions</li>
+          <li>✅ Guidance on behavioral and situational questions (STAR method)</li>
+          <li>✅ Techniques for managing nerves and speaking with confidence</li>
+          <li>✅ Body language coaching and virtual presence tips (for Zoom/Teams interviews)</li>
+          <li>✅ Follow-up email templates and thank-you etiquette tips</li>
+        </ul>
+      </div>
 
-    <div class="back-link">
-      <a href="index.html#contact" class="btn-primary">Start My Resume Review</a>
-    </div>
+      <div class="section-benefits" data-aos="fade-up" data-aos-delay="300">
+        <h2 class="subheading">You’ll Walk Away With:</h2>
+        <ul class="features-list">
+          <li>💡 A clear story that connects your experience to the role</li>
+          <li>💡 Prepared responses to common and tricky questions</li>
+          <li>💡 Increased confidence and clarity in high-pressure situations</li>
+        </ul>
+      </div>
 
-    <div class="back-link">
-      <a href="index.html" class="btn-primary">← Back to Home</a>
-    </div>
+      <div class="cta" data-aos="fade-up" data-aos-delay="400" style="margin-top: 2rem;">
+        <a href="index.html#contact" class="btn-primary">Book a Session</a>
+        <p style="margin-top: 1rem;"><a href="index.html" class="text-link">← Back to Home</a></p>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/your_twitter/" target="_blank"><i class="fab fa-twitter"></i></a>
+  <!-- Footer -->
+  <footer class="site-footer" style="margin-top: 4rem; padding: 1rem 0; background: #f9f9f9; text-align: center;">
+    <div class="container">
+      <div class="social-links" style="margin-bottom: 0.5rem;">
+        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.instagram.com/pmprohabiba/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com/pmprohabiba" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+      <p style="color: #666; font-size: 0.9rem;">&copy; 2025 Habiba Bhombal — All rights reserved.</p>
     </div>
-    &copy; 2025 Habiba - All rights reserved
   </footer>
 
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
