@@ -4,240 +4,169 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Job Search Strategy | Habiba Bhombal</title>
-  
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="styles.css" />
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  
-  <!-- AOS Animation CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  
+  <link rel="stylesheet" href="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous" />
   <style>
-    /* Base styling */
     body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: #333;
-      background-color: #fff;
-      line-height: 1.6;
       margin: 0;
-      padding: 0;
-      transition: background-color 0.3s, color 0.3s;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
     }
-    /* Dark mode */
-    body.dark-mode {
-      background-color: #121212;
-      color: #eee;
-    }
-    h1, h2 {
-      color: inherit;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    p, ul li {
-      font-size: 1.1rem;
-      margin-bottom: 0.75rem;
-      color: inherit;
-    }
-    ul {
-      padding-left: 1.5rem;
-    }
-    a {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    a:hover {
-      text-decoration: underline;
-      color: #0056b3;
-    }
-    .btn-primary {
-      background-color: #007bff;
-      color: white;
-      padding: 0.7rem 1.5rem;
-      border-radius: 4px;
-      font-weight: 600;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-    }
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
-    /* Container */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-    /* Header nav */
-    header.site-header {
-      background: #f8f9fa;
-      padding: 1rem 0;
-      box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
-      position: sticky;
+
+    header {
+      background: white;
+      position: fixed;
       top: 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 1000;
-      transition: background-color 0.3s;
     }
-    body.dark-mode header.site-header {
-      background: #1e1e1e;
-      box-shadow: 0 2px 5px rgb(255 255 255 / 0.1);
-    }
-    nav.navbar {
+
+    nav {
+      max-width: 900px;
+      margin: auto;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
+      padding: 1rem;
       gap: 2rem;
     }
-    nav.navbar .nav-link {
-      font-weight: 600;
-      color: #333;
+
+    nav a {
+      color: #023e8a;
       text-decoration: none;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
-    body.dark-mode nav.navbar .nav-link {
-      color: #eee;
-    }
-    nav.navbar .nav-link:hover {
-      color: #007bff;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
     }
 
-    /* Footer */
-    footer {
-      background: #f9f9f9;
-      padding: 1.5rem 0;
-      text-align: center;
-      margin-top: 4rem;
-      color: #555;
-      font-size: 0.9rem;
-      transition: background-color 0.3s, color 0.3s;
+    nav a:hover {
+      text-decoration: underline;
     }
-    body.dark-mode footer {
-      background: #1e1e1e;
-      color: #bbb;
+
+    main {
+      max-width: 900px;
+      margin: 120px auto 50px;
+      padding: 0 1rem;
     }
-    .social-links {
-      margin-bottom: 0.75rem;
+
+    h1 {
+      font-size: 2.4rem;
+      color: #023e8a;
+      margin-bottom: 0.5rem;
     }
-    .social-links a {
-      margin: 0 0.5rem;
-      color: #555;
+
+    h2 {
       font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.7rem;
+      color: #0077b6;
+    }
+
+    p, ul {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #0096c7;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: #023e8a;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.3rem;
       transition: color 0.3s ease;
     }
-    body.dark-mode .social-links a {
-      color: #bbb;
-    }
+
     .social-links a:hover {
-      color: #007bff;
+      color: #90e0ef;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
-      nav.navbar {
-        flex-direction: column;
+      nav {
+        justify-content: center;
         gap: 1rem;
       }
-      .container {
-        padding: 1rem 0.5rem;
-      }
-    }
 
-    /* Dark mode toggle button */
-    #darkModeToggle {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      background: #007bff;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
-      z-index: 1100;
-    }
-    #darkModeToggle:hover {
-      background: #0056b3;
+      main {
+        margin-top: 140px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="navbar container" aria-label="Primary navigation">
-      <a href="index.html#about" class="nav-link">About</a>
-      <a href="index.html#services" class="nav-link">Services</a>
-      <a href="index.html#contact" class="nav-link">Contact</a>
+
+  <header>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#contact">Contact</a>
     </nav>
   </header>
 
-  <main class="container" style="margin-top: 100px;">
-    <h1 data-aos="fade-up">Job Search Strategy</h1>
-    <p data-aos="fade-up" data-aos-delay="100">Discover the most effective methods to find and land your next opportunity faster and smarter.</p>
+  <main>
+    <h1>Job Search Strategy</h1>
+    <p>Discover the most effective methods to find and land your next opportunity faster and smarter.</p>
 
-    <h2 data-aos="fade-up" data-aos-delay="200">What’s Included:</h2>
-    <ul data-aos="fade-up" data-aos-delay="300">
+    <h2>What’s Included:</h2>
+    <ul>
       <li>Custom Job Search Plan</li>
       <li>How to Leverage LinkedIn &amp; Networking</li>
       <li>Positioning Your Skills to Match Roles</li>
       <li>Daily &amp; Weekly Job Hunt Routines That Work</li>
     </ul>
 
-    <p data-aos="fade-up" data-aos-delay="400" style="margin-top: 2rem;">
+    <div class="back-link">
       <a href="index.html" class="btn-primary">← Back to Home</a>
-    </p>
+    </div>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="social-links" aria-label="Social media links">
-        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://www.instagram.com/pmprohabiba/" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://twitter.com/pmprohabiba" target="_blank" aria-label="Twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-      </div>
-      <p>&copy; 2025 Habiba Bhombal — All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/pmprohabiba" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
     </div>
+    &copy; 2025 Habiba Bhombal — All rights reserved
   </footer>
 
-  <!-- Dark mode toggle button -->
-  <button id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-    <i class="fas fa-moon"></i>
-  </button>
-
-  <!-- AOS Animation JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init();
-
-    // Dark mode toggle logic
-    const toggleButton = document.getElementById('darkModeToggle');
-    const body = document.body;
-    const icon = toggleButton.querySelector('i');
-
-    // Load saved mode from localStorage
-    if(localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark-mode');
-      icon.classList.replace('fa-moon', 'fa-sun');
-    }
-
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      const isDark = body.classList.contains('dark-mode');
-      icon.classList.toggle('fa-moon');
-      icon.classList.toggle('fa-sun');
-      localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-    });
-  </script>
 </body>
 </html>
