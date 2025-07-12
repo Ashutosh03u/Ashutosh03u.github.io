@@ -5,11 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Interview Preparation | Habiba Bhombal</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Use FontAwesome CSS CDN instead of kit script -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <!-- AOS animation -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <style>
+    /* Add these if not in your styles.css */
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #333333;  /* Dark gray text */
+      background-color: #fff; /* White background */
+      line-height: 1.6;
+    }
+
+    h1.section-title, h2.subheading {
+      color: #222; /* Slightly darker for headings */
+      font-weight: 600;
+    }
+
+    .section-intro, .features-list li {
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    .btn-primary {
+      background-color: #007bff; /* Use your site’s primary blue or brand color */
+      color: white;
+      padding: 0.7rem 1.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .text-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Social icon color (footer) */
+    .site-footer .social-links a i {
+      color: #555; /* Dark gray */
+      transition: color 0.3s ease;
+      font-size: 1.25rem;
+    }
+    .site-footer .social-links a:hover i {
+      color: #007bff; /* On hover, brand blue */
+    }
+
+    /* Container width */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -24,8 +83,8 @@
   </header>
 
   <!-- Main Content -->
-  <main class="page-content container">
-    <section class="service-details" style="margin-top: 100px;" data-aos="fade-up">
+  <main class="page-content container" style="margin-top: 100px;">
+    <section class="service-details" data-aos="fade-up">
       <h1 class="section-title">Interview Preparation Coaching</h1>
 
       <p class="section-intro">
@@ -64,7 +123,7 @@
         </ul>
       </div>
 
-      <div class="cta" style="margin-top: 2rem;" data-aos="fade-up" data-aos-delay="400">
+      <div class="cta" data-aos="fade-up" data-aos-delay="400" style="margin-top: 2rem;">
         <a href="index.html#contact" class="btn-primary">Book a Session</a>
         <p style="margin-top: 1rem;"><a href="index.html" class="text-link">← Back to Home</a></p>
       </div>
@@ -72,7 +131,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer" style="margin-top: 4rem; padding: 1rem 0; background: #f9f9f9;">
     <div class="container">
       <div class="social-links">
         <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn">
@@ -85,11 +144,10 @@
           <i class="fab fa-twitter"></i>
         </a>
       </div>
-      <p>&copy; 2025 Habiba Bhombal — All rights reserved.</p>
+      <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">&copy; 2025 Habiba Bhombal — All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- AOS init -->
   <script>
     AOS.init();
   </script>
