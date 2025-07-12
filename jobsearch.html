@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,39 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Job Search Strategy | Habiba Bhombal</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
+  <!-- Font Awesome CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html#about">About</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#contact">Contact</a>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </div>
     </nav>
   </header>
 
-  <main style="margin-top: 100px; max-width: 900px; padding: 1rem; margin-left: auto; margin-right: auto;">
-    <h1>Job Search Strategy</h1>
-    <p>Discover the most effective methods to find and land your next opportunity faster and smarter.</p>
+  <!-- Main Content -->
+  <main class="page-content container" style="margin-top: 100px;" data-aos="fade-up">
+    <section class="service-details">
+      <h1 class="section-title">Job Search Strategy</h1>
 
-    <h2>What’s Included:</h2>
-    <ul>
-      <li>Custom Job Search Plan</li>
-      <li>How to Leverage LinkedIn & Networking</li>
-      <li>Positioning Your Skills to Match Roles</li>
-      <li>Daily & Weekly Job Hunt Routines That Work</li>
-    </ul>
+      <p class="section-intro">
+        Discover the most effective methods to find and land your next opportunity faster and smarter.
+      </p>
 
-    <p><a href="index.html" class="btn-primary">← Back to Home</a></p>
+      <div class="section-highlight" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="subheading">What’s Included:</h2>
+        <ul class="features-list">
+          <li>📋 Custom Job Search Plan tailored to your goals</li>
+          <li>🔗 How to Leverage LinkedIn & Networking effectively</li>
+          <li>💼 Positioning Your Skills to Match Roles you want</li>
+          <li>⏰ Daily & Weekly Job Hunt Routines That Work</li>
+        </ul>
+      </div>
+
+      <div class="cta" style="margin-top: 2rem;" data-aos="fade-up" data-aos-delay="200">
+        <a href="index.html#contact" class="btn-primary">Book a Session</a>
+        <p style="margin-top: 1rem;"><a href="index.html" class="text-link">← Back to Home</a></p>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://twitter.com/your_twitter/" target="_blank"><i class="fab fa-twitter"></i></a>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.instagram.com/pmprohabiba/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com/pmprohabiba" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+      <p>&copy; 2025 Habiba Bhombal — All rights reserved.</p>
     </div>
-    &copy; 2025 Habiba - All rights reserved
   </footer>
+
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
