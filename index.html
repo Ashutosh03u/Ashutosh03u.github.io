@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Habiba Bhombal - Project Manager & Career Coach</title>
 
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
 
-  <!-- EmailJS SDK -->
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
+  <!-- AOS (Animate on Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
   <style>
-    /* Reset & base styles */
+    :root {
+      --bg: #f9f9f9;
+      --text: #333;
+      --primary: #0077b6;
+      --accent: #023e8a;
+      --card-bg: white;
+      --footer-bg: #023e8a;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --primary: #90e0ef;
+      --accent: #00b4d8;
+      --card-bg: #1e1e1e;
+      --footer-bg: #000000;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -22,13 +42,14 @@
     }
 
     body {
-      background: #f9f9f9;
-      color: #333;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      transition: all 0.3s ease;
     }
 
     a {
-      color: #0077b6;
+      color: var(--primary);
       text-decoration: none;
     }
 
@@ -37,7 +58,7 @@
     }
 
     header {
-      background: white;
+      background: var(--card-bg);
       position: fixed;
       top: 0;
       width: 100%;
@@ -49,17 +70,18 @@
       max-width: 900px;
       margin: auto;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       padding: 1rem;
-      gap: 2rem;
     }
 
-    nav a {
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .dark-toggle {
       cursor: pointer;
+      font-size: 1.2rem;
     }
 
     main {
@@ -72,31 +94,26 @@
     main h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
-      color: #023e8a;
+      color: var(--accent);
     }
 
     main p {
       font-size: 1.2rem;
       margin-bottom: 2rem;
-      color: #555;
     }
 
     .btn-primary {
-      background: #0077b6;
+      background: var(--primary);
       color: white;
-      border: none;
       padding: 0.75rem 2rem;
       font-size: 1.1rem;
       border-radius: 30px;
+      border: none;
       cursor: pointer;
-      transition: background 0.3s ease;
-      text-transform: uppercase;
-      font-weight: 700;
-      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
     }
 
     .btn-primary:hover {
-      background: #0096c7;
+      background: var(--accent);
     }
 
     .profile-img {
@@ -104,46 +121,23 @@
       height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #0077b6;
-      margin: 1.5rem auto 2rem;
+      margin: 2rem auto;
       display: block;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      border: 4px solid var(--primary);
     }
 
-    #about {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem 2rem 3rem;
-      margin-bottom: 3rem;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-      text-align: left;
-    }
-
-    #about h2 {
-      color: #023e8a;
-      margin-bottom: 1rem;
-      font-size: 2rem;
-    }
-
-    #about p {
-      font-size: 1.1rem;
-      color: #444;
-      line-height: 1.7;
-    }
-
-    #services {
-      background: #e0f0ff;
+    section {
+      background: var(--card-bg);
       border-radius: 12px;
       padding: 2rem;
       margin-bottom: 3rem;
       box-shadow: 0 6px 12px rgba(0,0,0,0.05);
     }
 
-    #services h2 {
-      color: #023e8a;
-      margin-bottom: 1.5rem;
+    section h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
       font-size: 2rem;
-      text-align: center;
     }
 
     .services-grid {
@@ -153,108 +147,43 @@
     }
 
     .service-card {
-      background: white;
+      background: var(--card-bg);
       padding: 1.5rem;
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       transition: transform 0.3s ease;
-      position: relative;
       cursor: pointer;
     }
 
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
     .service-icon {
-      font-size: 2.8rem;
+      font-size: 2.5rem;
+      color: var(--primary);
       margin-bottom: 1rem;
-      color: #0077b6;
-      transition: transform 0.3s ease;
-    }
-
-    .service-card:hover .service-icon {
-      transform: scale(1.2) rotate(5deg);
     }
 
     .service-title {
       font-weight: 700;
       font-size: 1.2rem;
-      margin-bottom: 0.7rem;
-      color: #023e8a;
+      color: var(--accent);
     }
 
     .service-desc {
       font-size: 1rem;
-      color: #555;
-      line-height: 1.4;
-    }
-
-    .service-card a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    #contact {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 600px;
-      margin: 0 auto 3rem;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-
-    #contact h2 {
-      color: #023e8a;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
     }
 
     #contact form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      max-width: 500px;
+      margin: auto;
     }
 
-    #contact input[type="text"],
-    #contact input[type="email"],
-    #contact textarea {
-      padding: 0.9rem 1rem;
+    input, textarea {
+      padding: 0.8rem;
       border-radius: 8px;
-      border: 1.8px solid #ddd;
+      border: 1px solid #ccc;
       font-size: 1rem;
-      resize: vertical;
-      transition: border-color 0.3s ease;
-      font-family: inherit;
-    }
-
-    #contact input[type="text"]:focus,
-    #contact input[type="email"]:focus,
-    #contact textarea:focus {
-      border-color: #0077b6;
-      outline: none;
-    }
-
-    #contact button[type="submit"] {
-      background: #0077b6;
-      color: white;
-      border: none;
-      padding: 1rem 0;
-      font-size: 1.2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 700;
-      box-shadow: 0 5px 15px rgba(0,119,182,0.3);
-      transition: background 0.3s ease;
-      text-transform: uppercase;
-    }
-
-    #contact button[type="submit"]:hover {
-      background: #0096c7;
     }
 
     #form-message {
@@ -265,26 +194,16 @@
     }
 
     footer {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      background: #023e8a;
+      background: var(--footer-bg);
       color: white;
-      font-size: 0.9rem;
-    }
-
-    .social-links {
-      margin-bottom: 1rem;
+      text-align: center;
+      padding: 2rem 1rem;
     }
 
     .social-links a {
       color: white;
       margin: 0 10px;
       font-size: 1.3rem;
-      transition: color 0.3s ease;
-    }
-
-    .social-links a:hover {
-      color: #90e0ef;
     }
 
     html {
@@ -293,23 +212,24 @@
 
     @media (max-width: 600px) {
       nav {
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         gap: 1rem;
-      }
-
-      main {
-        margin: 140px 1rem 50px;
       }
     }
   </style>
 </head>
 <body>
-
   <header>
     <nav>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="dark-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i>
+      </div>
     </nav>
   </header>
 
@@ -320,16 +240,12 @@
 
     <img src="habiba1.jpeg" alt="Habiba" class="profile-img" />
 
-    <section id="about">
+    <section id="about" data-aos="fade-up">
       <h2>About Me</h2>
-      <p>
-        Certified Project Manager & Career Coach passionate about helping you land your dream job.
-        With years of project management and mentoring experience, I offer practical,
-        personalized guidance to move your career forward.
-      </p>
+      <p>Certified Project Manager & Career Coach passionate about helping you land your dream job. With years of project management and mentoring experience, I offer practical, personalized guidance to move your career forward.</p>
     </section>
 
-    <section id="services">
+    <section id="services" data-aos="fade-up">
       <h2>Services</h2>
       <div class="services-grid">
         <a href="resume.html">
@@ -363,7 +279,7 @@
       </div>
     </section>
 
-    <section id="contact">
+    <section id="contact" data-aos="fade-up">
       <h2>Contact Me</h2>
       <form id="contact-form">
         <input type="text" name="from_name" placeholder="Your Name" required />
@@ -374,10 +290,20 @@
       </form>
     </section>
   </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/pmprohabiba/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/pmprohabiba" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+    &copy; 2025 Habiba Bhombal. All rights reserved.
+  </footer>
+
   <script>
-    (function () {
-      emailjs.init("XNiOqDSRhrGlQKdHX");
-    })();
+    AOS.init();
+
+    emailjs.init("XNiOqDSRhrGlQKdHX");
 
     const form = document.getElementById("contact-form");
     const message = document.getElementById("form-message");
@@ -390,11 +316,23 @@
           message.style.color = "#4caf50";
           message.style.display = "block";
           form.reset();
-        }, (error) => {
+        }, () => {
           message.textContent = "⚠️ Oops! Something went wrong. Please try again.";
           message.style.color = "red";
           message.style.display = "block";
         });
+    });
+
+    function toggleDarkMode() {
+      const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    }
+
+    // Load stored theme
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
     });
   </script>
 </body>
