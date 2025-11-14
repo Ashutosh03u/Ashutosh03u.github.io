@@ -1,348 +1,752 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Habiba Bhombal – Expert interview coaching, resume optimization & job search strategy for professionals. Boost your confidence & land your next role." />
-  <meta property="og:title" content="Habiba Bhombal – Career Coaching Services" />
-  <meta property="og:description" content="Interview prep, resume optimization & job search support. Expert guidance for ambitious professionals." />
-  <meta property="og:image" content="https://pmprohabiba.com/og-image.jpg" />
-  <meta property="og:url" content="https://pmprohabiba.com/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <title>Habiba Bhombal - Project Manager & Career Coach</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habiba Bhombal – Career Coaching Services</title>
+    <meta name="description" content="Certified Project Manager & Career Coach dedicated to empowering you to achieve your career goals. Mentorship, job support, and career transformation tailored to you.">
+    <meta name="keywords" content="career coach, project manager, career coaching, resume review, interview preparation, job search, career transformation">
+    <meta name="author" content="Habiba Bhombal">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Habiba Bhombal – Career Coaching Services">
+    <meta property="og:description" content="Certified Project Manager & Career Coach dedicated to empowering you to achieve your career goals.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pmprohabiba.com">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Font Awesome & AOS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  
-  <style>
-    /* Root & dark theme colors */
-    :root {
-      --bg: #f9f9f9; --text: #333; --primary: #0077b6; --accent: #023e8a;
-      --card-bg: white; --footer-bg: #023e8a;
-    }
-    [data-theme="dark"] {
-      --bg: #121212; --text: #e0e0e0; --primary: #90e0ef;
-      --accent: #00b4d8; --card-bg: #1e1e1e; --footer-bg: #000;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
 
-    /* Global reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body {
-      background: var(--bg); color: var(--text);
-      display: flex; flex-direction: column; min-height: 100vh;
-      transition: all 0.3s ease;
-    }
-    a { color: var(--primary); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .btn-primary {
-      background: var(--primary); color: white;
-      padding: .75rem 2rem; font-size: 1rem;
-      border: none; border-radius: 30px; cursor: pointer;
-      transition: background .3s;
-    }
-    .btn-primary:hover { background: var(--accent); }
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-    header {
-      background: var(--card-bg); position: fixed;
-      width: 100%; top: 0; z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,.1);
-    }
-    nav {
-      max-width: 1200px; margin: auto;
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 1rem;
-    }
-    .nav-links a {
-     margin: 0 1rem;
-  font-weight: bold;
-  font-size: 1.1rem;     /* increased font size */
-  text-transform: uppercase; /* all caps */
-  letter-spacing: 0.05em; /* small spacing for better caps look */
-    }
-    .dark-toggle {
-      cursor: pointer; font-size: 1.4rem; color: var(--primary);
-      display: flex; align-items: center; user-select: none;
-      transition: color .3s;
-    }
-    .dark-toggle:hover { color: var(--accent); }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    /* Hero */
-    .hero {
-      display: flex; flex-wrap: wrap;
-      align-items: flex-start; justify-content: center;
-      padding: 8rem 2rem 4rem; max-width: 1200px; margin: auto;
-    }
-    .hero-content {
-      flex: 1; padding-right: 2rem; min-width: 280px;
-      text-align: left;
-    }
-    .hero-content h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
-    .hero-content p { font-size: 1.2rem; margin-bottom: 2rem; }
-    .hero-image { flex: 1; min-width: 280px; max-width: 500px; }
-    .hero-image img {
-      width: 100%; border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5282;
+            text-decoration: none;
+        }
 
-    /* Sections */
-    section { max-width: 1200px; margin: 3rem auto; padding: 0 1rem; }
-    section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    /* Services grid */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-    .service-card {
-      background: var(--card-bg); padding: 1.5rem;
-      border-radius: 15px; text-align: center;
-      box-shadow: 0 3px 7px rgba(0,0,0,.1);
-      transition: transform .3s ease;
-      cursor: pointer;
-    }
-    .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 15px rgba(0,0,0,.15);
-    }
-    .service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; transition: color .3s; }
-    .service-card:hover .service-icon { color: var(--accent); }
-    .service-title { font-weight: 700; font-size: 1.2rem; color: var(--accent); margin-bottom: .5rem; }
-    .service-desc { font-size: 1rem; color: var(--text); }
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-    /* Testimonials and Calendly */
-    .testimonial {
-      background: var(--card-bg); padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 10px rgba(0,0,0,.05);
-      margin-bottom: 1rem;
-    }
-    iframe {
-      width: 100%; height: 600px; border: none; border-radius: 12px;
-    }
+        .nav-links a:hover {
+            color: #2c5282;
+        }
 
-    /* Contact form */
-    #contact form {
-      display: flex; flex-direction: column;
-      gap: 1rem; max-width: 500px; margin: auto;
-    }
-    input, textarea {
-      padding: .8rem; border-radius: 8px;
-      border: 1px solid #ccc; font-size: 1rem;
-      font-family: inherit; resize: vertical;
-      background: var(--card-bg); color: var(--text);
-      transition: border-color .3s;
-    }
-    input:focus, textarea:focus {
-      border-color: var(--primary); outline: none;
-    }
-    #contact button[type="submit"] {
-      background: var(--primary); color: white;
-      border: none; padding: .9rem; border-radius: 8px;
-      font-size: 1.1rem; cursor: pointer;
-      transition: background-color .3s;
-    }
-    #contact button[type="submit"]:hover {
-      background: var(--accent);
-    }
-    #form-message {
-      font-weight: 600; text-align: center;
-      margin-top: 1rem; display: none;
-    }
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-    /* Footer */
-    footer {
-      background: var(--footer-bg); color: white;
-      text-align: center; padding: 2rem 1rem; margin-top: auto;
-    }
-    .social-icons a {
-      margin: 0 10px; font-size: 1.5rem;
-      color: white; transition: color .3s;
-    }
-    .social-icons a:hover {
-      color: var(--primary);
-    }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
 
-    html { scroll-behavior: smooth; }
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
 
-    @media (max-width: 768px) {
-      .hero { flex-direction: column; text-align: center; }
-      .hero-content { padding-right: 0; }
-    }
-  </style>
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 2rem;
+            background: #f7fafc;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 3rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .credentials {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .credentials h4 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+
+        .credentials ul {
+            list-style: none;
+        }
+
+        .credentials li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #4a5568;
+        }
+
+        .credentials li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card .btn {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 2rem;
+            background: #667eea;
+            color: white;
+        }
+
+        .testimonials .section-title {
+            color: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 3rem 2rem;
+            background: #2d3748;
+            color: white;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            opacity: 0.8;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: #f7fafc;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h3 {
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details {
+            list-style: none;
+        }
+
+        .contact-details li {
+            padding: 0.8rem 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-details a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            background: #667eea;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .cta-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-box .btn {
+            background: #667eea;
+            color: white;
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a202c;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-photo {
+                width: 250px;
+                height: 250px;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        section {
+            scroll-margin-top: 80px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode" role="button" tabindex="0">
-        <i id="darkModeIcon" class="fas fa-moon"></i>
-      </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Habiba Bhombal</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+        </div>
     </nav>
-  </header>
 
-  <section class="hero">
-    <div class="hero-content" data-aos="fade-right">
-      <h1>Your journey to a successful career starts here.</h1>
-      <p>Mentorship, job support, and career transformation tailored to you.</p>
-      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get in Touch</button>
-    </div>
-    <div class="hero-image" data-aos="fade-left">
-      <img src="habiba1.jpeg" alt="Habiba Bhombal" />
-    </div>
-  </section>
-
-  <section id="about" data-aos="fade-up">
-    <h2>About Me</h2>
-    <p>Certified Project Manager & Career Coach dedicated to empowering you to achieve your career goals. With extensive experience in project management and personalized mentoring, I provide actionable insights and tailored support to help you land your dream job and advance your professional journey.</p>
-  </section>
-
-  <section id="services" data-aos="fade-up">
-    <h2>Services</h2>
-    <div class="services-grid">
-      <a href="resume.html" aria-label="Resume Review & Optimization">
-        <div class="service-card" tabindex="0">
-          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
-          <div class="service-title">Resume Review</div>
-          <div class="service-desc">Optimize your resume to showcase your strengths and achievements.</div>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Transform Your Career with Expert Guidance</h1>
+                <p>Mentorship, job support, and career transformation tailored to you. Certified Project Manager & Career Coach dedicated to empowering you to achieve your career goals. With extensive experience in project management and personalized mentoring, I provide actionable insights and tailored support to help you land your dream job.</p>
+                <div class="hero-buttons">
+                    <a href="https://topmate.io/habiba12" class="btn btn-primary" target="_blank">Book a Session on Topmate</a>
+                    <a href="#services" class="btn btn-secondary">View Services</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="habiba-photo.png" alt="Habiba Bhombal - Career Coach" class="profile-photo">
+            </div>
         </div>
-      </a>
-      <a href="coaching.html" aria-label="Career Coaching">
-        <div class="service-card" tabindex="0">
-          <div class="service-icon"><i class="fas fa-comments"></i></div>
-          <div class="service-title">Career Coaching</div>
-          <div class="service-desc">One-on-one sessions to build confidence and strategy.</div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Your Partner in Career Success</h3>
+                    <p>Hello! I'm Habiba Bhombal, a Certified Project Manager and Career Coach with a passion for helping professionals unlock their full potential. With extensive experience in project management and career development, I understand the challenges you face in today's competitive job market.</p>
+                    <p>My approach combines strategic career planning with personalized mentoring to help you not just find a job, but build a fulfilling career. Whether you're looking to transition into project management, advance in your current role, or completely reinvent your career path, I'm here to guide you every step of the way.</p>
+                    <p>I provide actionable insights and tailored support to help you land your dream job and advance your professional journey. Let's work together to unlock your career potential!</p>
+                </div>
+                <div class="credentials">
+                    <h4>Certifications & Expertise</h4>
+                    <ul>
+                        <li>Certified Project Management Professional</li>
+                        <li>Certified Career Coach</li>
+                        <li>Expert in Resume Optimization</li>
+                        <li>Interview Preparation Specialist</li>
+                        <li>LinkedIn Profile Optimization</li>
+                        <li>Job Search Strategy Expert</li>
+                        <li>Career Transition Guidance</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </a>
-      <a href="interview.html" aria-label="Interview Preparation">
-        <div class="service-card" tabindex="0">
-          <div class="service-icon"><i class="fas fa-microphone"></i></div>
-          <div class="service-title">Interview Preparation</div>
-          <div class="service-desc">Practice and perfect your interview skills.</div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-container">
+            <h2 class="section-title">My Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>1-on-1 Career Coaching</h3>
+                    <p>Personalized coaching sessions to identify your strengths, set career goals, and create an actionable plan for success. Get tailored guidance for your unique career journey.</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book Now</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📄</div>
+                    <h3>Resume & LinkedIn Review</h3>
+                    <p>Professional review and optimization of your resume and LinkedIn profile to attract recruiters, pass ATS systems, and land more interviews.</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book Now</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Interview Preparation</h3>
+                    <p>Mock interviews, feedback, and proven strategies to help you confidently ace your next job interview. Practice with real scenarios and get expert feedback.</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book Now</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Career Transformation</h3>
+                    <p>Comprehensive career guidance for professionals looking to make a career change or transition into project management. Full support from planning to execution.</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book Now</a>
+                </div>
+            </div>
         </div>
-      </a>
-      <a href="jobsearch.html" aria-label="Job Search Strategy">
-        <div class="service-card" tabindex="0">
-          <div class="service-icon"><i class="fas fa-search"></i></div>
-          <div class="service-title">Job Search Strategy</div>
-          <div class="service-desc">Effective techniques to find the right opportunities.</div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Professionals Coached</p>
+            </div>
+            <div class="stat-item">
+                <h3>85%</h3>
+                <p>Success Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Resumes Optimized</p>
+            </div>
+            <div class="stat-item">
+                <h3>5+</h3>
+                <p>Years Experience</p>
+            </div>
         </div>
-      </a>
-    </div>
-  </section>
+    </section>
 
-  <section id="calendar" data-aos="fade-up">
-  <h2>Book a Session</h2>
-  <p style="text-align: center; font-size: 1.1rem; margin-bottom: 1.5rem;">
-    Schedule a 1-on-1 session directly through my Topmate profile.
-  </p>
-  <div style="text-align: center;">
-    <a href="https://topmate.io/habiba12" target="_blank" rel="noopener" class="btn-primary">
-      Book via Topmate
-    </a>
-  </div>
-</section>
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-container">
+            <h2 class="section-title">What My Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Habiba helped me completely transform my resume and LinkedIn profile. Within weeks, I started getting calls from recruiters. I landed my dream job as a Project Manager!"</p>
+                    <p class="testimonial-author">Sarah M.</p>
+                    <p class="testimonial-role">Project Manager at Tech Company</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The career coaching sessions were life-changing. Habiba helped me identify my strengths and gave me the confidence to pursue a career change. Highly recommended!"</p>
+                    <p class="testimonial-author">Ahmed K.</p>
+                    <p class="testimonial-role">Senior Business Analyst</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The interview preparation was exactly what I needed. Habiba's mock interviews and feedback helped me feel confident and prepared. I got the job offer!"</p>
+                    <p class="testimonial-author">Priya S.</p>
+                    <p class="testimonial-role">Software Developer</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <section id="testimonials" data-aos="fade-up">
-    <h2>Testimonials</h2>
-    <div class="testimonial">
-      "Habiba's coaching changed my career direction. Her sessions are impactful and supportive!"
-    </div>
-    <div class="testimonial">
-      "Thanks to Habiba, I landed my dream job within weeks. Her strategies truly work!"
-    </div>
-  </section>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Ready to Transform Your Career?</h3>
+                    <p>Take the first step towards your dream career. Schedule a 1-on-1 session directly through my Topmate profile or connect with me on social media.</p>
+                    <ul class="contact-details">
+                        <li>📍 Available for Virtual Sessions Worldwide</li>
+                        <li>🔗 <a href="https://topmate.io/habiba12" target="_blank">Book on Topmate</a></li>
+                        <li>🌐 <a href="https://linktr.ee/pmprohabiba" target="_blank">All Links on Linktree</a></li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank">LinkedIn</a>
+                        <a href="https://www.instagram.com/pmprohabiba/" target="_blank">Instagram</a>
+                        <a href="https://linktr.ee/pmprohabiba" target="_blank">Linktree</a>
+                    </div>
+                </div>
+                <div class="cta-box">
+                    <h3>Schedule Your Session Today</h3>
+                    <p>Ready to take control of your career? Book a personalized coaching session and let's create your roadmap to success together.</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book on Topmate →</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <section id="contact" data-aos="fade-up">
-    <h2>Contact Me</h2>
-    <form id="contact-form" onsubmit="return sendEmail(event)">
-      <input type="text" id="name" name="name" placeholder="Your Name" required autocomplete="name" />
-      <input type="email" id="email" name="email" placeholder="Your Email" required autocomplete="email" />
-      <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit" class="btn-primary">Send Message</button>
-      <div id="form-message"></div>
-    </form>
-  </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Habiba Bhombal</h4>
+                <p>Certified Project Manager & Career Coach helping professionals achieve their career dreams through personalized mentorship and strategic guidance.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Me</h4>
+                <a href="https://topmate.io/habiba12" target="_blank">Topmate</a>
+                <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank">LinkedIn</a>
+                <a href="https://www.instagram.com/pmprohabiba/" target="_blank">Instagram</a>
+                <a href="https://linktr.ee/pmprohabiba" target="_blank">Linktree</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Habiba Bhombal - PMProHabiba. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-  <footer>
-    <div>&copy; 2025 Habiba Bhombal</div>
-    <div class="social-icons">
-      <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/pmprohabiba/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://linktr.ee/pmprohabiba/" target="_blank" rel="noopener" aria-label="Linktree"><i class="fas fa-link"></i></a>
-      <a href="https://topmate.io/habiba12/" target="_blank" rel="noopener" aria-label="Topmate"><i class="fas fa-user-circle"></i></a>
-      <a href="https://twitter.com/habibabhombal/" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-    </div>
-  </footer>
+    <!-- JavaScript for mobile menu -->
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
 
-  <script>
-    AOS.init();
-
-    // EmailJS init
-    (function(){
-      emailjs.init('XNiOqDSRhrGlQKdHX');
-    })();
-
-    function toggleDarkMode() {
-      const root = document.documentElement;
-      const icon = document.getElementById('darkModeIcon');
-      if (root.getAttribute('data-theme') === 'dark') {
-        root.removeAttribute('data-theme');
-        icon.classList.replace('fa-sun', 'fa-moon');
-        localStorage.setItem('theme', 'light');
-      } else {
-        root.setAttribute('data-theme', 'dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-        localStorage.setItem('theme', 'dark');
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      const root = document.documentElement;
-      const icon = document.getElementById('darkModeIcon');
-      if (savedTheme === 'dark') {
-        root.setAttribute('data-theme', 'dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-      }
-    });
-
-    // EmailJS form submission
-    function sendEmail(event) {
-      event.preventDefault();
-      const form = event.target;
-      const messageDiv = document.getElementById('form-message');
-      const serviceID = 'service_vyhuqcr';
-      const templateID = 'template_886hln8';
-
-      messageDiv.style.display = 'none';
-      messageDiv.textContent = '';
-
-      emailjs.sendForm(serviceID, templateID, form)
-        .then(() => {
-          messageDiv.style.color = 'green';
-          messageDiv.textContent = 'Message sent successfully!';
-          messageDiv.style.display = 'block';
-          form.reset();
-        }, (err) => {
-          messageDiv.style.color = 'red';
-          messageDiv.textContent = 'Failed to send message. Please try again.';
-          messageDiv.style.display = 'block';
-          console.error(err);
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
         });
 
-      return false;
-    }
-  </script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
