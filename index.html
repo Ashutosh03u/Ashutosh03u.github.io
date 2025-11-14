@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +38,22 @@
             --text-light: #4a5568;
             --success: #48bb78;
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --bg: #ffffff;
+            --bg-alt: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] {
+            --light: #1a202c;
+            --text: #e2e8f0;
+            --text-light: #a0aec0;
+            --bg: #0f1419;
+            --bg-alt: #1a202c;
+            --card-bg: #2d3748;
+            --border: #4a5568;
+            --nav-bg: rgba(26, 32, 44, 0.95);
         }
 
         * {
@@ -51,8 +67,36 @@
             line-height: 1.6;
             color: var(--text);
             overflow-x: hidden;
-            background: var(--light);
+            background: var(--bg);
+            transition: background 0.3s, color 0.3s;
         }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 12px 15px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .theme-toggle .sun { display: none; }
+        .theme-toggle .moon { display: block; }
+
+        [data-theme="dark"] .theme-toggle .sun { display: block; }
+        [data-theme="dark"] .theme-toggle .moon { display: none; }
 
         /* Loading Screen */
         .loader {
@@ -137,7 +181,7 @@
 
         /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             position: fixed;
@@ -150,7 +194,6 @@
 
         .navbar.scrolled {
             padding: 0.7rem 2rem;
-            background: rgba(255, 255, 255, 0.98);
         }
 
         .nav-container {
@@ -337,17 +380,6 @@
             z-index: 2;
         }
 
-        .profile-ring {
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            border: 3px dashed rgba(255,255,255,0.3);
-            border-radius: 50%;
-            animation: rotate 20s linear infinite;
-        }
-
         .profile-container {
             position: relative;
             display: inline-block;
@@ -409,7 +441,7 @@
 
         /* About Section */
         .about {
-            background: white;
+            background: var(--bg);
         }
 
         .about-content {
@@ -1192,7 +1224,6 @@
             </div>
             <div class="hero-image">
                 <div class="profile-container">
-                    <div class="profile-ring"></div>
                     <img src="habiba-photo.png" alt="Habiba Bhombal - Career Coach" class="profile-photo">
                 </div>
             </div>
