@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Tracker - PMProHabiba</title>
+    <meta name="description" content="Track your career development challenges with daily streaks and progress monitoring.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #48bb78;
+            --warning: #f6ad55;
+            --bg: #ffffff;
+            --bg-alt: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #4a5568;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f1419;
+            --bg-alt: #1a202c;
+            --card: #2d3748;
+            --text: #e2e8f0;
+            --text-light: #a0aec0;
+            --border: #4a5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-alt);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 12px 15px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-toggle .sun { display: none; }
+        .theme-toggle .moon { display: block; }
+        [data-theme="dark"] .theme-toggle .sun { display: block; }
+        [data-theme="dark"] .theme-toggle .moon { display: none; }
+
+        /* Header */
+        .header {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* User Info Bar */
+        .user-bar {
+            background: var(--card);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .user-bar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-email {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-logout:hover {
+            color: var(--primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+
+        .login-card {
+            background: var(--card);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-login {
+            flex: 1;
+        }
+
+        /* Dashboard */
+        .dashboard-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .dashboard-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border: 2px solid var(--border);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+        }
+
+        .stat-icon.secondary {
+            background: linear-gradient(135deg, #48bb7820 0%, #38a16920 100%);
+        }
+
+        .stat-icon.accent {
+            background: linear-gradient(135deg, #f6ad5520 0%, #ed8f2420 100%);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Challenges Section */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .challenge-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .challenge-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .challenge-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .challenge-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .challenge-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .challenge-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .challenge-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .streak-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .streak-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .checked-in-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background: #48bb7815;
+            border-radius: 8px;
+        }
+
+        /* Progress Circle */
+        .progress-circle {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 1.5rem auto;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
+            stroke: url(#gradient);
+            stroke-linecap: round;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease-out;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .close-btn {
+            background: var(--bg-alt);
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .modal-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-alt);
+            border-radius: 12px;
+            border: 2px solid var(--border);
+        }
+
+        .modal-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .checkin-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #48bb7815 0%, #38a16915 100%);
+            border-radius: 12px;
+            color: var(--success);
+            font-weight: 600;
+            border: 2px solid #48bb7830;
+        }
+
+        /* Admin Panel */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .admin-sidebar {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .admin-main {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .user-list {
+            margin-top: 1.5rem;
+        }
+
+        .user-item {
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--bg-alt);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .user-item:hover {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .user-item.active {
+            background: var(--gradient);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .user-item.active .user-details {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .user-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state svg {
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-sidebar {
+                position: static;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .login-card {
+                padding: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="sun">☀️</span>
+        <span class="moon">🌙</span>
+    </div>
+
+    <div id="app"></div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Simple Storage API using localStorage
+        const storage = {
+            async get(key, shared = false) {
+                try {
+                    const value = localStorage.getItem(`${shared ? 'shared-' : ''}${key}`);
+                    return value ? { key, value, shared } : null;
+                } catch (e) {
+                    return null;
+                }
+            },
+            async set(key, value, shared = false) {
+                try {
+                    localStorage.setItem(`${shared ? 'shared-' : ''}${key}`, value);
+                    return { key, value, shared };
+                } catch (e) {
+                    return null;
+                }
+            },
+            async delete(key, shared = false) {
+                try {
+                    localStorage.removeItem(`${shared ? 'shared-' : ''}${key}`);
+                    return { key, deleted: true, shared };
+                } catch (e) {
+                    return null;
+                }
+            }
+        };
+
+        // App State
+        let appState = {
+            user: null,
+            view: 'login',
+            challenges: [],
+            users: [],
+            selectedChallenge: null,
+            selectedUser: null,
+            showModal: false,
+            showAddModal: false
+        };
+
+        // Initialize Data
+        async function initializeData() {
+            try {
+                const savedUser = await storage.get('current-user');
+                const savedChallenges = await storage.get('challenges', true);
+                const savedUsers = await storage.get('all-users', true);
+                
+                if (savedUser) appState.user = JSON.parse(savedUser.value);
+                if (savedChallenges) {
+                    appState.challenges = JSON.parse(savedChallenges.value);
+                } else {
+                    appState.challenges = [
+                        {
+                            id: '1',
+                            title: 'Daily LinkedIn Post',
+                            description: 'Post valuable career content on LinkedIn every day to build your personal brand',
+                            duration: 30,
+                            icon: '💼'
+                        },
+                        {
+                            id: '2',
+                            title: 'Resume Update Challenge',
+                            description: 'Improve one section of your resume daily to make it ATS-friendly and impactful',
+                            duration: 7,
+                            icon: '📄'
+                        },
+                        {
+                            id: '3',
+                            title: 'Interview Practice',
+                            description: 'Practice answering common and behavioral interview questions daily',
+                            duration: 14,
+                            icon: '🎯'
+                        },
+                        {
+                            id: '4',
+                            title: 'Networking Challenge',
+                            description: 'Reach out to one professional in your field every day',
+                            duration: 21,
+                            icon: '🤝'
+                        }
+                    ];
+                    await storage.set('challenges', JSON.stringify(appState.challenges), true);
+                }
+                if (savedUsers) appState.users = JSON.parse(savedUsers.value);
+                
+                if (appState.user) {
+                    appState.view = appState.user.isAdmin ? 'admin' : 'dashboard';
+                }
+            } catch (error) {
+                console.log('Initializing with default data');
+            }
+            render();
+        }
+
+        // Handle Login
+        async function handleLogin(email, isAdmin = false) {
+            const newUser = {
+                id: email.replace(/[^a-z0-9]/gi, '_'),
+                email,
+                isAdmin,
+                joinedDate: new Date().toISOString(),
+                challenges: []
+            };
+            
+            appState.user = newUser;
+            await storage.set('current-user', JSON.stringify(newUser));
+            
+            const existingUsers = appState.users.some(u => u.email === email);
+            if (!existingUsers) {
+                appState.users.push(newUser);
+                await storage.set('all-users', JSON.stringify(appState.users), true);
+            }
+            
+            appState.view = isAdmin ? 'admin' : 'dashboard';
+            render();
+        }
+
+        // Handle Logout
+        async function handleLogout() {
+            await storage.delete('current-user');
+            appState.user = null;
+            appState.view = 'login';
+            render();
+        }
+
+        // Join Challenge
+        async function joinChallenge(challengeId) {
+            const userChallenge = {
+                challengeId,
+                startDate: new Date().toISOString(),
+                currentStreak: 0,
+                longestStreak: 0,
+                completedDays: [],
+                active: true
+            };
+
+            appState.user.challenges = [...(appState.user.challenges || []), userChallenge];
+            await storage.set('current-user', JSON.stringify(appState.user));
+
+            const updatedUsers = appState.users.map(u => 
+                u.id === appState.user.id ? appState.user : u
+            );
+            appState.users = updatedUsers;
+            await storage.set('all-users', JSON.stringify(updatedUsers), true);
+
+            render();
+        }
+
+        // Check In Today
+        async function checkInToday(challengeId) {
+            const today = new Date().toISOString().split('T')[0];
+            appState.user.challenges = appState.user.challenges.map(ch => {
+                if (ch.challengeId === challengeId) {
+                    if (ch.completedDays.includes(today)) {
+                        return ch;
+                    }
+
+                    const newCompletedDays = [...ch.completedDays, today];
+                    const sortedDays = newCompletedDays.sort();
+                    
+                    let currentStreak = 1;
+                    for (let i = sortedDays.length - 2; i >= 0; i--) {
+                        const current = new Date(sortedDays[i + 1]);
+                        const previous = new Date(sortedDays[i]);
+                        const diffTime = Math.abs(current - previous);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        if (diffDays === 1) {
+                            currentStreak++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    return {
+                        ...ch,
+                        completedDays: newCompletedDays,
+                        currentStreak,
+                        longestStreak: Math.max(ch.longestStreak, currentStreak)
+                    };
+                }
+                return ch;
+            });
+
+            await storage.set('current-user', JSON.stringify(appState.user));
+
+            const updatedUsers = appState.users.map(u => 
+                u.id === appState.user.id ? appState.user : u
+            );
+            appState.users = updatedUsers;
+            await storage.set('all-users', JSON.stringify(updatedUsers), true);
+
+            render();
+        }
+
+        // Add Challenge (Admin)
+        async function addChallenge(title, description, duration, icon) {
+            const challenge = {
+                id: Date.now().toString(),
+                title,
+                description,
+                duration: parseInt(duration),
+                icon
+            };
+            appState.challenges.push(challenge);
+            await storage.set('challenges', JSON.stringify(appState.challenges), true);
+            appState.showAddModal = false;
+            render();
+        }
+
+        // Check if checked in today
+        function isCheckedInToday(challenge) {
+            const today = new Date().toISOString().split('T')[0];
+            return challenge.completedDays?.includes(today);
+        }
+
+        // Render Functions
+        function renderLogin() {
+            return `
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-header">
+                            <div class="login-icon">🎯</div>
+                            <div class="login-title">Challenge Tracker</div>
+                            <div class="login-subtitle">
+                                Track your progress. Build your streaks. Achieve your career goals.
+                            </div>
+                        </div>
+
+                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, false);">
+                            <div class="form-group">
+                                <label class="form-label">Email Address or Phone</label>
+                                <input
+                                    type="text"
+                                    id="emailInput"
+                                    class="form-input"
+                                    placeholder="your@email.com or +1234567890"
+                                    required
+                                />
+                            </div>
+
+                            <div class="login-options">
+                                <button type="submit" class="btn btn-primary btn-login">
+                                    <span>👤</span>
+                                    Join as User
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary btn-login"
+                                    onclick="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, true);"
+                                >
+                                    <span>⚙️</span>
+                                    Admin Login
+                                </button>
+                            </div>
+                        </form>
+
+                        <div style="margin-top: 2rem; text-align: center; color: var(--text-light); font-size: 0.85rem;">
+                            By PMProHabiba - Career Challenge Tracker
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHeader() {
+            return `
+                <header class="header">
+                    <div class="header-content">
+                        <a href="index.html" class="logo">
+                            <span>🎯</span>
+                            Challenge Tracker
+                        </a>
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            ${appState.user && appState.user.isAdmin ? `
+                                <button class="btn btn-secondary" onclick="appState.view = appState.view === 'admin' ? 'dashboard' : 'admin'; render();">
+                                    ${appState.view === 'admin' ? '👤 User View' : '⚙️ Admin Panel'}
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-logout" onclick="handleLogout()">
+                                <span>🚪</span> Logout
+                            </button>
+                            <a href="index.html" class="back-home">
+                                <span>←</span> Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </header>
+                ${appState.user ? `
+                    <div class="user-bar">
+                        <div class="user-bar-content">
+                            <div class="user-email">Logged in as: <strong>${appState.user.email}</strong></div>
+                            <div style="color: var(--text-light); font-size: 0.85rem;">
+                                Member since ${new Date(appState.user.joinedDate).toLocaleDateString()}
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function renderDashboard() {
+            const userChallenges = (appState.user.challenges || []).map(uc => {
+                const challenge = appState.challenges.find(c => c.id === uc.challengeId);
+                return { ...uc, ...challenge };
+            });
+
+            const availableChallenges = appState.challenges.filter(
+                c => !userChallenges.some(uc => uc.id === c.id)
+            );
+
+            const totalStreak = userChallenges.reduce((sum, ch) => sum + (ch.currentStreak || 0), 0);
+            const activeChallenges = userChallenges.filter(ch => ch.active).length;
+            const longestStreak = Math.max(...userChallenges.map(ch => ch.longestStreak || 0), 0);
+
+            return `
+                ${renderHeader()}
+                <div class="container">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Your Dashboard</h1>
+                        <p class="dashboard-subtitle">Keep pushing forward, ${appState.user.email.split('@')[0]}! 💪</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">🔥</div>
+                            <div class="stat-value">${totalStreak}</div>
+                            <div class="stat-label">Total Streak Days</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon secondary">🏆</div>
+                            <div class="stat-value">${activeChallenges}</div>
+                            <div class="stat-label">Active Challenges</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon accent">📅</div>
+                            <div class="stat-value">${longestStreak}</div>
+                            <div class="stat-label">Longest Streak</div>
+                        </div>
+                    </div>
+
+                    ${userChallenges.length > 0 ? `
+                        <div style="margin-bottom: 3rem;">
+                            <h2 class="section-title">
+                                <span>🏆</span>
+                                My Challenges
+                            </h2>
+                            <div class="challenges-grid">
+                                ${userChallenges.map(challenge => {
+                                    const progress = (challenge.completedDays?.length || 0) / challenge.duration * 100;
+                                    const checkedIn = isCheckedInToday(challenge);
+                                    
+                                    return `
+                                        <div class="challenge-card" onclick="appState.selectedChallenge = ${JSON.stringify(challenge).replace(/"/g, '&quot;')}; appState.showModal = true; render();">
+                                            <div class="challenge-icon">${challenge.icon}</div>
+                                            <h3 class="challenge-title">${challenge.title}</h3>
+                                            <p class="challenge-description">${challenge.description}</p>
+                                            
+                                            ${renderProgressCircle(progress)}
+                                            
+                                            <div class="challenge-meta">
+                                                <div class="streak-display">
+                                                    <span style="font-size: 1.5rem;">🔥</span>
+                                                    <span class="streak-number">${challenge.currentStreak}</span>
+                                                    <span style="color: var(--text-light); font-weight: 600;">day streak</span>
+                                                </div>
+                                                ${checkedIn ? `
+                                                    <div class="checked-in-badge">
+                                                        <span>✓</span>
+                                                        Checked in
+                                                    </div>
+                                                ` : `
+                                                    <span style="color: var(--text-light);">→</span>
+                                                `}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${availableChallenges.length > 0 ? `
+                        <div>
+                            <h2 class="section-title">
+                                <span>➕</span>
+                                Available Challenges
+                            </h2>
+                            <div class="challenges-grid">
+                                ${availableChallenges.map(challenge => `
+                                    <div class="challenge-card" onclick="if(confirm('Join ${challenge.title}?')) joinChallenge('${challenge.id}');">
+                                        <div class="challenge-icon">${challenge.icon}</div>
+                                        <h3 class="challenge-title">${challenge.title}</h3>
+                                        <p class="challenge-description">${challenge.description}</p>
+                                        <div class="challenge-meta">
+                                            <div class="challenge-duration">
+                                                <span>📅</span>
+                                                ${challenge.duration} days
+                                            </div>
+                                            <button class="btn btn-primary" onclick="event.stopPropagation(); joinChallenge('${challenge.id}');">
+                                                Join Challenge
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+
+                ${appState.showModal && appState.selectedChallenge ? renderModal() : ''}
+            `;
+        }
+
+        function renderProgressCircle(value) {
+            const radius = 60;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (value / 100) * circumference;
+
+            return `
+                <div class="progress-circle">
+                    <svg class="progress-ring" width="140" height="140">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle
+                            cx="70"
+                            cy="70"
+                            r="${radius}"
+                            stroke="var(--border)"
+                            stroke-width="10"
+                            fill="none"
+                        />
+                        <circle
+                            class="progress-ring-circle"
+                            cx="70"
+                            cy="70"
+                            r="${radius}"
+                            stroke="url(#gradient)"
+                            stroke-width="10"
+                            fill="none"
+                            stroke-dasharray="${circumference}"
+                            stroke-dashoffset="${offset}"
+                            style="transform: rotate(-90deg); transform-origin: center;"
+                        />
+                    </svg>
+                    <div class="progress-text">
+                        <div class="progress-value">${Math.round(value)}%</div>
+                        <div class="progress-label">Complete</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderModal() {
+            const challenge = appState.selectedChallenge;
+            const checkedIn = isCheckedInToday(challenge);
+
+            return `
+                <div class="modal-overlay" onclick="appState.showModal = false; render();">
+                    <div class="modal" onclick="event.stopPropagation();">
+                        <div class="modal-header">
+                            <h2 class="modal-title">${challenge.title}</h2>
+                            <button class="close-btn" onclick="appState.showModal = false; render();">
+                                ✕
+                            </button>
+                        </div>
+                        
+                        <div class="challenge-icon" style="text-align: center; font-size: 5rem; margin: 1rem 0;">
+                            ${challenge.icon}
+                        </div>
+                        
+                        <p style="margin-bottom: 1.5rem; text-align: center; color: var(--text-light);">
+                            ${challenge.description}
+                        </p>
+                        
+                        <div class="modal-stats">
+                            <div class="modal-stat">
+                                <div class="modal-stat-value">${challenge.currentStreak}</div>
+                                <div class="modal-stat-label">Current Streak</div>
+                            </div>
+                            <div class="modal-stat">
+                                <div class="modal-stat-value">${challenge.completedDays?.length || 0}/${challenge.duration}</div>
+                                <div class="modal-stat-label">Days Completed</div>
+                            </div>
+                        </div>
+                        
+                        ${!checkedIn ? `
+                            <button class="btn btn-primary checkin-btn" onclick="checkInToday('${challenge.challengeId}'); appState.showModal = false;">
+                                <span>✓</span>
+                                Check In for Today
+                            </button>
+                        ` : `
+                            <div class="success-message">
+                                <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">✓</span>
+                                You've checked in today! Great job! Keep it up! 🎉
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAdminPanel() {
+            return `
+                ${renderHeader()}
+                <div class="container">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Admin Dashboard</h1>
+                        <p class="dashboard-subtitle">Monitor all user progress and manage challenges</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">👥</div>
+                            <div class="stat-value">${appState.users.length}</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon secondary">🏆</div>
+                            <div class="stat-value">${appState.challenges.length}</div>
+                            <div class="stat-label">Active Challenges</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon accent">🔥</div>
+                            <div class="stat-value">
+                                ${appState.users.reduce((sum, u) => 
+                                    sum + (u.challenges?.reduce((s, ch) => s + (ch.currentStreak || 0), 0) || 0), 0
+                                )}
+                            </div>
+                            <div class="stat-label">Total Streaks</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
+                            <span>➕</span>
+                            Add New Challenge
+                        </button>
+                    </div>
+
+                    <div class="admin-layout">
+                        <div class="admin-sidebar">
+                            <h3 class="section-title" style="font-size: 1.25rem;">All Users</h3>
+                            <div class="user-list">
+                                ${appState.users.length > 0 ? appState.users.map(user => `
+                                    <div class="user-item ${appState.selectedUser?.id === user.id ? 'active' : ''}" 
+                                         onclick="appState.selectedUser = ${JSON.stringify(user).replace(/"/g, '&quot;')}; render();">
+                                        <div>
+                                            <div style="font-weight: 600;">${user.email}</div>
+                                            <div class="user-details">
+                                                ${user.challenges?.length || 0} challenges
+                                            </div>
+                                        </div>
+                                        <span>→</span>
+                                    </div>
+                                `).join('') : '<div class="user-details">No users yet</div>'}
+                            </div>
+                        </div>
+
+                        <div class="admin-main">
+                            ${appState.selectedUser ? renderUserDetails() : `
+                                <div class="empty-state">
+                                    <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    <p>Select a user to view their progress</p>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+
+                ${appState.showAddModal ? renderAddChallengeModal() : ''}
+            `;
+        }
+
+        function renderUserDetails() {
+            const user = appState.selectedUser;
+            const totalChallenges = user.challenges?.length || 0;
+            const activeStreak = user.challenges?.reduce((sum, ch) => sum + (ch.currentStreak || 0), 0) || 0;
+            const completedDays = user.challenges?.reduce((sum, ch) => sum + (ch.completedDays?.length || 0), 0) || 0;
+
+            return `
+                <h3 class="section-title">${user.email}'s Progress</h3>
+                
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-value">${totalChallenges}</div>
+                        <div class="stat-label">Challenges Joined</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${activeStreak}</div>
+                        <div class="stat-label">Current Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${completedDays}</div>
+                        <div class="stat-label">Total Check-ins</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 1rem; font-weight: 600; color: var(--text);">Challenge Details</h4>
+                <div class="challenges-grid">
+                    ${user.challenges?.map(userChallenge => {
+                        const challenge = appState.challenges.find(c => c.id === userChallenge.challengeId);
+                        if (!challenge) return '';
+                        
+                        return `
+                            <div class="challenge-card">
+                                <div class="challenge-icon">${challenge.icon}</div>
+                                <h3 class="challenge-title">${challenge.title}</h3>
+                                <div class="challenge-meta">
+                                    <div class="streak-display">
+                                        <span style="font-size: 1.25rem;">🔥</span>
+                                        <span class="streak-number">${userChallenge.currentStreak}</span>
+                                    </div>
+                                    <div style="color: var(--text-light); font-weight: 600;">
+                                        ${userChallenge.completedDays?.length || 0}/${challenge.duration} days
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('') || '<div class="empty-state"><p>No challenges joined yet</p></div>'}
+                </div>
+            `;
+        }
+
+        function renderAddChallengeModal() {
+            return `
+                <div class="modal-overlay" onclick="appState.showAddModal = false; render();">
+                    <div class="modal" onclick="event.stopPropagation();">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Add New Challenge</h2>
+                            <button class="close-btn" onclick="appState.showAddModal = false; render();">
+                                ✕
+                            </button>
+                        </div>
+
+                        <form onsubmit="event.preventDefault(); 
+                            const title = document.getElementById('newTitle').value;
+                            const desc = document.getElementById('newDesc').value;
+                            const duration = document.getElementById('newDuration').value;
+                            const icon = document.getElementById('newIcon').value;
+                            addChallenge(title, desc, duration, icon);">
+                            
+                            <div class="form-group">
+                                <label class="form-label">Challenge Title</label>
+                                <input
+                                    type="text"
+                                    id="newTitle"
+                                    class="form-input"
+                                    placeholder="e.g., Daily LinkedIn Post"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <input
+                                    type="text"
+                                    id="newDesc"
+                                    class="form-input"
+                                    placeholder="What will users do?"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Duration (days)</label>
+                                <input
+                                    type="number"
+                                    id="newDuration"
+                                    class="form-input"
+                                    value="30"
+                                    min="1"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Icon Emoji</label>
+                                <input
+                                    type="text"
+                                    id="newIcon"
+                                    class="form-input"
+                                    placeholder="🎯"
+                                    value="🎯"
+                                    required
+                                />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary checkin-btn">
+                                <span>➕</span>
+                                Create Challenge
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Main Render Function
+        function render() {
+            const app = document.getElementById('app');
+            
+            if (appState.view === 'login') {
+                app.innerHTML = renderLogin();
+            } else if (appState.view === 'dashboard') {
+                app.innerHTML = renderDashboard();
+            } else if (appState.view === 'admin') {
+                app.innerHTML = renderAdminPanel();
+            }
+        }
+
+        // Initialize
+        initializeData();
+    </script>
+</body>
+</html>
