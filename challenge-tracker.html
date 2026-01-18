@@ -1049,6 +1049,29 @@
                 if (savedChallenges) {
                     try {
                         appState.challenges = JSON.parse(savedChallenges.value);
+                        
+                        // AUTO-MIGRATION: Update old LinkedIn challenge to 75 Intentional
+                        let needsUpdate = false;
+                        appState.challenges = appState.challenges.map(challenge => {
+                            if (challenge.id === '1' && challenge.title === 'Daily LinkedIn Post Challenge') {
+                                console.log('🔄 Migrating old challenge to 75 Intentional...');
+                                needsUpdate = true;
+                                return {
+                                    id: '1',
+                                    title: '75 Intentional',
+                                    description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
+                                    duration: 75,
+                                    icon: '🎯'
+                                };
+                            }
+                            return challenge;
+                        });
+                        
+                        // Save updated challenges if migration occurred
+                        if (needsUpdate) {
+                            await storage.set('challenges', JSON.stringify(appState.challenges), true);
+                            console.log('✅ Challenge updated to 75 Intentional!');
+                        }
                     } catch (e) {
                         console.error('Error parsing challenges:', e);
                         // Initialize with 75 Intentional challenge
@@ -1200,6 +1223,48 @@
             appState.user = pendingUser;
             await storage.set('current-user', JSON.stringify(pendingUser));
             
+            render();
+        }
+
+        // Handle Existing User Sign In
+        async function handleUserSignIn(contact) {
+            // Validate input
+            if (!isValidContact(contact)) {
+                appState.loginError = '❌ Please enter a valid email address or phone number.';
+                render();
+                return;
+            }
+
+            const normalizedContact = contact.toLowerCase().trim();
+
+            // Check if user is approved
+            const approvedUser = appState.users.find(u => u.email.toLowerCase() === normalizedContact);
+            
+            if (approvedUser) {
+                // User is approved, log them in
+                appState.user = approvedUser;
+                appState.loginError = '';
+                await storage.set('current-user', JSON.stringify(approvedUser));
+                appState.view = 'dashboard';
+                render();
+                return;
+            }
+
+            // Check if user is pending
+            const pendingUser = appState.pendingUsers.find(u => u.email.toLowerCase() === normalizedContact);
+            
+            if (pendingUser) {
+                // User is pending, show pending screen
+                appState.user = pendingUser;
+                appState.loginError = '';
+                await storage.set('current-user', JSON.stringify(pendingUser));
+                appState.view = 'pending';
+                render();
+                return;
+            }
+
+            // User not found
+            appState.loginError = '❌ Email/phone not found. Please request access first or check your spelling.';
             render();
         }
 
@@ -1368,6 +1433,59 @@
             alert('Debug info logged to console. Press F12 to view.');
         }
 
+        // Reset challenges to default (75 Intentional)
+        async function resetChallenges() {
+            const confirmation = confirm('⚠️ This will reset all challenges to "75 Intentional". Users who joined old challenges will lose that progress. Continue?');
+            if (!confirmation) return;
+
+            appState.challenges = [
+                {
+                    id: '1',
+                    title: '75 Intentional',
+                    description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
+                    duration: 75,
+                    icon: '🎯'
+                }
+            ];
+
+            await storage.set('challenges', JSON.stringify(appState.challenges), true);
+            console.log('✅ Challenges reset to 75 Intentional');
+            alert('✅ Challenges have been reset to "75 Intentional"!');
+            render();
+        }
+
+        // Delete User (Admin)
+        async function deleteUser(userId) {
+            const userToDelete = appState.users.find(u => u.id === userId);
+            if (!userToDelete) {
+                alert('❌ User not found.');
+                return;
+            }
+
+            const confirmation = confirm(`⚠️ Are you sure you want to DELETE ${userToDelete.name || userToDelete.email}?\n\nThis will:\n- Remove their account\n- Delete all their progress\n- Cannot be undone!`);
+            if (!confirmation) return;
+
+            const doubleCheck = confirm(`⚠️ FINAL WARNING!\n\nPermanently delete ${userToDelete.name || userToDelete.email}?`);
+            if (!doubleCheck) return;
+
+            // Remove user from array
+            appState.users = appState.users.filter(u => u.id !== userId);
+            
+            // Save updated users list
+            await storage.set('all-users', JSON.stringify(appState.users), true);
+
+            // Clear selected user if it was the deleted one
+            if (appState.selectedUser?.id === userId) {
+                appState.selectedUser = null;
+            }
+
+            console.log('🗑️ User deleted:', userToDelete.name || userToDelete.email);
+            console.log('Remaining users:', appState.users.length);
+
+            alert(`✅ User "${userToDelete.name || userToDelete.email}" has been deleted.`);
+            render();
+        }
+
         // Handle Logout
         async function handleLogout() {
             await storage.delete('current-user');
@@ -1479,49 +1597,78 @@
                             <div class="login-icon">🎯</div>
                             <div class="login-title">Challenge Tracker</div>
                             <div class="login-subtitle">
-                                Request access to track your career development journey
+                                Track your progress. Build your streaks. Achieve your career goals.
                             </div>
                         </div>
 
-                        <form onsubmit="event.preventDefault(); handleSignupRequest(document.getElementById('contactInput').value, document.getElementById('nameInput').value);">
-                            <div class="form-group">
-                                <label class="form-label">Email Address or Phone Number *</label>
-                                <input
-                                    type="text"
-                                    id="contactInput"
-                                    class="form-input ${appState.loginError ? 'error' : ''}"
-                                    placeholder="your@email.com or +1234567890"
-                                    required
-                                />
-                                <div class="form-help">We'll notify you once your request is approved</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Full Name *</label>
-                                <input
-                                    type="text"
-                                    id="nameInput"
-                                    class="form-input"
-                                    placeholder="Enter your full name"
-                                    required
-                                />
-                            </div>
-
-                            <div class="login-options">
+                        <!-- Existing User Sign In -->
+                        <div style="margin-bottom: 2rem;">
+                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text);">
+                                Already Approved? Sign In
+                            </h3>
+                            <form onsubmit="event.preventDefault(); handleUserSignIn(document.getElementById('signinInput').value);">
+                                <div class="form-group">
+                                    <label class="form-label">Email or Phone</label>
+                                    <input
+                                        type="text"
+                                        id="signinInput"
+                                        class="form-input"
+                                        placeholder="your@email.com or +1234567890"
+                                        required
+                                    />
+                                </div>
                                 <button type="submit" class="btn btn-primary btn-login">
+                                    <span>🔓</span>
+                                    Sign In
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="divider">OR</div>
+
+                        <!-- New User Request Access -->
+                        <div style="margin-bottom: 2rem;">
+                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text);">
+                                New User? Request Access
+                            </h3>
+                            <form onsubmit="event.preventDefault(); handleSignupRequest(document.getElementById('contactInput').value, document.getElementById('nameInput').value);">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address or Phone Number *</label>
+                                    <input
+                                        type="text"
+                                        id="contactInput"
+                                        class="form-input ${appState.loginError ? 'error' : ''}"
+                                        placeholder="your@email.com or +1234567890"
+                                        required
+                                    />
+                                    <div class="form-help">We'll notify you once your request is approved</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Full Name *</label>
+                                    <input
+                                        type="text"
+                                        id="nameInput"
+                                        class="form-input"
+                                        placeholder="Enter your full name"
+                                        required
+                                    />
+                                </div>
+
+                                <button type="submit" class="btn btn-secondary btn-login">
                                     <span>✉️</span>
                                     Request Access
                                 </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
 
                         ${appState.loginError ? `
                             <div class="error-message">${appState.loginError}</div>
                         ` : ''}
 
-                        <div class="divider">OR</div>
+                        <div class="divider" style="margin-top: 2rem;">OR</div>
 
-                        <button class="btn btn-secondary btn-login" onclick="showAdminLogin();">
+                        <button class="btn btn-secondary btn-login" onclick="showAdminLogin();" style="margin-top: 1rem;">
                             <span>🔒</span>
                             Admin Login
                         </button>
@@ -2049,7 +2196,13 @@
             const longestStreak = Math.max(...(user.challenges?.map(ch => ch.longestStreak || 0) || [0]), 0);
 
             return `
-                <h3 class="section-title">${user.name || user.email}'s Profile</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 class="section-title" style="margin: 0;">${user.name || user.email}'s Profile</h3>
+                    <button class="btn btn-danger" onclick="deleteUser('${user.id}');" style="font-size: 0.9rem;">
+                        <span>🗑️</span>
+                        Delete User
+                    </button>
+                </div>
                 
                 <div class="info-box" style="margin-bottom: 2rem;">
                     <div class="info-box-title">
@@ -2136,15 +2289,32 @@
         function renderChallengesTab() {
             return `
                 <div class="admin-main">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
                         <h3 class="section-title" style="margin: 0;">
                             <span>🎯</span>
                             Manage Challenges
                         </h3>
-                        <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
-                            <span>➕</span>
-                            Add New Challenge
-                        </button>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="resetChallenges();" style="font-size: 0.9rem;">
+                                🔄 Reset to 75 Intentional
+                            </button>
+                            <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
+                                <span>➕</span>
+                                Add New Challenge
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-box" style="margin-bottom: 2rem;">
+                        <div class="info-box-title">
+                            <span>💡</span>
+                            Challenge Management
+                        </div>
+                        <div class="info-box-content">
+                            <strong>Reset to 75 Intentional:</strong> Removes all challenges and resets to the default "75 Intentional" challenge<br>
+                            <strong>Add New Challenge:</strong> Create additional challenges for your users<br>
+                            <em>Note: Users who joined old challenges will lose their progress when you reset</em>
+                        </div>
                     </div>
 
                     <div class="challenges-grid">
