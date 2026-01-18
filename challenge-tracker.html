@@ -1024,7 +1024,9 @@
             showAddModal: false,
             adminError: '',
             loginError: '',
-            adminTab: 'approved'
+            adminTab: 'approved',
+            todayTasks: {}, // Track tasks for today: { challengeId: { taskId: boolean, ... } }
+            progressReports: {} // Track progress reports: { challengeId: { question1: answer, ... } }
         };
 
         // Initialize Data
@@ -1053,15 +1055,29 @@
                         // AUTO-MIGRATION: Update old LinkedIn challenge to 75 Intentional
                         let needsUpdate = false;
                         appState.challenges = appState.challenges.map(challenge => {
-                            if (challenge.id === '1' && challenge.title === 'Daily LinkedIn Post Challenge') {
-                                console.log('🔄 Migrating old challenge to 75 Intentional...');
+                            if (challenge.id === '1' && (challenge.title === 'Daily LinkedIn Post Challenge' || !challenge.hasTasks)) {
+                                console.log('🔄 Migrating challenge to 75 Intentional with tasks...');
                                 needsUpdate = true;
                                 return {
                                     id: '1',
                                     title: '75 Intentional',
                                     description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
                                     duration: 75,
-                                    icon: '🎯'
+                                    icon: '🎯',
+                                    hasTasks: true,
+                                    tasks: [
+                                        { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
+                                        { id: 'concept-app', name: 'Concept to Application', required: true },
+                                        { id: 'pm-output', name: 'One PM Output', required: true },
+                                        { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
+                                        { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
+                                        { id: 'progress-report', name: 'Progress Report', required: true }
+                                    ],
+                                    progressReportQuestions: [
+                                        'What did I understand better today?',
+                                        'Where did I rush?',
+                                        'What would a better PM do here?'
+                                    ]
                                 };
                             }
                             return challenge;
@@ -1087,14 +1103,28 @@
                         await storage.set('challenges', JSON.stringify(appState.challenges), true);
                     }
                 } else {
-                    // First time initialization
+                    // First time initialization with 75 Intentional
                     appState.challenges = [
                         {
                             id: '1',
                             title: '75 Intentional',
                             description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
                             duration: 75,
-                            icon: '🎯'
+                            icon: '🎯',
+                            hasTasks: true,
+                            tasks: [
+                                { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
+                                { id: 'concept-app', name: 'Concept to Application', required: true },
+                                { id: 'pm-output', name: 'One PM Output', required: true },
+                                { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
+                                { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
+                                { id: 'progress-report', name: 'Progress Report', required: true }
+                            ],
+                            progressReportQuestions: [
+                                'What did I understand better today?',
+                                'Where did I rush?',
+                                'What would a better PM do here?'
+                            ]
                         }
                     ];
                     await storage.set('challenges', JSON.stringify(appState.challenges), true);
@@ -1169,7 +1199,21 @@
                         title: '75 Intentional',
                         description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
                         duration: 75,
-                        icon: '🎯'
+                        icon: '🎯',
+                        hasTasks: true,
+                        tasks: [
+                            { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
+                            { id: 'concept-app', name: 'Concept to Application', required: true },
+                            { id: 'pm-output', name: 'One PM Output', required: true },
+                            { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
+                            { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
+                            { id: 'progress-report', name: 'Progress Report', required: true }
+                        ],
+                        progressReportQuestions: [
+                            'What did I understand better today?',
+                            'Where did I rush?',
+                            'What would a better PM do here?'
+                        ]
                     }
                 ];
             }
@@ -1444,13 +1488,27 @@
                     title: '75 Intentional',
                     description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
                     duration: 75,
-                    icon: '🎯'
+                    icon: '🎯',
+                    hasTasks: true,
+                    tasks: [
+                        { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
+                        { id: 'concept-app', name: 'Concept to Application', required: true },
+                        { id: 'pm-output', name: 'One PM Output', required: true },
+                        { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
+                        { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
+                        { id: 'progress-report', name: 'Progress Report', required: true }
+                    ],
+                    progressReportQuestions: [
+                        'What did I understand better today?',
+                        'Where did I rush?',
+                        'What would a better PM do here?'
+                    ]
                 }
             ];
 
             await storage.set('challenges', JSON.stringify(appState.challenges), true);
-            console.log('✅ Challenges reset to 75 Intentional');
-            alert('✅ Challenges have been reset to "75 Intentional"!');
+            console.log('✅ Challenges reset to 75 Intentional with tasks');
+            alert('✅ Challenges have been reset to "75 Intentional" with daily tasks!');
             render();
         }
 
@@ -1522,6 +1580,31 @@
         // Check In Today
         async function checkInToday(challengeId) {
             const today = new Date().toISOString().split('T')[0];
+            const challenge = appState.challenges.find(c => c.id === challengeId);
+            
+            // For challenges with tasks, verify all tasks are complete
+            if (challenge && challenge.hasTasks) {
+                const todayTasksForChallenge = appState.todayTasks[challengeId] || {};
+                const allTasksComplete = challenge.tasks.every(task => todayTasksForChallenge[task.id] === true);
+                
+                if (!allTasksComplete) {
+                    alert('⚠️ Please complete ALL tasks before checking in for today!');
+                    return;
+                }
+
+                // Check if progress report is filled
+                const progressReport = appState.progressReports[challengeId] || {};
+                const allQuestionsAnswered = challenge.progressReportQuestions.every((_, idx) => {
+                    const answer = progressReport[`q${idx}`];
+                    return answer && answer.trim().length > 0;
+                });
+
+                if (!allQuestionsAnswered) {
+                    alert('⚠️ Please complete the Progress Report before checking in!');
+                    return;
+                }
+            }
+
             appState.user.challenges = appState.user.challenges.map(ch => {
                 if (ch.challengeId === challengeId) {
                     if (ch.completedDays.includes(today)) {
@@ -1546,11 +1629,20 @@
                         }
                     }
 
+                    // Save task completion and progress report for today
+                    if (!ch.dailyData) ch.dailyData = {};
+                    ch.dailyData[today] = {
+                        tasks: appState.todayTasks[challengeId] || {},
+                        progressReport: appState.progressReports[challengeId] || {},
+                        completedAt: new Date().toISOString()
+                    };
+
                     return {
                         ...ch,
                         completedDays: newCompletedDays,
                         currentStreak,
-                        longestStreak: Math.max(ch.longestStreak, currentStreak)
+                        longestStreak: Math.max(ch.longestStreak, currentStreak),
+                        dailyData: ch.dailyData
                     };
                 }
                 return ch;
@@ -1564,7 +1656,61 @@
             appState.users = updatedUsers;
             await storage.set('all-users', JSON.stringify(updatedUsers), true);
 
+            // Clear today's tasks and progress report
+            delete appState.todayTasks[challengeId];
+            delete appState.progressReports[challengeId];
+
+            appState.showModal = false;
             render();
+        }
+
+        // Toggle Task Completion
+        function toggleTask(challengeId, taskId) {
+            if (!appState.todayTasks[challengeId]) {
+                appState.todayTasks[challengeId] = {};
+            }
+            appState.todayTasks[challengeId][taskId] = !appState.todayTasks[challengeId][taskId];
+            render();
+        }
+
+        // Update Progress Report Answer
+        function updateProgressReport(challengeId, questionIndex, answer) {
+            if (!appState.progressReports[challengeId]) {
+                appState.progressReports[challengeId] = {};
+            }
+            appState.progressReports[challengeId][`q${questionIndex}`] = answer;
+        }
+
+        // Check if all tasks complete for a challenge
+        function areAllTasksComplete(challengeId) {
+            const challenge = appState.challenges.find(c => c.id === challengeId);
+            if (!challenge || !challenge.hasTasks) return true;
+            
+            const todayTasks = appState.todayTasks[challengeId] || {};
+            return challenge.tasks.every(task => todayTasks[task.id] === true);
+        }
+
+        // Check if progress report complete
+        function isProgressReportComplete(challengeId) {
+            const challenge = appState.challenges.find(c => c.id === challengeId);
+            if (!challenge || !challenge.progressReportQuestions) return true;
+            
+            const progressReport = appState.progressReports[challengeId] || {};
+            return challenge.progressReportQuestions.every((_, idx) => {
+                const answer = progressReport[`q${idx}`];
+                return answer && answer.trim().length > 0;
+            });
+        }
+
+        // Load today's progress if exists
+        function loadTodayProgress(challenge) {
+            const today = new Date().toISOString().split('T')[0];
+            const userChallenge = appState.user.challenges.find(uc => uc.challengeId === challenge.challengeId);
+            
+            if (userChallenge && userChallenge.dailyData && userChallenge.dailyData[today]) {
+                appState.todayTasks[challenge.challengeId] = userChallenge.dailyData[today].tasks || {};
+                appState.progressReports[challenge.challengeId] = userChallenge.dailyData[today].progressReport || {};
+            }
         }
 
         // Add Challenge (Admin)
@@ -1798,15 +1944,16 @@
                     <div class="info-box">
                         <div class="info-box-title">
                             <span>📊</span>
-                            How the Challenge Works
+                            How 75 Intentional Works
                         </div>
                         <div class="info-box-content">
-                            <strong>75 Intentional Challenge Rules:</strong><br>
-                            ✅ Check in every single day for 75 consecutive days<br>
-                            ⚠️ <strong>Miss even ONE day → Challenge resets to Day 1</strong><br>
-                            🔥 <strong>Streak</strong> = Your current consecutive check-in days<br>
-                            🏆 <strong>Longest Streak</strong> = Your best attempt (saved forever)<br><br>
-                            <em>Stay consistent. Stay intentional. Complete all 75 days!</em>
+                            <strong>Daily Requirements:</strong><br>
+                            ✅ Complete ALL 6 tasks every single day<br>
+                            📝 Fill out the Progress Report (3 questions)<br>
+                            🔥 Only then does the day count toward your streak<br><br>
+                            <strong>Tasks:</strong> PMP Focus Block, Concept to Application, One PM Output, Intentional Learning (Non PMP), Dopamine Discipline, Progress Report<br><br>
+                            ⚠️ <strong>Miss ANY task or the Progress Report → Day doesn't count</strong><br>
+                            🏆 <strong>Complete all 75 days to finish the challenge!</strong>
                         </div>
                     </div>
 
@@ -1949,10 +2096,16 @@
         function renderModal() {
             const challenge = appState.selectedChallenge;
             const checkedIn = isCheckedInToday(challenge);
+            const fullChallenge = appState.challenges.find(c => c.id === challenge.challengeId);
+
+            // Load today's progress if checking in
+            if (!checkedIn && fullChallenge && fullChallenge.hasTasks) {
+                loadTodayProgress(challenge);
+            }
 
             return `
                 <div class="modal-overlay" onclick="appState.showModal = false; render();">
-                    <div class="modal" onclick="event.stopPropagation();">
+                    <div class="modal" onclick="event.stopPropagation();" style="max-width: 700px;">
                         <div class="modal-header">
                             <h2 class="modal-title">${challenge.title}</h2>
                             <button class="close-btn" onclick="appState.showModal = false; render();">
@@ -1979,12 +2132,70 @@
                             </div>
                         </div>
                         
-                        ${!checkedIn ? `
+                        ${!checkedIn ? (fullChallenge && fullChallenge.hasTasks ? `
+                            <!-- Task Checklist -->
+                            <div style="margin-top: 2rem;">
+                                <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
+                                    <span>✅</span>
+                                    Today's Tasks
+                                </h3>
+                                <div class="info-box warning" style="margin-bottom: 1rem;">
+                                    <div class="info-box-content" style="font-size: 0.9rem;">
+                                        Complete ALL tasks to check in for today. Missing even one task means the day doesn't count!
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    ${fullChallenge.tasks.map(task => {
+                                        const isComplete = appState.todayTasks[challenge.challengeId]?.[task.id] === true;
+                                        return `
+                                            <div onclick="toggleTask('${challenge.challengeId}', '${task.id}');" 
+                                                 style="padding: 1rem; background: var(--bg-alt); border-radius: 12px; cursor: pointer; border: 2px solid ${isComplete ? 'var(--success)' : 'var(--border)'}; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;">
+                                                <div style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isComplete ? 'var(--success)' : 'var(--border)'}; display: flex; align-items: center; justify-content: center; background: ${isComplete ? 'var(--success)' : 'transparent'}; flex-shrink: 0;">
+                                                    ${isComplete ? '<span style="color: white; font-weight: bold;">✓</span>' : ''}
+                                                </div>
+                                                <span style="font-weight: 600; color: var(--text);">${task.name}</span>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Progress Report -->
+                            ${fullChallenge.progressReportQuestions ? `
+                                <div style="margin-top: 2rem;">
+                                    <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
+                                        <span>📝</span>
+                                        Progress Report
+                                    </h3>
+                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                        ${fullChallenge.progressReportQuestions.map((question, idx) => `
+                                            <div class="form-group" style="margin-bottom: 0;">
+                                                <label class="form-label" style="font-size: 0.9rem;">${String.fromCharCode(97 + idx)}. ${question}</label>
+                                                <textarea
+                                                    class="form-input"
+                                                    placeholder="Your reflection..."
+                                                    rows="2"
+                                                    onchange="updateProgressReport('${challenge.challengeId}', ${idx}, this.value);"
+                                                    style="resize: vertical; min-height: 60px;"
+                                                >${appState.progressReports[challenge.challengeId]?.[`q${idx}`] || ''}</textarea>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <button class="btn btn-primary checkin-btn" 
+                                    onclick="checkInToday('${challenge.challengeId}');"
+                                    style="${areAllTasksComplete(challenge.challengeId) && isProgressReportComplete(challenge.challengeId) ? '' : 'opacity: 0.5; cursor: not-allowed;'}">
+                                <span>✓</span>
+                                Complete Day ${(challenge.completedDays?.length || 0) + 1}
+                            </button>
+                        ` : `
                             <button class="btn btn-primary checkin-btn" onclick="checkInToday('${challenge.challengeId}'); appState.showModal = false;">
                                 <span>✓</span>
                                 Check In for Today
                             </button>
-                        ` : `
+                        `) : `
                             <div class="success-message">
                                 <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">✓</span>
                                 You've checked in today! Great job! Keep it up! 🎉
