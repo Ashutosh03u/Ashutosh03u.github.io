@@ -1051,14 +1051,14 @@
                         appState.challenges = JSON.parse(savedChallenges.value);
                     } catch (e) {
                         console.error('Error parsing challenges:', e);
-                        // Initialize with default challenge
+                        // Initialize with 75 Intentional challenge
                         appState.challenges = [
                             {
                                 id: '1',
-                                title: 'Daily LinkedIn Post Challenge',
-                                description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
-                                duration: 30,
-                                icon: '💼'
+                                title: '75 Intentional',
+                                description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
+                                duration: 75,
+                                icon: '🎯'
                             }
                         ];
                         await storage.set('challenges', JSON.stringify(appState.challenges), true);
@@ -1068,10 +1068,10 @@
                     appState.challenges = [
                         {
                             id: '1',
-                            title: 'Daily LinkedIn Post Challenge',
-                            description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
-                            duration: 30,
-                            icon: '💼'
+                            title: '75 Intentional',
+                            description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
+                            duration: 75,
+                            icon: '🎯'
                         }
                     ];
                     await storage.set('challenges', JSON.stringify(appState.challenges), true);
@@ -1143,10 +1143,10 @@
                 appState.challenges = [
                     {
                         id: '1',
-                        title: 'Daily LinkedIn Post Challenge',
-                        description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
-                        duration: 30,
-                        icon: '💼'
+                        title: '75 Intentional',
+                        description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
+                        duration: 75,
+                        icon: '🎯'
                     }
                 ];
             }
@@ -1651,13 +1651,15 @@
                     <div class="info-box">
                         <div class="info-box-title">
                             <span>📊</span>
-                            How Streaks Work
+                            How the Challenge Works
                         </div>
                         <div class="info-box-content">
-                            <strong>Streak</strong> = Number of consecutive days you've checked in.<br>
-                            ✅ Check in today to continue your streak<br>
-                            ⚠️ Miss a day and your streak resets to 0<br>
-                            🏆 Your <strong>Longest Streak</strong> is always saved
+                            <strong>75 Intentional Challenge Rules:</strong><br>
+                            ✅ Check in every single day for 75 consecutive days<br>
+                            ⚠️ <strong>Miss even ONE day → Challenge resets to Day 1</strong><br>
+                            🔥 <strong>Streak</strong> = Your current consecutive check-in days<br>
+                            🏆 <strong>Longest Streak</strong> = Your best attempt (saved forever)<br><br>
+                            <em>Stay consistent. Stay intentional. Complete all 75 days!</em>
                         </div>
                     </div>
 
