@@ -544,7 +544,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100px;
+            min-height: 120px;
             transition: all 0.3s;
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             border: 2px solid var(--border);
@@ -556,12 +556,21 @@
             border-color: var(--primary);
         }
 
-        .company-logo span {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text);
-            text-align: center;
-            line-height: 1.3;
+        .company-logo img {
+            max-width: 100%;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .company-logo:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
         }
 
         /* Services Section */
@@ -1336,25 +1345,25 @@
             <p class="section-subtitle fade-in">Trusted by leading organizations worldwide</p>
             <div class="companies-grid">
                 <div class="company-logo scale-in">
-                    <span>IDFC Bank</span>
+                    <img src="logos/idfc-bank-logo.png" alt="IDFC Bank">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>Barclays</span>
+                    <img src="logos/barclays-logo.png" alt="Barclays">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>Teleperformance</span>
+                    <img src="logos/teleperformance-logo.png" alt="Teleperformance">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>Great Place<br>to Work</span>
+                    <img src="logos/gptw-logo.png" alt="Great Place to Work">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>intervue.io</span>
+                    <img src="logos/intervue-logo.png" alt="intervue.io">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>Almaviva</span>
+                    <img src="logos/almaviva-logo.png" alt="Almaviva">
                 </div>
                 <div class="company-logo scale-in">
-                    <span>SDG</span>
+                    <img src="logos/sdg-logo.png" alt="SDG">
                 </div>
             </div>
         </div>
