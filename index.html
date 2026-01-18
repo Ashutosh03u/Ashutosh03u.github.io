@@ -71,7 +71,7 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Dark Mode Toggle Button - MOBILE OPTIMIZED */
+        /* Dark Mode Toggle Button */
         .theme-toggle {
             position: fixed;
             top: 100px;
@@ -179,7 +179,7 @@
             }
         }
 
-        /* Navigation - MOBILE OPTIMIZED */
+        /* Navigation */
         .navbar {
             background: var(--nav-bg);
             backdrop-filter: blur(10px);
@@ -244,10 +244,9 @@
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
             width: 0;
             height: 2px;
+            bottom: 0;
             left: 0;
             background: var(--gradient);
             transition: width 0.3s;
@@ -266,7 +265,7 @@
             color: var(--text);
         }
 
-        /* Hero Section - MOBILE OPTIMIZED */
+        /* Hero Section */
         .hero {
             background: var(--gradient);
             color: white;
@@ -603,153 +602,155 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .service-card {
-            background: var(--card-bg);
+            background: white;
             padding: 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
             text-align: center;
-            border: 2px solid transparent;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
             box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
-            border-color: var(--primary);
         }
 
         .service-icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .service-card:hover .service-icon {
+            animation: none;
+            transform: scale(1.2);
         }
 
         .service-card h3 {
             color: var(--text);
             margin-bottom: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .service-card p {
             color: var(--text-light);
-            line-height: 1.8;
             margin-bottom: 1.5rem;
+            line-height: 1.7;
+            flex-grow: 1;
         }
 
         .service-card .btn {
             background: var(--gradient);
             color: white;
-            padding: 0.8rem 2rem;
-            font-size: 0.95rem;
         }
 
-        /* Stats Section */
+        /* Stats Section with Counter Animation */
         .stats {
-            background: var(--gradient);
+            background: var(--dark);
             color: white;
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 50%);
+            animation: pulse-bg 10s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 3rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        /* Process Section */
-        .process {
-            background: var(--bg);
-        }
-
-        .process-timeline {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 4rem;
-            position: relative;
-        }
-
-        .process-timeline::before {
-            content: '';
-            position: absolute;
-            top: 50px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--border);
-            z-index: 0;
-        }
-
-        .process-step {
-            flex: 1;
             text-align: center;
             position: relative;
             z-index: 1;
         }
 
-        .step-number {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Testimonials Carousel */
+        .testimonials {
             background: var(--gradient);
             color: white;
-            font-size: 2.5rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .process-step h3 {
-            color: var(--text);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .process-step p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: var(--bg-alt);
-        }
-
-        .testimonial-container {
-            max-width: 900px;
-            margin: 0 auto;
             position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials .section-title,
+        .testimonials .section-subtitle {
+            color: white;
         }
 
         .testimonial-carousel {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
             overflow: hidden;
-            border-radius: 20px;
         }
 
         .testimonial-track {
@@ -759,47 +760,45 @@
 
         .testimonial-slide {
             min-width: 100%;
+            padding: 0 2rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
             padding: 3rem;
-            background: var(--card-bg);
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-quote {
+            font-size: 3rem;
+            opacity: 0.3;
+            margin-bottom: 1rem;
         }
 
         .testimonial-text {
             font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--text-light);
-            margin-bottom: 2rem;
             font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.8;
         }
 
         .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
             font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
         }
 
-        .author-info h4 {
-            color: var(--text);
-            margin-bottom: 0.2rem;
+        .testimonial-role {
+            opacity: 0.8;
         }
 
-        .author-info p {
-            color: var(--text-light);
-            font-size: 0.9rem;
+        .stars {
+            color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
         }
 
         .carousel-controls {
@@ -810,47 +809,106 @@
         }
 
         .carousel-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            font-size: 1.2rem;
             cursor: pointer;
+            font-size: 1.2rem;
             transition: all 0.3s;
         }
 
         .carousel-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            background: white;
+            color: var(--primary);
+            transform: scale(1.1);
         }
 
         .carousel-dots {
             display: flex;
             justify-content: center;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--border);
+            background: rgba(255,255,255,0.3);
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .dot.active {
-            background: var(--primary);
-            width: 30px;
-            border-radius: 6px;
+            background: white;
+            transform: scale(1.3);
+        }
+
+        /* Process Section */
+        .process {
+            background: white;
+        }
+
+        .process-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .step-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            padding: 0 1rem;
         }
 
         /* FAQ Section */
         .faq {
-            background: var(--bg);
+            background: var(--light);
         }
 
         .faq-container {
@@ -859,23 +917,22 @@
         }
 
         .faq-item {
-            background: var(--card-bg);
-            border-radius: 15px;
             margin-bottom: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
         .faq-question {
-            padding: 1.5rem 2rem;
+            padding: 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
             color: var(--text);
-            user-select: none;
+            transition: all 0.3s;
         }
 
         .faq-question:hover {
@@ -883,40 +940,45 @@
         }
 
         .faq-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.2rem;
             transition: transform 0.3s;
         }
 
         .faq-item.active .faq-icon {
-            transform: rotate(180deg);
+            transform: rotate(45deg);
         }
 
         .faq-answer {
+            padding: 0 1.5rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s, padding 0.3s;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 0 2rem 1.5rem;
-        }
-
-        .faq-answer p {
+            transition: all 0.3s ease-out;
             color: var(--text-light);
             line-height: 1.8;
         }
 
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
         /* Contact Section */
         .contact {
-            background: var(--bg-alt);
+            background: white;
         }
 
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            align-items: center;
         }
 
         .contact-info h3 {
@@ -931,80 +993,148 @@
             line-height: 1.8;
         }
 
+        .contact-details {
+            list-style: none;
+        }
+
+        .contact-details li {
+            padding: 1rem 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-details a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .contact-details a:hover {
+            color: var(--secondary);
+        }
+
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
         }
 
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .social-links a {
             background: var(--gradient);
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-size: 1.3rem;
+            font-weight: 600;
             transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .social-link:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
         }
 
-        /* CTA Section */
-        .cta {
+        .cta-box {
             background: var(--gradient);
-            color: white;
+            padding: 3rem;
+            border-radius: 20px;
             text-align: center;
-            padding: 5rem 2rem;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
         }
 
-        .cta h2 {
-            font-size: 2.5rem;
+        .cta-box h3 {
             margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
 
-        .cta p {
-            font-size: 1.2rem;
+        .cta-box p {
             margin-bottom: 2rem;
             opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .cta-box .btn {
+            background: white;
+            color: var(--primary);
+            font-size: 1.1rem;
+            padding: 1rem 3rem;
         }
 
         /* Footer */
         .footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 2rem 1.5rem;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section p {
+            color: #a0aec0;
+            line-height: 1.8;
+        }
+
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
             text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
         }
 
-        .footer p {
-            opacity: 0.8;
-            margin-top: 1rem;
-        }
-
-        /* Back to Top Button */
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
             background: var(--gradient);
             color: white;
-            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
             z-index: 999;
         }
 
@@ -1014,22 +1144,25 @@
         }
 
         .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+            transform: translateY(-10px) scale(1.1);
         }
 
         /* Animations */
-        .fade-in, .slide-left, .slide-right, .scale-in {
+        .fade-in {
             opacity: 0;
-            transition: all 0.8s ease-out;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .slide-left {
-            transform: translateX(-50px);
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide-left.visible {
@@ -1038,7 +1171,9 @@
         }
 
         .slide-right {
-            transform: translateX(50px);
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide-right.visible {
@@ -1047,7 +1182,9 @@
         }
 
         .scale-in {
-            transform: scale(0.9);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .scale-in.visible {
@@ -1055,13 +1192,11 @@
             transform: scale(1);
         }
 
-        /* ========================================
-           MOBILE RESPONSIVE STYLES - ENHANCED
-           ======================================== */
-
-        @media (max-width: 1400px) {
+        /* Mobile Responsiveness */
+        @media (max-width: 1300px) {
             .companies-grid {
                 gap: 1.8rem;
+                max-width: 1150px;
             }
 
             .company-logo {
@@ -1088,14 +1223,6 @@
         }
 
         @media (max-width: 1024px) {
-            .section-title {
-                font-size: 2.3rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2.8rem;
-            }
-
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1116,49 +1243,36 @@
             }
         }
 
-        /* MOBILE BREAKPOINT - 768px */
         @media (max-width: 768px) {
-            /* Navigation */
-            .navbar {
-                padding: 1rem 1.5rem;
+            .services-grid {
+                grid-template-columns: 1fr;
             }
 
-            .logo {
-                font-size: 1.2rem;
+            .companies-grid {
+                gap: 1.5rem;
             }
 
-            .logo img {
-                height: 45px;
+            .company-logo {
+                width: 130px;
+                height: 90px;
+                padding: 1.5rem 1.8rem;
             }
 
-            /* Mobile Menu */
+            .company-logo img {
+                max-width: 100px;
+                max-height: 55px;
+            }
+
             .nav-links {
                 display: none;
                 position: absolute;
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: var(--nav-bg);
-                backdrop-filter: blur(10px);
+                background: white;
                 flex-direction: column;
-                padding: 1.5rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-                gap: 0;
-            }
-
-            .nav-links li {
-                width: 100%;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .nav-links li:last-child {
-                border-bottom: none;
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 1rem 0;
-                font-size: 1.1rem;
+                padding: 1rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             }
 
             .nav-links.active {
@@ -1167,192 +1281,41 @@
 
             .mobile-menu {
                 display: block;
-                font-size: 1.8rem;
-                padding: 0.5rem;
-            }
-
-            /* Hero Section */
-            .hero {
-                padding: 8rem 1.5rem 4rem;
-                min-height: auto;
             }
 
             .hero-container {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 3rem;
             }
 
             .hero-content h1 {
-                font-size: 2rem;
-                line-height: 1.3;
-            }
-
-            .hero-content p {
-                font-size: 1rem;
-                line-height: 1.7;
+                font-size: 2.2rem;
             }
 
             .hero-buttons {
                 justify-content: center;
-                gap: 0.8rem;
-            }
-
-            .btn {
-                padding: 0.9rem 1.8rem;
-                font-size: 0.95rem;
             }
 
             .profile-photo {
-                width: 250px;
-                height: 250px;
+                width: 280px;
+                height: 280px;
             }
 
-            /* Theme Toggle - Mobile Position */
-            .theme-toggle {
-                top: 85px;
-                right: 15px;
-                padding: 10px 12px;
-                font-size: 1.1rem;
-            }
-
-            /* Sections */
-            .section {
-                padding: 4rem 1.5rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-                margin-bottom: 2.5rem;
-            }
-
-            /* About Section */
             .about-content {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
             }
 
-            .about-text h3 {
-                font-size: 1.5rem;
-            }
-
-            .about-text p {
-                font-size: 0.95rem;
-            }
-
-            /* Companies Grid */
-            .companies-grid {
-                gap: 1.2rem;
-                padding: 0 0.5rem;
-            }
-
-            .company-logo {
-                width: 120px;
-                height: 85px;
-                padding: 1.2rem 1.5rem;
-            }
-
-            .company-logo img {
-                max-width: 90px;
-                max-height: 50px;
-            }
-
-            /* Services Grid */
-            .services-grid {
+            .contact-content {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
 
-            .service-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .service-icon {
-                font-size: 3rem;
-            }
-
-            .service-card h3 {
-                font-size: 1.3rem;
-            }
-
-            /* Stats Section */
-            .stats {
-                padding: 3.5rem 1.5rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-
-            .stat-number {
-                font-size: 2.5rem;
-            }
-
-            .stat-label {
-                font-size: 0.95rem;
-            }
-
-            /* Process Timeline */
             .process-timeline {
                 flex-direction: column;
-                gap: 2.5rem;
-                margin-top: 3rem;
+                gap: 2rem;
             }
 
             .process-timeline::before {
                 display: none;
-            }
-
-            .step-number {
-                width: 80px;
-                height: 80px;
-                font-size: 2rem;
-            }
-
-            .process-step h3 {
-                font-size: 1.2rem;
-            }
-
-            /* Testimonials */
-            .testimonial-slide {
-                padding: 2rem 1.5rem;
-            }
-
-            .testimonial-text {
-                font-size: 1.05rem;
-                line-height: 1.7;
-            }
-
-            .carousel-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.1rem;
-            }
-
-            /* FAQ */
-            .faq-question {
-                padding: 1.2rem 1.5rem;
-                font-size: 0.95rem;
-            }
-
-            .faq-item.active .faq-answer {
-                padding: 0 1.5rem 1.2rem;
-            }
-
-            /* Contact */
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            .contact-info h3 {
-                font-size: 1.5rem;
             }
 
             .social-links {
@@ -1360,138 +1323,8 @@
                 justify-content: center;
             }
 
-            /* CTA Section */
-            .cta {
-                padding: 3.5rem 1.5rem;
-            }
-
-            .cta h2 {
-                font-size: 2rem;
-            }
-
-            .cta p {
-                font-size: 1.05rem;
-            }
-
-            /* Back to Top */
-            .back-to-top {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 1.3rem;
-            }
-        }
-
-        /* EXTRA SMALL MOBILE - 480px */
-        @media (max-width: 480px) {
-            .navbar {
-                padding: 0.8rem 1rem;
-            }
-
-            .logo {
-                font-size: 1rem;
-            }
-
-            .logo img {
-                height: 40px;
-            }
-
-            .hero {
-                padding: 7rem 1rem 3rem;
-            }
-
-            .hero-content h1 {
-                font-size: 1.7rem;
-            }
-
-            .hero-content p {
-                font-size: 0.95rem;
-            }
-
-            .profile-photo {
-                width: 220px;
-                height: 220px;
-            }
-
-            .section {
-                padding: 3rem 1rem;
-            }
-
             .section-title {
-                font-size: 1.6rem;
-            }
-
-            .section-subtitle {
-                font-size: 0.95rem;
-            }
-
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .companies-grid {
-                gap: 1rem;
-            }
-
-            .company-logo {
-                width: 110px;
-                height: 80px;
-                padding: 1rem;
-            }
-
-            .company-logo img {
-                max-width: 80px;
-                max-height: 45px;
-            }
-
-            .service-card {
-                padding: 1.5rem 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .stat-number {
-                font-size: 2.2rem;
-            }
-
-            .step-number {
-                width: 70px;
-                height: 70px;
-                font-size: 1.8rem;
-            }
-
-            .testimonial-slide {
-                padding: 1.5rem 1rem;
-            }
-
-            .testimonial-text {
-                font-size: 1rem;
-            }
-
-            .cta h2 {
-                font-size: 1.7rem;
-            }
-
-            .cta p {
-                font-size: 1rem;
-            }
-
-            .social-link {
-                width: 45px;
-                height: 45px;
-                font-size: 1.1rem;
-            }
-
-            .theme-toggle {
-                top: 75px;
-                right: 10px;
-                padding: 8px 10px;
-                font-size: 1rem;
+                font-size: 2rem;
             }
         }
 
@@ -1514,12 +1347,6 @@
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- Dark Mode Toggle -->
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-        <span class="sun">☀️</span>
-        <span class="moon">🌙</span>
-    </button>
-
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -1532,7 +1359,7 @@
                 <li><a href="#testimonials">Reviews</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="challenge-tracker.html" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">🎯 Challenge Tracker</a></li>
+                <li><a href="challenge-tracker.html" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;"> Challenge Tracker</a></li>
             </ul>
             <button class="mobile-menu" onclick="toggleMenu()">☰</button>
         </div>
@@ -1673,27 +1500,31 @@
                         <div style="margin-top: 0.5rem;">Multiple Challenges</div>
                     </div>
                 </div>
-                <a href="challenge-tracker.html" class="btn btn-primary" style="font-size: 1.1rem;">Start Your Challenge</a>
+                <a href="challenge-tracker.html" class="btn" style="background: white; color: var(--primary); font-size: 1.1rem; padding: 1rem 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    Start Your Challenge Journey →
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Stats Section -->
     <section class="stats">
-        <div class="section-container">
-            <div class="stats-grid">
-                <div class="stat-card fade-in">
-                    <div class="stat-number" data-target="500">0+</div>
-                    <div class="stat-label">Professionals Coached</div>
-                </div>
-                <div class="stat-card fade-in">
-                    <div class="stat-number" data-target="85">0%</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
-                <div class="stat-card fade-in">
-                    <div class="stat-number" data-target="50">0+</div>
-                    <div class="stat-label">Companies Served</div>
-                </div>
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Professionals Coached</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="85">0</div>
+                <div class="stat-label">Success Rate %</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Resumes Optimized</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Years Experience</div>
             </div>
         </div>
     </section>
@@ -1701,28 +1532,28 @@
     <!-- Process Section -->
     <section class="process section" id="process">
         <div class="section-container">
-            <h2 class="section-title fade-in">How I <span class="gradient-text">Work</span></h2>
-            <p class="section-subtitle fade-in">A structured approach to your career success</p>
+            <h2 class="section-title fade-in">How It <span class="gradient-text">Works</span></h2>
+            <p class="section-subtitle fade-in">Simple steps to kickstart your career transformation</p>
             <div class="process-timeline">
-                <div class="process-step scale-in">
+                <div class="process-step fade-in">
                     <div class="step-number">1</div>
-                    <h3>Discovery Call</h3>
-                    <p>Free 15-min consultation to understand your goals and challenges</p>
+                    <div class="step-title">Book a Call</div>
+                    <div class="step-desc">Schedule your consultation through Topmate</div>
                 </div>
-                <div class="process-step scale-in">
+                <div class="process-step fade-in">
                     <div class="step-number">2</div>
-                    <h3>Strategy Session</h3>
-                    <p>Deep dive into your career aspirations and create a personalized action plan</p>
+                    <div class="step-title">Share Your Goals</div>
+                    <div class="step-desc">Tell me about your career aspirations and challenges</div>
                 </div>
-                <div class="process-step scale-in">
+                <div class="process-step fade-in">
                     <div class="step-number">3</div>
-                    <h3>Implementation</h3>
-                    <p>Work together on resume, LinkedIn, interview prep & job applications</p>
+                    <div class="step-title">Get Your Plan</div>
+                    <div class="step-desc">Receive a customized strategy for your success</div>
                 </div>
-                <div class="process-step scale-in">
+                <div class="process-step fade-in">
                     <div class="step-number">4</div>
-                    <h3>Land Your Dream Job</h3>
-                    <p>Ongoing support until you secure and succeed in your ideal role</p>
+                    <div class="step-title">Achieve Success</div>
+                    <div class="step-desc">Land your dream job with expert guidance</div>
                 </div>
             </div>
         </div>
@@ -1731,40 +1562,35 @@
     <!-- Testimonials Section -->
     <section class="testimonials section" id="testimonials">
         <div class="section-container">
-            <h2 class="section-title fade-in">What <span class="gradient-text">People Say</span></h2>
-            <p class="section-subtitle fade-in">Real success stories from professionals I've helped</p>
-            <div class="testimonial-container">
-                <div class="testimonial-carousel">
-                    <div class="testimonial-track" id="testimonialTrack">
-                        <div class="testimonial-slide">
-                            <p class="testimonial-text">"Habiba's coaching was transformative! She helped me pivot from retail to project management, and I landed my dream job in just 3 months. Her resume expertise and interview prep were game-changers."</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">SK</div>
-                                <div class="author-info">
-                                    <h4>Sarah K.</h4>
-                                    <p>Project Manager at Tech Corp</p>
-                                </div>
-                            </div>
+            <h2 class="section-title fade-in">Client <span style="color: white;">Success Stories</span></h2>
+            <p class="section-subtitle fade-in">Real results from real professionals who transformed their careers</p>
+            <div class="testimonial-carousel">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">"</div>
+                            <div class="stars">★★★★★</div>
+                            <p class="testimonial-text">I connected with Habiba on LinkedIn and was immediately impressed by her clarity and professionalism. As a Project Manager, she helped me map out a clear and actionable 3-year career roadmap—something I had struggled to do on my own. Her guidance was thoughtful, strategic, and genuinely supportive. I’m grateful for her insights and highly recommend working with her if you’re seeking direction or growth in your career.</p>
+                            <p class="testimonial-author">Alrick Fernandes</p>
+                            <p class="testimonial-role">Senior RPA Business Analyst</p>
                         </div>
-                        <div class="testimonial-slide">
-                            <p class="testimonial-text">"I was struggling with confidence for interviews. Habiba's mock sessions and personalized feedback boosted my skills immensely. I got 3 job offers and negotiated a 40% salary increase!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">MR</div>
-                                <div class="author-info">
-                                    <h4>Michael R.</h4>
-                                    <p>Senior Analyst at Finance Inc</p>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">"</div>
+                            <div class="stars">★★★★★</div>
+                            <p class="testimonial-text">Habiba has been extremely helpful with her insights about PM as a career and career opportunities in abroad.I highly recommend her to anyone who is confused about career development, her experience and skills will be a great help. </p>
+                            <p class="testimonial-author">M.A Abbasi</p>
+                            <p class="testimonial-role">Associate Regional Manager</p>
                         </div>
-                        <div class="testimonial-slide">
-                            <p class="testimonial-text">"Best investment in my career! Habiba optimized my LinkedIn and resume, making me stand out to recruiters. Within weeks, I was interviewing with top companies. Highly recommend her services!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">EP</div>
-                                <div class="author-info">
-                                    <h4>Emily P.</h4>
-                                    <p>Marketing Director at Growth Agency</p>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">"</div>
+                            <div class="stars">★★★★★</div>
+                            <p class="testimonial-text">Habiba is an amazing person and coach. Her expertise and guidance were invaluable for me in focusing my strengths and strategies towards achieving my desired goals. She is down to earth person who has a positive attitude, words of encouragement, and support for the people, whether LinkedIn profile or job applying strategy, particularly in EMEA or European Union, she helped me a lot. She is always my best coach from my heart!!!!. I am so grateful to have worked with her.</p>
+                            <p class="testimonial-author">Chandramadhava Dash</p>
+                            <p class="testimonial-role">IT Project Manager</p>
                         </div>
                     </div>
                 </div>
@@ -1773,9 +1599,9 @@
                     <button class="carousel-btn" onclick="nextSlide()">→</button>
                 </div>
                 <div class="carousel-dots">
-                    <span class="dot active" onclick="goToSlide(0)"></span>
-                    <span class="dot" onclick="goToSlide(1)"></span>
-                    <span class="dot" onclick="goToSlide(2)"></span>
+                    <div class="dot active" onclick="goToSlide(0)"></div>
+                    <div class="dot" onclick="goToSlide(1)"></div>
+                    <div class="dot" onclick="goToSlide(2)"></div>
                 </div>
             </div>
         </div>
@@ -1785,51 +1611,52 @@
     <section class="faq section" id="faq">
         <div class="section-container">
             <h2 class="section-title fade-in">Frequently Asked <span class="gradient-text">Questions</span></h2>
-            <p class="section-subtitle fade-in">Everything you need to know about working with me</p>
+            <p class="section-subtitle fade-in">Get answers to common questions about my services</p>
             <div class="faq-container">
-                <div class="faq-item">
+                <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>How long does the career coaching process take?</span>
-                        <span class="faq-icon">+</span>
+                        <span>How do I book a session with you?</span>
+                        <div class="faq-icon">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>The duration varies based on your goals. On average, clients see results within 1-3 months. Some land jobs faster, while career transitions may take longer. I provide ongoing support throughout your journey.</p>
+                        Simply click any "Book" button on this website to visit my Topmate profile. Choose the service you need, select a convenient time slot, and complete the booking. You'll receive an instant confirmation email with all session details and meeting link.
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Do you offer services for people transitioning careers?</span>
-                        <span class="faq-icon">+</span>
+                        <span>What can I expect from a career coaching session?</span>
+                        <div class="faq-icon">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Absolutely! Career transitions are one of my specialties. I'll help you identify transferable skills, rebrand your profile, and strategically position yourself for success in your new field.</p>
+                        Each session is tailored to your specific needs. We'll discuss your career goals, current challenges, and create a personalized action plan. You'll receive practical strategies, valuable resources, and ongoing accountability to help you achieve your objectives quickly and effectively.
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>What makes your approach different?</span>
-                        <span class="faq-icon">+</span>
+                        <span>How long does it take to see results?</span>
+                        <div class="faq-icon">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>I combine my real-world project management experience with personalized coaching. Unlike generic career advice, I tailor strategies to your unique situation, industry, and goals. You're not just a client – you're a partner in your success.</p>
+                        Results vary based on your goals and commitment. Many clients see improvements in their job search within 2-4 weeks after resume and LinkedIn optimizations. Career transitions typically take 3-6 months with consistent effort. I provide ongoing support to ensure you achieve your goals. 
+                        Please note this does not guarantee a job offer.
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Can you help me if I'm already employed but looking to advance?</span>
-                        <span class="faq-icon">+</span>
+                        <span>Do you work with clients outside India?</span>
+                        <div class="faq-icon">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes! I work with professionals at all career stages. Whether you're seeking promotion, better compensation, or a more fulfilling role, I'll help you strategize, build your brand, and make your next career move.</p>
+                        Absolutely! All my sessions are conducted virtually via video call, so I work with clients worldwide. I accommodate different time zones and have successfully helped professionals from Europe, USA, UK, Canada, UAE, Singapore, and many other countries achieve their career goals.
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Do you offer packages or one-time services?</span>
-                        <span class="faq-icon">+</span>
+                        <span>What if I'm not sure which service I need?</span>
+                        <div class="faq-icon">+</div>
                     </div>
                     <div class="faq-answer">
-                        <p>Both! I offer comprehensive coaching packages and individual services like resume reviews, LinkedIn optimization, or mock interviews. We can discuss what works best for your needs and budget during our discovery call.</p>
+                        No problem at all! You can book a discovery consultation call where we'll discuss your situation in detail. Based on our conversation, I'll recommend the best approach for your specific needs and budget. Feel free to reach out on LinkedIn or Instagram with questions before booking.
                     </div>
                 </div>
             </div>
@@ -1840,80 +1667,72 @@
     <section class="contact section" id="contact">
         <div class="section-container">
             <h2 class="section-title fade-in">Let's <span class="gradient-text">Connect</span></h2>
-            <p class="section-subtitle fade-in">Ready to transform your career? Reach out today!</p>
+            <p class="section-subtitle fade-in">Ready to take the first step towards your dream career?</p>
             <div class="contact-content">
                 <div class="contact-info slide-left">
-                    <h3>Get in Touch</h3>
-                    <p>Have questions or ready to start your journey? Book a free 15-minute discovery call or reach out through my social channels. I'm here to help you achieve your career dreams!</p>
-                    <a href="https://topmate.io/habiba12" class="btn btn-gradient" target="_blank">Book Free Discovery Call</a>
+                    <h3>Start Your Transformation Today</h3>
+                    <p>Don't let another day pass without taking action on your career goals. Schedule a session through my Topmate profile or connect with me on social media. I'm here to help you succeed!</p>
+                    <ul class="contact-details">
+                        <li>📍 Available for Virtual Sessions Worldwide</li>
+                        <li>🔗 <a href="https://topmate.io/habiba12" target="_blank">Book on Topmate</a></li>
+                    </ul>
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/habibabhombal/" class="social-link" target="_blank" title="LinkedIn">
-                            <span>in</span>
-                        </a>
-                        <a href="https://www.instagram.com/pmprohabiba/" class="social-link" target="_blank" title="Instagram">
-                            <span>📷</span>
-                        </a>
-                        <a href="https://topmate.io/habiba12" class="social-link" target="_blank" title="Topmate">
-                            <span>🎯</span>
-                        </a>
+                        <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank">LinkedIn</a>
+                        <a href="https://www.instagram.com/pmprohabiba/" target="_blank">Instagram</a>
                     </div>
                 </div>
-                <div class="contact-info slide-right">
-                    <div class="glass-card" style="padding: 3rem; text-align: center;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;">💼</div>
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Career Transformation Awaits</h3>
-                        <p style="color: var(--text-light);">Join hundreds of professionals who have successfully transformed their careers with personalized coaching and expert guidance.</p>
-                    </div>
+                <div class="cta-box slide-right">
+                    <h3>Your Dream Career Awaits</h3>
+                    <p>Join 100+ professionals who have successfully transformed their careers with my guidance. Book your session today and let's create your personalized roadmap to success!</p>
+                    <a href="https://topmate.io/habiba12" class="btn" target="_blank">Book Your Session →</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="section-container">
-            <h2>Ready to Take the Next Step?</h2>
-            <p>Let's work together to unlock your full career potential</p>
-            <a href="https://topmate.io/habiba12" class="btn btn-primary" target="_blank">Start Your Journey Today</a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="section-container">
-            <div class="social-links" style="justify-content: center;">
-                <a href="https://www.linkedin.com/in/habibabhombal/" class="social-link" target="_blank">in</a>
-                <a href="https://www.instagram.com/pmprohabiba/" class="social-link" target="_blank">📷</a>
-                <a href="https://topmate.io/habiba12" class="social-link" target="_blank">🎯</a>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>pmprohabiba</h4>
+                <p>Certified Project Manager & Career Coach empowering professionals to achieve their career dreams through personalized mentorship, strategic planning, and expert guidance.</p>
             </div>
-            <p>&copy; 2025 Habiba Bhombal. All rights reserved. | Empowering careers worldwide</p>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#about">About Me</a>
+                <a href="#services">Services</a>
+                <a href="#process">How It Works</a>
+                <a href="#testimonials">Success Stories</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <a href="https://topmate.io/habiba12" target="_blank">📅 Topmate</a>
+                <a href="https://www.linkedin.com/in/habibabhombal/" target="_blank">💼 LinkedIn</a>
+                <a href="https://www.instagram.com/pmprohabiba/" target="_blank">📸 Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Habiba Bhombal - pmprohabiba. All Rights Reserved. | Empowering Careers Worldwide </p>
         </div>
     </footer>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</div>
 
+    <!-- JavaScript -->
     <script>
-        // Dark Mode Toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        // Hide loader after page loads
+        // Loading Screen
         window.addEventListener('load', () => {
-            document.getElementById('loader').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
         });
 
-        // Typing Effect
-        const typingTexts = ['Career', 'Future', 'Life'];
+        // Typing Animation
+        const typingTexts = ['Career', 'Future', 'Success', 'Dreams', 'Life'];
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
