@@ -17,6 +17,7 @@
             --accent: #f093fb;
             --success: #48bb78;
             --warning: #f6ad55;
+            --danger: #f56565;
             --bg: #ffffff;
             --bg-alt: #f7fafc;
             --card: #ffffff;
@@ -51,7 +52,6 @@
             min-height: 100vh;
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             top: 100px;
@@ -77,7 +77,6 @@
         [data-theme="dark"] .theme-toggle .sun { display: block; }
         [data-theme="dark"] .theme-toggle .moon { display: none; }
 
-        /* Header */
         .header {
             background: var(--card);
             backdrop-filter: blur(10px);
@@ -109,7 +108,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            text-decoration: none;
         }
 
         .back-home {
@@ -133,7 +131,6 @@
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* User Info Bar */
         .user-bar {
             background: var(--card);
             padding: 1rem 2rem;
@@ -156,7 +153,6 @@
             font-weight: 500;
         }
 
-        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -193,6 +189,24 @@
             color: var(--primary);
         }
 
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
         .btn-logout {
             background: transparent;
             color: var(--text-light);
@@ -203,14 +217,12 @@
             color: var(--primary);
         }
 
-        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Login Page */
         .login-container {
             min-height: 100vh;
             display: flex;
@@ -296,14 +308,25 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
+        .form-input.error {
+            border-color: var(--danger);
+        }
+
+        .form-help {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
         .login-options {
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
+            flex-direction: column;
         }
 
         .btn-login {
-            flex: 1;
+            width: 100%;
         }
 
         .back-link {
@@ -320,7 +343,26 @@
             color: var(--primary);
         }
 
-        /* Dashboard */
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
         .dashboard-header {
             margin-bottom: 2.5rem;
         }
@@ -338,7 +380,6 @@
             font-size: 1.1rem;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -384,6 +425,10 @@
             background: linear-gradient(135deg, #f6ad5520 0%, #ed8f2420 100%);
         }
 
+        .stat-icon.warning {
+            background: linear-gradient(135deg, #f6ad5520 0%, #ed8f2420 100%);
+        }
+
         .stat-value {
             font-size: 2.5rem;
             font-weight: 800;
@@ -400,7 +445,6 @@
             font-weight: 500;
         }
 
-        /* Challenges Section */
         .section-title {
             font-family: 'Outfit', sans-serif;
             font-size: 1.75rem;
@@ -517,13 +561,22 @@
             border-radius: 8px;
         }
 
-        /* Info Box */
         .info-box {
             background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
             border: 2px solid var(--primary);
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 2rem;
+        }
+
+        .info-box.warning {
+            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
+            border-color: var(--warning);
+        }
+
+        .info-box.pending {
+            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
+            border-color: var(--warning);
         }
 
         .info-box-title {
@@ -535,6 +588,11 @@
             gap: 0.5rem;
         }
 
+        .info-box.warning .info-box-title,
+        .info-box.pending .info-box-title {
+            color: var(--warning);
+        }
+
         .info-box-content {
             color: var(--text);
             line-height: 1.8;
@@ -544,7 +602,6 @@
             color: var(--primary);
         }
 
-        /* Progress Circle */
         .progress-circle {
             position: relative;
             width: 140px;
@@ -585,7 +642,6 @@
             font-weight: 600;
         }
 
-        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -655,6 +711,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
         }
 
         .close-btn:hover {
@@ -710,7 +767,16 @@
             border: 2px solid #48bb7830;
         }
 
-        /* Admin Panel */
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            border: 2px solid #fcc;
+        }
+
         .admin-layout {
             display: grid;
             grid-template-columns: 300px 1fr;
@@ -768,10 +834,24 @@
             color: rgba(255,255,255,0.9);
         }
 
+        .user-item.pending {
+            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
+            border-color: var(--warning);
+        }
+
         .user-details {
             font-size: 0.85rem;
             color: var(--text-light);
             margin-top: 0.25rem;
+        }
+
+        .pending-badge {
+            background: var(--warning);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         .empty-state {
@@ -785,17 +865,48 @@
             opacity: 0.5;
         }
 
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            border: 1px solid #fcc;
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
         }
 
-        /* Responsive */
+        .tab {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
         @media (max-width: 968px) {
             .admin-layout {
                 grid-template-columns: 1fr;
@@ -825,10 +936,6 @@
             .container {
                 padding: 1rem;
             }
-
-            .login-options {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -841,9 +948,29 @@
     <div id="app"></div>
 
     <script>
-        // ADMIN PASSWORD - Change this to your secure password
-        const ADMIN_PASSWORD = "habiba2026"; // ⚠️ CHANGE THIS PASSWORD!
+        // FIXED ADMIN CREDENTIALS - Only these can access admin
+        const ADMIN_EMAIL = "habibabhombal04@gmail.com";
+        const ADMIN_PASSWORD = "habiba@2026";
         
+        // Email validation regex
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Phone validation regex (supports multiple formats)
+        function isValidPhone(phone) {
+            // Remove all non-digit characters
+            const digitsOnly = phone.replace(/\D/g, '');
+            // Check if it's 10-15 digits (international phone numbers)
+            return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+        }
+
+        // Validate email or phone
+        function isValidContact(input) {
+            return isValidEmail(input) || isValidPhone(input);
+        }
+
         // Theme Toggle
         function toggleTheme() {
             const html = document.documentElement;
@@ -853,11 +980,10 @@
             localStorage.setItem('theme', newTheme);
         }
 
-        // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // Simple Storage API using localStorage
+        // Storage API
         const storage = {
             async get(key, shared = false) {
                 try {
@@ -891,11 +1017,14 @@
             view: 'login',
             challenges: [],
             users: [],
+            pendingUsers: [],
             selectedChallenge: null,
             selectedUser: null,
             showModal: false,
             showAddModal: false,
-            adminError: ''
+            adminError: '',
+            loginError: '',
+            adminTab: 'approved'
         };
 
         // Initialize Data
@@ -904,69 +1033,268 @@
                 const savedUser = await storage.get('current-user');
                 const savedChallenges = await storage.get('challenges', true);
                 const savedUsers = await storage.get('all-users', true);
+                const savedPendingUsers = await storage.get('pending-users', true);
                 
-                if (savedUser) appState.user = JSON.parse(savedUser.value);
+                // Load current user
+                if (savedUser) {
+                    try {
+                        appState.user = JSON.parse(savedUser.value);
+                    } catch (e) {
+                        console.error('Error parsing user data:', e);
+                        await storage.delete('current-user');
+                    }
+                }
+                
+                // Load or initialize challenges
                 if (savedChallenges) {
-                    appState.challenges = JSON.parse(savedChallenges.value);
+                    try {
+                        appState.challenges = JSON.parse(savedChallenges.value);
+                    } catch (e) {
+                        console.error('Error parsing challenges:', e);
+                        // Initialize with default challenge
+                        appState.challenges = [
+                            {
+                                id: '1',
+                                title: 'Daily LinkedIn Post Challenge',
+                                description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
+                                duration: 30,
+                                icon: '💼'
+                            }
+                        ];
+                        await storage.set('challenges', JSON.stringify(appState.challenges), true);
+                    }
                 } else {
-                    // ONLY LinkedIn Challenge by default
+                    // First time initialization
                     appState.challenges = [
                         {
                             id: '1',
-                            title: '75 Intentaional',
-                            description: ' 75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It’s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1',
-                            duration: 75,
+                            title: 'Daily LinkedIn Post Challenge',
+                            description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
+                            duration: 30,
                             icon: '💼'
                         }
                     ];
                     await storage.set('challenges', JSON.stringify(appState.challenges), true);
                 }
-                if (savedUsers) appState.users = JSON.parse(savedUsers.value);
                 
+                // Load approved users
+                if (savedUsers) {
+                    try {
+                        appState.users = JSON.parse(savedUsers.value);
+                        // Ensure it's an array
+                        if (!Array.isArray(appState.users)) {
+                            appState.users = [];
+                        }
+                    } catch (e) {
+                        console.error('Error parsing users:', e);
+                        appState.users = [];
+                    }
+                } else {
+                    appState.users = [];
+                }
+                
+                // Load pending users
+                if (savedPendingUsers) {
+                    try {
+                        appState.pendingUsers = JSON.parse(savedPendingUsers.value);
+                        // Ensure it's an array
+                        if (!Array.isArray(appState.pendingUsers)) {
+                            appState.pendingUsers = [];
+                        }
+                    } catch (e) {
+                        console.error('Error parsing pending users:', e);
+                        appState.pendingUsers = [];
+                    }
+                } else {
+                    appState.pendingUsers = [];
+                }
+                
+                // Determine view based on user state
                 if (appState.user) {
-                    appState.view = appState.user.isAdmin ? 'admin' : 'dashboard';
+                    if (appState.user.isAdmin) {
+                        appState.view = 'admin';
+                    } else {
+                        // Check if user is approved
+                        const userInApproved = appState.users.find(u => u.email === appState.user.email);
+                        if (userInApproved && userInApproved.approved) {
+                            // Update current user with latest data
+                            appState.user = userInApproved;
+                            await storage.set('current-user', JSON.stringify(appState.user));
+                            appState.view = 'dashboard';
+                        } else {
+                            // Check if still pending
+                            const userInPending = appState.pendingUsers.find(u => u.email === appState.user.email);
+                            if (userInPending) {
+                                appState.view = 'pending';
+                            } else {
+                                // User was rejected or removed
+                                await storage.delete('current-user');
+                                appState.user = null;
+                                appState.view = 'login';
+                            }
+                        }
+                    }
                 }
             } catch (error) {
-                console.log('Initializing with default data');
+                console.error('Error initializing data:', error);
+                // Reset to default state
+                appState.users = [];
+                appState.pendingUsers = [];
+                appState.challenges = [
+                    {
+                        id: '1',
+                        title: 'Daily LinkedIn Post Challenge',
+                        description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
+                        duration: 30,
+                        icon: '💼'
+                    }
+                ];
             }
             render();
         }
 
-        // Handle Login - Modified for Admin Password Protection
-        async function handleLogin(email, password = '', isAdminAttempt = false) {
-            // Admin login requires password
-            if (isAdminAttempt) {
-                if (password !== ADMIN_PASSWORD) {
-                    appState.adminError = '❌ Incorrect admin password. Access denied.';
-                    render();
-                    return;
-                }
+        // Check if user already exists
+        function userExists(contact) {
+            const normalizedContact = contact.toLowerCase().trim();
+            return appState.users.some(u => u.email.toLowerCase() === normalizedContact) ||
+                   appState.pendingUsers.some(u => u.email.toLowerCase() === normalizedContact);
+        }
+
+        // Handle User Signup Request
+        async function handleSignupRequest(contact, name) {
+            // Validate input
+            if (!isValidContact(contact)) {
+                appState.loginError = '❌ Please enter a valid email address or phone number.';
+                render();
+                return;
             }
+
+            if (!name || name.trim().length < 2) {
+                appState.loginError = '❌ Please enter your full name.';
+                render();
+                return;
+            }
+
+            // Check for duplicates
+            if (userExists(contact)) {
+                appState.loginError = '❌ This email/phone is already registered. Please use a different one or wait for approval.';
+                render();
+                return;
+            }
+
+            // Create pending user
+            const pendingUser = {
+                id: contact.replace(/[^a-z0-9]/gi, '_'),
+                email: contact.toLowerCase().trim(),
+                name: name.trim(),
+                requestDate: new Date().toISOString(),
+                approved: false,
+                isAdmin: false
+            };
+
+            appState.pendingUsers.push(pendingUser);
+            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
+
+            appState.loginError = '';
+            appState.view = 'pending';
+            appState.user = pendingUser;
+            await storage.set('current-user', JSON.stringify(pendingUser));
             
-            const newUser = {
-                id: email.replace(/[^a-z0-9]/gi, '_'),
-                email,
-                isAdmin: isAdminAttempt,
+            render();
+        }
+
+        // Handle Admin Login
+        async function handleAdminLogin(email, password) {
+            // STRICT CHECK - Only exact match
+            if (email.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase() || password !== ADMIN_PASSWORD) {
+                appState.adminError = '❌ Invalid admin credentials. Access denied.';
+                render();
+                return;
+            }
+
+            const adminUser = {
+                id: 'admin',
+                email: ADMIN_EMAIL,
+                isAdmin: true,
+                loginDate: new Date().toISOString()
+            };
+
+            appState.user = adminUser;
+            appState.adminError = '';
+            appState.loginError = '';
+            await storage.set('current-user', JSON.stringify(adminUser));
+            
+            appState.view = 'admin';
+            render();
+        }
+
+        // Approve User
+        async function approveUser(userId) {
+            const pendingUser = appState.pendingUsers.find(u => u.id === userId);
+            if (!pendingUser) {
+                console.error('Pending user not found:', userId);
+                return;
+            }
+
+            // Create approved user with all necessary fields
+            const approvedUser = {
+                id: pendingUser.id,
+                email: pendingUser.email,
+                name: pendingUser.name,
+                requestDate: pendingUser.requestDate,
+                approved: true,
+                approvedDate: new Date().toISOString(),
                 joinedDate: new Date().toISOString(),
+                isAdmin: false,
                 challenges: []
             };
+
+            // Add to approved users
+            appState.users.push(approvedUser);
             
-            appState.user = newUser;
-            appState.adminError = '';
-            await storage.set('current-user', JSON.stringify(newUser));
-            
-            const existingUser = appState.users.find(u => u.email === email);
-            if (!existingUser) {
-                appState.users.push(newUser);
-                await storage.set('all-users', JSON.stringify(appState.users), true);
-            } else {
-                // Update existing user
-                appState.users = appState.users.map(u => u.email === email ? newUser : u);
-                await storage.set('all-users', JSON.stringify(appState.users), true);
-            }
-            
-            appState.view = isAdminAttempt ? 'admin' : 'dashboard';
+            // Remove from pending users
+            appState.pendingUsers = appState.pendingUsers.filter(u => u.id !== userId);
+
+            // Save both arrays
+            const usersSaved = await storage.set('all-users', JSON.stringify(appState.users), true);
+            const pendingSaved = await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
+
+            // Log for debugging
+            console.log('User approved:', approvedUser.name, '(', approvedUser.email, ')');
+            console.log('Total approved users:', appState.users.length);
+            console.log('Remaining pending users:', appState.pendingUsers.length);
+            console.log('Data saved successfully:', usersSaved && pendingSaved);
+
             render();
+        }
+
+        // Reject User
+        async function rejectUser(userId) {
+            const rejectedUser = appState.pendingUsers.find(u => u.id === userId);
+            appState.pendingUsers = appState.pendingUsers.filter(u => u.id !== userId);
+            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
+            
+            console.log('User rejected:', rejectedUser?.name || rejectedUser?.email);
+            console.log('Remaining pending users:', appState.pendingUsers.length);
+            
+            render();
+        }
+
+        // Debug function to check data
+        function showDebugInfo() {
+            console.log('=== DEBUG INFO ===');
+            console.log('Approved Users:', appState.users.length, appState.users);
+            console.log('Pending Users:', appState.pendingUsers.length, appState.pendingUsers);
+            console.log('Challenges:', appState.challenges.length, appState.challenges);
+            console.log('Current User:', appState.user);
+            
+            // Check localStorage directly
+            const storedUsers = localStorage.getItem('shared-all-users');
+            const storedPending = localStorage.getItem('shared-pending-users');
+            console.log('LocalStorage - Users:', storedUsers);
+            console.log('LocalStorage - Pending:', storedPending);
+            
+            alert('Debug info logged to console. Press F12 to view.');
         }
 
         // Handle Logout
@@ -975,6 +1303,7 @@
             appState.user = null;
             appState.view = 'login';
             appState.adminError = '';
+            appState.loginError = '';
             render();
         }
 
@@ -1013,9 +1342,7 @@
                     const newCompletedDays = [...ch.completedDays, today];
                     const sortedDays = newCompletedDays.sort();
                     
-                    // STREAK CALCULATION LOGIC:
-                    // We count consecutive days starting from today and going backwards
-                    let currentStreak = 1; // Today counts as 1
+                    let currentStreak = 1;
                     
                     for (let i = sortedDays.length - 2; i >= 0; i--) {
                         const current = new Date(sortedDays[i + 1]);
@@ -1024,10 +1351,8 @@
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                         
                         if (diffDays === 1) {
-                            // Consecutive day found, increment streak
                             currentStreak++;
                         } else {
-                            // Gap found, stop counting
                             break;
                         }
                     }
@@ -1083,37 +1408,52 @@
                             <div class="login-icon">🎯</div>
                             <div class="login-title">Challenge Tracker</div>
                             <div class="login-subtitle">
-                                Track your progress. Build your streaks. Achieve your career goals.
+                                Request access to track your career development journey
                             </div>
                         </div>
 
-                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, document.getElementById('passwordInput')?.value || '', false);">
+                        <form onsubmit="event.preventDefault(); handleSignupRequest(document.getElementById('contactInput').value, document.getElementById('nameInput').value);">
                             <div class="form-group">
-                                <label class="form-label">Email Address or Phone</label>
+                                <label class="form-label">Email Address or Phone Number *</label>
                                 <input
                                     type="text"
-                                    id="emailInput"
-                                    class="form-input"
+                                    id="contactInput"
+                                    class="form-input ${appState.loginError ? 'error' : ''}"
                                     placeholder="your@email.com or +1234567890"
+                                    required
+                                />
+                                <div class="form-help">We'll notify you once your request is approved</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Full Name *</label>
+                                <input
+                                    type="text"
+                                    id="nameInput"
+                                    class="form-input"
+                                    placeholder="Enter your full name"
                                     required
                                 />
                             </div>
 
                             <div class="login-options">
                                 <button type="submit" class="btn btn-primary btn-login">
-                                    <span>👤</span>
-                                    Join Challenge
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-secondary btn-login"
-                                    onclick="showAdminLogin();"
-                                >
-                                    <span>🔒</span>
-                                    Admin Access
+                                    <span>✉️</span>
+                                    Request Access
                                 </button>
                             </div>
                         </form>
+
+                        ${appState.loginError ? `
+                            <div class="error-message">${appState.loginError}</div>
+                        ` : ''}
+
+                        <div class="divider">OR</div>
+
+                        <button class="btn btn-secondary btn-login" onclick="showAdminLogin();">
+                            <span>🔒</span>
+                            Admin Login
+                        </button>
 
                         ${appState.adminError ? `
                             <div class="error-message">${appState.adminError}</div>
@@ -1130,13 +1470,49 @@
         }
 
         function showAdminLogin() {
-            const email = prompt("Enter your admin email:");
+            const email = prompt("Enter admin email:");
             if (!email) return;
             
             const password = prompt("Enter admin password:");
             if (!password) return;
             
-            handleLogin(email, password, true);
+            handleAdminLogin(email, password);
+        }
+
+        function renderPendingApproval() {
+            return `
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-header">
+                            <div class="login-icon">⏳</div>
+                            <div class="login-title">Pending Approval</div>
+                            <div class="login-subtitle">
+                                Your access request is being reviewed
+                            </div>
+                        </div>
+
+                        <div class="info-box pending">
+                            <div class="info-box-title">
+                                <span>📋</span>
+                                Request Status
+                            </div>
+                            <div class="info-box-content">
+                                <strong>Name:</strong> ${appState.user.name}<br>
+                                <strong>Contact:</strong> ${appState.user.email}<br>
+                                <strong>Requested:</strong> ${new Date(appState.user.requestDate).toLocaleString()}<br><br>
+                                You'll receive access once the admin approves your request. Please check back later!
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary btn-login" onclick="handleLogout();">
+                            <span>←</span>
+                            Back to Login
+                        </button>
+
+                        <a href="index.html" class="back-link">← Back to Main Website</a>
+                    </div>
+                </div>
+            `;
         }
 
         function renderHeader() {
@@ -1165,10 +1541,14 @@
                 ${appState.user ? `
                     <div class="user-bar">
                         <div class="user-bar-content">
-                            <div class="user-email">Logged in as: <strong>${appState.user.email}</strong></div>
-                            <div style="color: var(--text-light); font-size: 0.85rem;">
-                                Member since ${new Date(appState.user.joinedDate).toLocaleDateString()}
+                            <div class="user-email">
+                                ${appState.user.isAdmin ? '🔑 Admin Access' : `Logged in as: <strong>${appState.user.name || appState.user.email}</strong>`}
                             </div>
+                            ${!appState.user.isAdmin ? `
+                                <div style="color: var(--text-light); font-size: 0.85rem;">
+                                    Member since ${new Date(appState.user.joinedDate || appState.user.requestDate).toLocaleDateString()}
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 ` : ''}
@@ -1194,10 +1574,9 @@
                 <div class="container">
                     <div class="dashboard-header">
                         <h1 class="dashboard-title">Your Dashboard</h1>
-                        <p class="dashboard-subtitle">Keep pushing forward, ${appState.user.email.split('@')[0]}! 💪</p>
+                        <p class="dashboard-subtitle">Keep pushing forward, ${appState.user.name || appState.user.email.split('@')[0]}! 💪</p>
                     </div>
 
-                    <!-- Streak Explanation Info Box -->
                     <div class="info-box">
                         <div class="info-box-title">
                             <span>📊</span>
@@ -1397,19 +1776,46 @@
         }
 
         function renderAdminPanel() {
+            const pendingCount = appState.pendingUsers.length;
+            
             return `
                 ${renderHeader()}
                 <div class="container">
                     <div class="dashboard-header">
-                        <h1 class="dashboard-title">Admin Dashboard</h1>
-                        <p class="dashboard-subtitle">Monitor all user progress and manage challenges</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h1 class="dashboard-title">Admin Dashboard</h1>
+                                <p class="dashboard-subtitle">Manage user access and monitor progress</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="showDebugInfo();" style="font-size: 0.85rem;">
+                                🔍 Debug Info
+                            </button>
+                        </div>
                     </div>
+
+                    ${pendingCount > 0 ? `
+                        <div class="info-box warning">
+                            <div class="info-box-title">
+                                <span>⏰</span>
+                                Pending Approvals
+                            </div>
+                            <div class="info-box-content">
+                                You have <strong>${pendingCount}</strong> user request${pendingCount > 1 ? 's' : ''} waiting for approval. Check the "Pending Users" tab below.
+                            </div>
+                        </div>
+                    ` : ''}
 
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon primary">👥</div>
                             <div class="stat-value">${appState.users.length}</div>
-                            <div class="stat-label">Total Users</div>
+                            <div class="stat-label">Approved Users</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon warning">⏳</div>
+                            <div class="stat-value">${pendingCount}</div>
+                            <div class="stat-label">Pending Requests</div>
                         </div>
 
                         <div class="stat-card">
@@ -1429,46 +1835,108 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 2rem;">
-                        <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
-                            <span>➕</span>
-                            Add New Challenge
+                    <div class="tabs">
+                        <button class="tab ${appState.adminTab === 'pending' ? 'active' : ''}" onclick="appState.adminTab = 'pending'; render();">
+                            Pending Users ${pendingCount > 0 ? `(${pendingCount})` : ''}
+                        </button>
+                        <button class="tab ${appState.adminTab === 'approved' ? 'active' : ''}" onclick="appState.adminTab = 'approved'; render();">
+                            Approved Users (${appState.users.length})
+                        </button>
+                        <button class="tab ${appState.adminTab === 'challenges' ? 'active' : ''}" onclick="appState.adminTab = 'challenges'; render();">
+                            Challenges
                         </button>
                     </div>
 
-                    <div class="admin-layout">
-                        <div class="admin-sidebar">
-                            <h3 class="section-title" style="font-size: 1.25rem;">All Users</h3>
-                            <div class="user-list">
-                                ${appState.users.length > 0 ? appState.users.map(user => `
-                                    <div class="user-item ${appState.selectedUser?.id === user.id ? 'active' : ''}" 
-                                         onclick="appState.selectedUser = ${JSON.stringify(user).replace(/"/g, '&quot;')}; render();">
-                                        <div>
-                                            <div style="font-weight: 600;">${user.email}</div>
-                                            <div class="user-details">
-                                                ${user.challenges?.length || 0} challenges
-                                            </div>
-                                        </div>
-                                        <span>→</span>
-                                    </div>
-                                `).join('') : '<div class="user-details">No users yet</div>'}
-                            </div>
-                        </div>
-
-                        <div class="admin-main">
-                            ${appState.selectedUser ? renderUserDetails() : `
-                                <div class="empty-state">
-                                    <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                    </svg>
-                                    <p>Select a user to view their progress</p>
-                                </div>
-                            `}
-                        </div>
-                    </div>
+                    ${appState.adminTab === 'pending' ? renderPendingUsersTab() : ''}
+                    ${appState.adminTab === 'approved' ? renderApprovedUsersTab() : ''}
+                    ${appState.adminTab === 'challenges' ? renderChallengesTab() : ''}
                 </div>
 
                 ${appState.showAddModal ? renderAddChallengeModal() : ''}
+            `;
+        }
+
+        function renderPendingUsersTab() {
+            return `
+                <div class="admin-main">
+                    <h3 class="section-title">
+                        <span>⏳</span>
+                        Pending Access Requests
+                    </h3>
+                    
+                    ${appState.pendingUsers.length > 0 ? `
+                        <div class="challenges-grid">
+                            ${appState.pendingUsers.map(user => `
+                                <div class="challenge-card user-item pending">
+                                    <div>
+                                        <div class="challenge-icon" style="font-size: 2.5rem;">👤</div>
+                                        <h3 class="challenge-title">${user.name}</h3>
+                                        <p class="challenge-description">
+                                            <strong>Contact:</strong> ${user.email}<br>
+                                            <strong>Requested:</strong> ${new Date(user.requestDate).toLocaleString()}
+                                        </p>
+                                        <div class="approval-actions">
+                                            <button class="btn btn-success" onclick="approveUser('${user.id}');">
+                                                ✓ Approve
+                                            </button>
+                                            <button class="btn btn-danger" onclick="if(confirm('Reject ${user.name}?')) rejectUser('${user.id}');">
+                                                ✕ Reject
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="empty-state">
+                            <p>No pending requests</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderApprovedUsersTab() {
+            // Automatically select first user if none selected and users exist
+            if (!appState.selectedUser && appState.users.length > 0) {
+                appState.selectedUser = appState.users[0];
+            }
+
+            return `
+                <div class="admin-layout">
+                    <div class="admin-sidebar">
+                        <h3 class="section-title" style="font-size: 1.25rem;">
+                            All Users (${appState.users.length})
+                        </h3>
+                        <div class="user-list">
+                            ${appState.users.length > 0 ? appState.users.map(user => `
+                                <div class="user-item ${appState.selectedUser?.id === user.id ? 'active' : ''}" 
+                                     onclick="appState.selectedUser = ${JSON.stringify(user).replace(/"/g, '&quot;')}; render();">
+                                    <div>
+                                        <div style="font-weight: 600;">${user.name || user.email}</div>
+                                        <div class="user-details">
+                                            Joined: ${new Date(user.joinedDate).toLocaleDateString()}<br>
+                                            ${user.challenges?.length || 0} challenge${(user.challenges?.length || 0) !== 1 ? 's' : ''}
+                                        </div>
+                                    </div>
+                                    <span>→</span>
+                                </div>
+                            `).join('') : '<div class="user-details" style="padding: 1rem;">No approved users yet. Approve pending requests to see them here.</div>'}
+                        </div>
+                    </div>
+
+                    <div class="admin-main">
+                        ${appState.users.length > 0 ? renderUserDetails() : `
+                            <div class="empty-state">
+                                <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                <p>No approved users yet</p>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Check the Pending Users tab to approve access requests</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
             `;
         }
 
@@ -1477,47 +1945,122 @@
             const totalChallenges = user.challenges?.length || 0;
             const activeStreak = user.challenges?.reduce((sum, ch) => sum + (ch.currentStreak || 0), 0) || 0;
             const completedDays = user.challenges?.reduce((sum, ch) => sum + (ch.completedDays?.length || 0), 0) || 0;
+            const longestStreak = Math.max(...(user.challenges?.map(ch => ch.longestStreak || 0) || [0]), 0);
 
             return `
-                <h3 class="section-title">${user.email}'s Progress</h3>
+                <h3 class="section-title">${user.name || user.email}'s Profile</h3>
+                
+                <div class="info-box" style="margin-bottom: 2rem;">
+                    <div class="info-box-title">
+                        <span>👤</span>
+                        User Information
+                    </div>
+                    <div class="info-box-content">
+                        <strong>Name:</strong> ${user.name || 'Not provided'}<br>
+                        <strong>Contact:</strong> ${user.email}<br>
+                        <strong>Joined:</strong> ${new Date(user.joinedDate).toLocaleString()}<br>
+                        <strong>Status:</strong> <span style="color: var(--success); font-weight: 600;">✓ Active</span>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.25rem;">Progress Statistics</h3>
                 
                 <div class="stats-grid" style="margin-bottom: 2rem;">
                     <div class="stat-card">
+                        <div class="stat-icon primary">🎯</div>
                         <div class="stat-value">${totalChallenges}</div>
                         <div class="stat-label">Challenges Joined</div>
                     </div>
                     <div class="stat-card">
+                        <div class="stat-icon secondary">🔥</div>
                         <div class="stat-value">${activeStreak}</div>
                         <div class="stat-label">Current Streak</div>
                     </div>
                     <div class="stat-card">
+                        <div class="stat-icon accent">✓</div>
                         <div class="stat-value">${completedDays}</div>
                         <div class="stat-label">Total Check-ins</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">🏆</div>
+                        <div class="stat-value">${longestStreak}</div>
+                        <div class="stat-label">Longest Streak</div>
+                    </div>
                 </div>
 
-                <h4 style="margin-bottom: 1rem; font-weight: 600; color: var(--text);">Challenge Details</h4>
-                <div class="challenges-grid">
-                    ${user.challenges?.map(userChallenge => {
-                        const challenge = appState.challenges.find(c => c.id === userChallenge.challengeId);
-                        if (!challenge) return '';
-                        
-                        return `
+                ${totalChallenges > 0 ? `
+                    <h4 style="margin-bottom: 1rem; font-weight: 600; color: var(--text); font-size: 1.1rem;">Challenge Details</h4>
+                    <div class="challenges-grid">
+                        ${user.challenges.map(userChallenge => {
+                            const challenge = appState.challenges.find(c => c.id === userChallenge.challengeId);
+                            if (!challenge) return '';
+                            
+                            const progress = (userChallenge.completedDays?.length || 0) / challenge.duration * 100;
+                            
+                            return `
+                                <div class="challenge-card">
+                                    <div class="challenge-icon">${challenge.icon}</div>
+                                    <h3 class="challenge-title">${challenge.title}</h3>
+                                    <p class="challenge-description">
+                                        Started: ${new Date(userChallenge.startDate).toLocaleDateString()}
+                                    </p>
+                                    ${renderProgressCircle(progress)}
+                                    <div class="challenge-meta">
+                                        <div class="streak-display">
+                                            <span style="font-size: 1.25rem;">🔥</span>
+                                            <span class="streak-number">${userChallenge.currentStreak}</span>
+                                        </div>
+                                        <div style="color: var(--text-light); font-weight: 600;">
+                                            ${userChallenge.completedDays?.length || 0}/${challenge.duration} days
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : `
+                    <div class="info-box warning">
+                        <div class="info-box-title">
+                            <span>📋</span>
+                            No Challenges Yet
+                        </div>
+                        <div class="info-box-content">
+                            This user hasn't joined any challenges yet. They can start by selecting a challenge from their dashboard.
+                        </div>
+                    </div>
+                `}
+            `;
+        }
+
+        function renderChallengesTab() {
+            return `
+                <div class="admin-main">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h3 class="section-title" style="margin: 0;">
+                            <span>🎯</span>
+                            Manage Challenges
+                        </h3>
+                        <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
+                            <span>➕</span>
+                            Add New Challenge
+                        </button>
+                    </div>
+
+                    <div class="challenges-grid">
+                        ${appState.challenges.map(challenge => `
                             <div class="challenge-card">
                                 <div class="challenge-icon">${challenge.icon}</div>
                                 <h3 class="challenge-title">${challenge.title}</h3>
+                                <p class="challenge-description">${challenge.description}</p>
                                 <div class="challenge-meta">
-                                    <div class="streak-display">
-                                        <span style="font-size: 1.25rem;">🔥</span>
-                                        <span class="streak-number">${userChallenge.currentStreak}</span>
-                                    </div>
-                                    <div style="color: var(--text-light); font-weight: 600;">
-                                        ${userChallenge.completedDays?.length || 0}/${challenge.duration} days
+                                    <div class="challenge-duration">
+                                        <span>📅</span>
+                                        ${challenge.duration} days
                                     </div>
                                 </div>
                             </div>
-                        `;
-                    }).join('') || '<div class="empty-state"><p>No challenges joined yet</p></div>'}
+                        `).join('')}
+                    </div>
                 </div>
             `;
         }
@@ -1602,6 +2145,8 @@
             
             if (appState.view === 'login') {
                 app.innerHTML = renderLogin();
+            } else if (appState.view === 'pending') {
+                app.innerHTML = renderPendingApproval();
             } else if (appState.view === 'dashboard') {
                 app.innerHTML = renderDashboard();
             } else if (appState.view === 'admin') {
