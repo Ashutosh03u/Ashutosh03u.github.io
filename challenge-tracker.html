@@ -95,6 +95,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .logo {
@@ -124,6 +125,7 @@
             text-decoration: none;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            font-size: 0.95rem;
         }
 
         .back-home:hover {
@@ -144,6 +146,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .user-email {
@@ -300,6 +304,20 @@
 
         .btn-login {
             flex: 1;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
         }
 
         /* Dashboard */
@@ -497,6 +515,33 @@
             padding: 0.5rem 1rem;
             background: #48bb7815;
             border-radius: 8px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box-content {
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .info-box-content strong {
+            color: var(--primary);
         }
 
         /* Progress Circle */
@@ -740,8 +785,18 @@
             opacity: 0.5;
         }
 
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #fcc;
+        }
+
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .admin-layout {
                 grid-template-columns: 1fr;
             }
@@ -752,7 +807,6 @@
 
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
                 text-align: center;
             }
 
@@ -771,6 +825,10 @@
             .container {
                 padding: 1rem;
             }
+
+            .login-options {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -783,6 +841,9 @@
     <div id="app"></div>
 
     <script>
+        // ADMIN PASSWORD - Change this to your secure password
+        const ADMIN_PASSWORD = "habiba2026"; // ⚠️ CHANGE THIS PASSWORD!
+        
         // Theme Toggle
         function toggleTheme() {
             const html = document.documentElement;
@@ -833,7 +894,8 @@
             selectedChallenge: null,
             selectedUser: null,
             showModal: false,
-            showAddModal: false
+            showAddModal: false,
+            adminError: ''
         };
 
         // Initialize Data
@@ -847,34 +909,14 @@
                 if (savedChallenges) {
                     appState.challenges = JSON.parse(savedChallenges.value);
                 } else {
+                    // ONLY LinkedIn Challenge by default
                     appState.challenges = [
                         {
                             id: '1',
-                            title: 'Daily LinkedIn Post',
-                            description: 'Post valuable career content on LinkedIn every day to build your personal brand',
+                            title: 'Daily LinkedIn Post Challenge',
+                            description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
                             duration: 30,
                             icon: '💼'
-                        },
-                        {
-                            id: '2',
-                            title: 'Resume Update Challenge',
-                            description: 'Improve one section of your resume daily to make it ATS-friendly and impactful',
-                            duration: 7,
-                            icon: '📄'
-                        },
-                        {
-                            id: '3',
-                            title: 'Interview Practice',
-                            description: 'Practice answering common and behavioral interview questions daily',
-                            duration: 14,
-                            icon: '🎯'
-                        },
-                        {
-                            id: '4',
-                            title: 'Networking Challenge',
-                            description: 'Reach out to one professional in your field every day',
-                            duration: 21,
-                            icon: '🤝'
                         }
                     ];
                     await storage.set('challenges', JSON.stringify(appState.challenges), true);
@@ -890,26 +932,40 @@
             render();
         }
 
-        // Handle Login
-        async function handleLogin(email, isAdmin = false) {
+        // Handle Login - Modified for Admin Password Protection
+        async function handleLogin(email, password = '', isAdminAttempt = false) {
+            // Admin login requires password
+            if (isAdminAttempt) {
+                if (password !== ADMIN_PASSWORD) {
+                    appState.adminError = '❌ Incorrect admin password. Access denied.';
+                    render();
+                    return;
+                }
+            }
+            
             const newUser = {
                 id: email.replace(/[^a-z0-9]/gi, '_'),
                 email,
-                isAdmin,
+                isAdmin: isAdminAttempt,
                 joinedDate: new Date().toISOString(),
                 challenges: []
             };
             
             appState.user = newUser;
+            appState.adminError = '';
             await storage.set('current-user', JSON.stringify(newUser));
             
-            const existingUsers = appState.users.some(u => u.email === email);
-            if (!existingUsers) {
+            const existingUser = appState.users.find(u => u.email === email);
+            if (!existingUser) {
                 appState.users.push(newUser);
+                await storage.set('all-users', JSON.stringify(appState.users), true);
+            } else {
+                // Update existing user
+                appState.users = appState.users.map(u => u.email === email ? newUser : u);
                 await storage.set('all-users', JSON.stringify(appState.users), true);
             }
             
-            appState.view = isAdmin ? 'admin' : 'dashboard';
+            appState.view = isAdminAttempt ? 'admin' : 'dashboard';
             render();
         }
 
@@ -918,6 +974,7 @@
             await storage.delete('current-user');
             appState.user = null;
             appState.view = 'login';
+            appState.adminError = '';
             render();
         }
 
@@ -956,7 +1013,10 @@
                     const newCompletedDays = [...ch.completedDays, today];
                     const sortedDays = newCompletedDays.sort();
                     
-                    let currentStreak = 1;
+                    // STREAK CALCULATION LOGIC:
+                    // We count consecutive days starting from today and going backwards
+                    let currentStreak = 1; // Today counts as 1
+                    
                     for (let i = sortedDays.length - 2; i >= 0; i--) {
                         const current = new Date(sortedDays[i + 1]);
                         const previous = new Date(sortedDays[i]);
@@ -964,8 +1024,10 @@
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                         
                         if (diffDays === 1) {
+                            // Consecutive day found, increment streak
                             currentStreak++;
                         } else {
+                            // Gap found, stop counting
                             break;
                         }
                     }
@@ -1025,7 +1087,7 @@
                             </div>
                         </div>
 
-                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, false);">
+                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, document.getElementById('passwordInput')?.value || '', false);">
                             <div class="form-group">
                                 <label class="form-label">Email Address or Phone</label>
                                 <input
@@ -1040,18 +1102,24 @@
                             <div class="login-options">
                                 <button type="submit" class="btn btn-primary btn-login">
                                     <span>👤</span>
-                                    Join as User
+                                    Join Challenge
                                 </button>
                                 <button
                                     type="button"
                                     class="btn btn-secondary btn-login"
-                                    onclick="event.preventDefault(); handleLogin(document.getElementById('emailInput').value, true);"
+                                    onclick="showAdminLogin();"
                                 >
-                                    <span>⚙️</span>
-                                    Admin Login
+                                    <span>🔒</span>
+                                    Admin Access
                                 </button>
                             </div>
                         </form>
+
+                        ${appState.adminError ? `
+                            <div class="error-message">${appState.adminError}</div>
+                        ` : ''}
+
+                        <a href="index.html" class="back-link">← Back to Main Website</a>
 
                         <div style="margin-top: 2rem; text-align: center; color: var(--text-light); font-size: 0.85rem;">
                             By PMProHabiba - Career Challenge Tracker
@@ -1061,15 +1129,25 @@
             `;
         }
 
+        function showAdminLogin() {
+            const email = prompt("Enter your admin email:");
+            if (!email) return;
+            
+            const password = prompt("Enter admin password:");
+            if (!password) return;
+            
+            handleLogin(email, password, true);
+        }
+
         function renderHeader() {
             return `
                 <header class="header">
                     <div class="header-content">
-                        <a href="index.html" class="logo">
+                        <div class="logo">
                             <span>🎯</span>
                             Challenge Tracker
-                        </a>
-                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                             ${appState.user && appState.user.isAdmin ? `
                                 <button class="btn btn-secondary" onclick="appState.view = appState.view === 'admin' ? 'dashboard' : 'admin'; render();">
                                     ${appState.view === 'admin' ? '👤 User View' : '⚙️ Admin Panel'}
@@ -1117,6 +1195,20 @@
                     <div class="dashboard-header">
                         <h1 class="dashboard-title">Your Dashboard</h1>
                         <p class="dashboard-subtitle">Keep pushing forward, ${appState.user.email.split('@')[0]}! 💪</p>
+                    </div>
+
+                    <!-- Streak Explanation Info Box -->
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span>📊</span>
+                            How Streaks Work
+                        </div>
+                        <div class="info-box-content">
+                            <strong>Streak</strong> = Number of consecutive days you've checked in.<br>
+                            ✅ Check in today to continue your streak<br>
+                            ⚠️ Miss a day and your streak resets to 0<br>
+                            🏆 Your <strong>Longest Streak</strong> is always saved
+                        </div>
                     </div>
 
                     <div class="stats-grid">
@@ -1167,7 +1259,7 @@
                                                 ${checkedIn ? `
                                                     <div class="checked-in-badge">
                                                         <span>✓</span>
-                                                        Checked in
+                                                        Done Today
                                                     </div>
                                                 ` : `
                                                     <span style="color: var(--text-light);">→</span>
@@ -1454,7 +1546,7 @@
                                     type="text"
                                     id="newTitle"
                                     class="form-input"
-                                    placeholder="e.g., Daily LinkedIn Post"
+                                    placeholder="e.g., Daily Resume Update"
                                     required
                                 />
                             </div>
@@ -1488,8 +1580,8 @@
                                     type="text"
                                     id="newIcon"
                                     class="form-input"
-                                    placeholder="🎯"
-                                    value="🎯"
+                                    placeholder="📄"
+                                    value="📄"
                                     required
                                 />
                             </div>
