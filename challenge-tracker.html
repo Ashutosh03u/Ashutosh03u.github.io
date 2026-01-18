@@ -1055,9 +1055,9 @@
                         appState.challenges = [
                             {
                                 id: '1',
-                                title: '75 Intentional',
-                                description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It’s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1',
-                                duration: 75,
+                                title: 'Daily LinkedIn Post Challenge',
+                                description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
+                                duration: 30,
                                 icon: '💼'
                             }
                         ];
@@ -1068,9 +1068,9 @@
                     appState.challenges = [
                         {
                             id: '1',
-                            title: '75 Intentional',
-                            description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It’s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1',
-                            duration: 75,
+                            title: 'Daily LinkedIn Post Challenge',
+                            description: 'Post valuable career content on LinkedIn every day to build your personal brand and establish yourself as a thought leader',
+                            duration: 30,
                             icon: '💼'
                         }
                     ];
@@ -1277,6 +1277,77 @@
             console.log('User rejected:', rejectedUser?.name || rejectedUser?.email);
             console.log('Remaining pending users:', appState.pendingUsers.length);
             
+            render();
+        }
+
+        // Approve All Pending Users
+        async function approveAllUsers() {
+            const count = appState.pendingUsers.length;
+            
+            if (count === 0) {
+                alert('No pending users to approve.');
+                return;
+            }
+
+            const confirmation = confirm(`Are you sure you want to approve ALL ${count} pending user${count > 1 ? 's' : ''}?`);
+            if (!confirmation) return;
+
+            // Approve each pending user
+            for (const pendingUser of appState.pendingUsers) {
+                const approvedUser = {
+                    id: pendingUser.id,
+                    email: pendingUser.email,
+                    name: pendingUser.name,
+                    requestDate: pendingUser.requestDate,
+                    approved: true,
+                    approvedDate: new Date().toISOString(),
+                    joinedDate: new Date().toISOString(),
+                    isAdmin: false,
+                    challenges: []
+                };
+                appState.users.push(approvedUser);
+            }
+
+            // Clear pending users
+            const approvedCount = appState.pendingUsers.length;
+            appState.pendingUsers = [];
+
+            // Save data
+            await storage.set('all-users', JSON.stringify(appState.users), true);
+            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
+
+            console.log(`Bulk approval: ${approvedCount} users approved`);
+            console.log('Total approved users:', appState.users.length);
+
+            alert(`✅ Successfully approved ${approvedCount} user${approvedCount > 1 ? 's' : ''}!`);
+            render();
+        }
+
+        // Reject All Pending Users
+        async function rejectAllUsers() {
+            const count = appState.pendingUsers.length;
+            
+            if (count === 0) {
+                alert('No pending users to reject.');
+                return;
+            }
+
+            const confirmation = confirm(`⚠️ WARNING: Are you sure you want to REJECT ALL ${count} pending user${count > 1 ? 's' : ''}? This cannot be undone!`);
+            if (!confirmation) return;
+
+            const doubleCheck = confirm(`This will permanently delete ${count} pending request${count > 1 ? 's' : ''}. Are you absolutely sure?`);
+            if (!doubleCheck) return;
+
+            // Clear all pending users
+            const rejectedCount = appState.pendingUsers.length;
+            appState.pendingUsers = [];
+
+            // Save data
+            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
+
+            console.log(`Bulk rejection: ${rejectedCount} users rejected`);
+
+            alert(`❌ Rejected ${rejectedCount} user${rejectedCount > 1 ? 's' : ''}.`);
             render();
         }
 
@@ -1859,12 +1930,38 @@
         function renderPendingUsersTab() {
             return `
                 <div class="admin-main">
-                    <h3 class="section-title">
-                        <span>⏳</span>
-                        Pending Access Requests
-                    </h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                        <h3 class="section-title" style="margin: 0;">
+                            <span>⏳</span>
+                            Pending Access Requests
+                        </h3>
+                        ${appState.pendingUsers.length > 0 ? `
+                            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                <button class="btn btn-success" onclick="approveAllUsers();">
+                                    <span>✓✓</span>
+                                    Approve All (${appState.pendingUsers.length})
+                                </button>
+                                <button class="btn btn-danger" onclick="rejectAllUsers();">
+                                    <span>✕✕</span>
+                                    Reject All
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
                     
                     ${appState.pendingUsers.length > 0 ? `
+                        <div class="info-box" style="margin-bottom: 2rem;">
+                            <div class="info-box-title">
+                                <span>💡</span>
+                                Bulk Actions
+                            </div>
+                            <div class="info-box-content">
+                                <strong>Approve All:</strong> Grants immediate access to all pending users<br>
+                                <strong>Reject All:</strong> Permanently removes all pending requests<br>
+                                <em>Or approve/reject individually using buttons on each card below</em>
+                            </div>
+                        </div>
+
                         <div class="challenges-grid">
                             ${appState.pendingUsers.map(user => `
                                 <div class="challenge-card user-item pending">
@@ -1889,7 +1986,9 @@
                         </div>
                     ` : `
                         <div class="empty-state">
-                            <p>No pending requests</p>
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                            <p style="font-size: 1.1rem; font-weight: 600;">All caught up!</p>
+                            <p style="margin-top: 0.5rem;">No pending requests at the moment.</p>
                         </div>
                     `}
                 </div>
