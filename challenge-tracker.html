@@ -1666,28 +1666,42 @@
                                 <span>🎉</span>
                                 <span>You've completed today's check-in! Come back tomorrow!</span>
                             </div>
-                        ` : ''}
-
-                        ${appState.currentChallenge.tasks.map(task => {
-                            const isComplete = progress?.dailyData?.[today]?.tasks?.[task.id] || false;
-                            return `
-                                <div class="task-item ${isComplete ? 'completed' : ''}">
-                                    <div class="task-info">
-                                        <div class="task-checkbox ${isComplete ? 'checked' : ''}">
-                                            ${isComplete ? '✓' : ''}
+                            
+                            <!-- Show completed tasks -->
+                            ${appState.currentChallenge.tasks.map(task => {
+                                const isComplete = progress?.dailyData?.[today]?.tasks?.[task.id] || false;
+                                return `
+                                    <div class="task-item ${isComplete ? 'completed' : ''}">
+                                        <div class="task-info">
+                                            <div class="task-checkbox ${isComplete ? 'checked' : ''}">
+                                                ${isComplete ? '✓' : ''}
+                                            </div>
+                                            <span class="task-name">${task.name}</span>
                                         </div>
-                                        <span class="task-name">${task.name}</span>
                                     </div>
-                                </div>
-                            `;
-                        }).join('')}
-
-                        ${!todayComplete ? `
+                                `;
+                            }).join('')}
+                        ` : `
+                            <!-- Show task list before check-in -->
+                            <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                                <h4 style="margin-bottom: 1rem; color: var(--text); font-size: 0.95rem;">
+                                    📋 Today you need to complete:
+                                </h4>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    ${appState.currentChallenge.tasks.map(task => `
+                                        <li style="padding: 0.5rem 0; color: var(--text-light); display: flex; align-items: center; gap: 0.5rem;">
+                                            <span style="color: var(--primary);">▸</span>
+                                            ${task.name}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            
                             <button class="btn btn-primary checkin-btn" onclick="appState.showCheckinModal = true; render();">
                                 <span>✓</span>
                                 Complete Today's Check-in
                             </button>
-                        ` : ''}
+                        `}
                     </div>
 
                     <!-- Calendar View -->
@@ -1912,64 +1926,155 @@
                             <p>No user activity yet</p>
                         </div>
                     ` : `
-                        <div class="challenges-grid">
-                            ${allUserProgress.map(({ user, challenge, progress }) => `
-                                <div class="challenge-card">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border);">
-                                        <div class="challenge-icon" style="font-size: 2rem; margin: 0;">${challenge.icon}</div>
+                        ${allUserProgress.map(({ user, challenge, progress }) => {
+                            // Get all completed days sorted by date (most recent first)
+                            const completedDays = Object.entries(progress.dailyData || {})
+                                .sort(([dateA], [dateB]) => dateB.localeCompare(dateA))
+                                .slice(0, 10); // Show last 10 days
+                            
+                            return `
+                                <div style="background: var(--card); border: 2px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow);">
+                                    <!-- User Header -->
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border);">
+                                        <div style="font-size: 2.5rem;">${challenge.icon}</div>
                                         <div style="flex: 1;">
-                                            <div style="font-weight: 700; color: var(--text); font-size: 1.1rem;">${challenge.title}</div>
-                                            <div style="color: var(--text-light); font-size: 0.85rem;">👤 ${user.email}</div>
+                                            <div style="font-weight: 700; color: var(--text); font-size: 1.25rem;">${challenge.title}</div>
+                                            <div style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.25rem;">👤 ${user.email}</div>
                                         </div>
                                     </div>
 
-                                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
-                                        <div style="text-align: center;">
-                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                    <!-- Stats -->
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                                        <div style="text-align: center; background: var(--bg-alt); padding: 1rem; border-radius: 12px;">
+                                            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary);">
                                                 ${progress.currentStreak || 0}
                                             </div>
-                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600; margin-top: 0.25rem;">
                                                 Current Streak
                                             </div>
                                         </div>
-                                        <div style="text-align: center;">
-                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                        <div style="text-align: center; background: var(--bg-alt); padding: 1rem; border-radius: 12px;">
+                                            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary);">
                                                 ${progress.longestStreak || 0}
                                             </div>
-                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600; margin-top: 0.25rem;">
                                                 Longest Streak
                                             </div>
                                         </div>
-                                        <div style="text-align: center;">
-                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                        <div style="text-align: center; background: var(--bg-alt); padding: 1rem; border-radius: 12px;">
+                                            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary);">
                                                 ${progress.totalDays || 0}
                                             </div>
-                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600; margin-top: 0.25rem;">
                                                 Total Days
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="calendar-grid" style="grid-template-columns: repeat(10, 1fr);">
-                                        ${Array.from({length: challenge.duration}, (_, i) => {
-                                            const startDate = new Date(progress.startDate);
-                                            const currentDate = new Date(startDate);
-                                            currentDate.setDate(startDate.getDate() + i);
-                                            const dateStr = currentDate.toISOString().split('T')[0];
-                                            const isComplete = progress.dailyData?.[dateStr]?.completed || false;
-                                            
-                                            return `
-                                                <div class="calendar-day ${isComplete ? 'completed' : ''}"
-                                                     title="${dateStr}"
-                                                     style="font-size: 0.7rem;">
-                                                    ${i + 1}
-                                                </div>
-                                            `;
-                                        }).join('')}
+                                    <!-- Calendar -->
+                                    <div style="margin-bottom: 2rem;">
+                                        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                            <span>📅</span> Progress Calendar
+                                        </h4>
+                                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); gap: 0.4rem;">
+                                            ${Array.from({length: challenge.duration}, (_, i) => {
+                                                const startDate = new Date(progress.startDate);
+                                                const currentDate = new Date(startDate);
+                                                currentDate.setDate(startDate.getDate() + i);
+                                                const dateStr = currentDate.toISOString().split('T')[0];
+                                                const isComplete = progress.dailyData?.[dateStr]?.completed || false;
+                                                
+                                                return `
+                                                    <div style="aspect-ratio: 1; border-radius: 6px; border: 2px solid ${isComplete ? 'var(--success)' : 'var(--border)'}; background: ${isComplete ? 'var(--success)' : 'var(--card)'}; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: ${isComplete ? 'white' : 'var(--text-light)'};"
+                                                         title="${dateStr}${isComplete ? ' - Completed' : ' - Not completed'}">
+                                                        ${i + 1}
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
                                     </div>
+
+                                    <!-- Daily Entries -->
+                                    ${completedDays.length > 0 ? `
+                                        <div>
+                                            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                                <span>📝</span> Recent Daily Entries (Last 10 Days)
+                                            </h4>
+                                            
+                                            ${completedDays.map(([date, dailyData]) => {
+                                                const allTasksComplete = dailyData.completed;
+                                                const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+                                                    weekday: 'short', 
+                                                    year: 'numeric', 
+                                                    month: 'short', 
+                                                    day: 'numeric' 
+                                                });
+                                                
+                                                return `
+                                                    <div style="background: var(--bg-alt); border-left: 4px solid ${allTasksComplete ? 'var(--success)' : 'var(--danger)'}; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                                                        <!-- Date Header -->
+                                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                                            <div style="font-weight: 700; color: var(--text); font-size: 0.95rem;">
+                                                                📅 ${formattedDate}
+                                                            </div>
+                                                            <div style="background: ${allTasksComplete ? 'var(--success)' : 'var(--danger)'}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                                                ${allTasksComplete ? '✓ Completed' : '✗ Incomplete'}
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Tasks -->
+                                                        <div style="margin-bottom: 1.5rem;">
+                                                            <h6 style="font-weight: 600; color: var(--text); margin-bottom: 0.75rem; font-size: 0.85rem;">
+                                                                ✅ Tasks:
+                                                            </h6>
+                                                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+                                                                ${challenge.tasks.map(task => {
+                                                                    const isComplete = dailyData.tasks?.[task.id];
+                                                                    return `
+                                                                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: var(--card); border-radius: 6px;">
+                                                                            <span style="color: ${isComplete ? 'var(--success)' : 'var(--danger)'}; font-size: 1rem; font-weight: 700;">
+                                                                                ${isComplete ? '✓' : '✗'}
+                                                                            </span>
+                                                                            <span style="font-size: 0.8rem; color: var(--text); font-weight: 500;">${task.name}</span>
+                                                                        </div>
+                                                                    `;
+                                                                }).join('')}
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Progress Report -->
+                                                        ${dailyData.progressReport && Object.keys(dailyData.progressReport).length > 0 ? `
+                                                            <div>
+                                                                <h6 style="font-weight: 600; color: var(--text); margin-bottom: 0.75rem; font-size: 0.85rem;">
+                                                                    📝 Progress Report:
+                                                                </h6>
+                                                                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                                                    ${challenge.progressReportQuestions.map((question, idx) => `
+                                                                        <div style="background: var(--card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                                                                            <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; font-size: 0.8rem;">
+                                                                                ${String.fromCharCode(97 + idx)}. ${question}
+                                                                            </div>
+                                                                            <div style="color: var(--text); font-size: 0.85rem; line-height: 1.5; white-space: pre-wrap;">
+                                                                                ${dailyData.progressReport[`q${idx}`] || '<em style="color: var(--text-light);">No answer provided</em>'}
+                                                                            </div>
+                                                                        </div>
+                                                                    `).join('')}
+                                                                </div>
+                                                            </div>
+                                                        ` : ''}
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    ` : `
+                                        <div style="text-align: center; padding: 2rem; color: var(--text-light); background: var(--bg-alt); border-radius: 12px;">
+                                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📭</div>
+                                            <p style="font-size: 0.9rem;">No daily entries yet</p>
+                                        </div>
+                                    `}
                                 </div>
-                            `).join('')}
-                        </div>
+                            `;
+                        }).join('')}
                     `}
                 </div>
             `;
