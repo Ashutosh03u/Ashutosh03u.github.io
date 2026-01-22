@@ -965,14 +965,14 @@
         // ====================================================================
         // IMPORTANT: Replace these with your actual Firebase config
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+    apiKey: "AIzaSyD_oycEr_bza7OLIeiC2wss8iaKAFaaeTM",
+    authDomain: "challenge-tracker-new.firebaseapp.com",
+    databaseURL: "https://challenge-tracker-new-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "challenge-tracker-new",
+    storageBucket: "challenge-tracker-new.firebasestorage.app",
+    messagingSenderId: "35927063819",
+    appId: "1:35927063819:web:63c6e7712df756207fb60e"
+  };
 
         // Check if Firebase is configured
         const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY_HERE";
@@ -1297,11 +1297,10 @@
                     description,
                     duration: parseInt(duration),
                     icon,
-                    hasTasks: true,
                     tasks: [
-                        { id: 't1', name: 'Task 1', required: true },
-                        { id: 't2', name: 'Task 2', required: true },
-                        { id: 't3', name: 'Task 3', required: true }
+                        { id: 't1', name: 'Task 1' },
+                        { id: 't2', name: 'Task 2' },
+                        { id: 't3', name: 'Task 3' }
                     ],
                     progressReportQuestions: [
                         'What did you accomplish today?',
