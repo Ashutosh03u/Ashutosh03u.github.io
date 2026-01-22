@@ -7,6 +7,10 @@
     <meta name="description" content="Track your career development challenges with daily streaks and progress monitoring.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600&display=swap');
         
@@ -50,6 +54,34 @@
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-alt);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 1rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .theme-toggle {
@@ -189,32 +221,14 @@
             color: var(--primary);
         }
 
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #38a169;
-        }
-
         .btn-danger {
             background: var(--danger);
             color: white;
         }
 
         .btn-danger:hover {
-            background: #e53e3e;
-        }
-
-        .btn-logout {
-            background: transparent;
-            color: var(--text-light);
-            padding: 0.5rem 1rem;
-        }
-
-        .btn-logout:hover {
-            color: var(--primary);
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
         .container {
@@ -224,59 +238,40 @@
         }
 
         .login-container {
-            min-height: 100vh;
+            min-height: calc(100vh - 80px);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
         }
 
-        .login-card {
+        .login-box {
             background: var(--card);
             padding: 3rem;
-            border-radius: 24px;
+            border-radius: 20px;
             box-shadow: var(--shadow-lg);
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .login-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            border: 2px solid var(--border);
         }
 
         .login-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem;
         }
 
         .login-subtitle {
+            text-align: center;
             color: var(--text-light);
-            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
         .form-group {
@@ -285,18 +280,19 @@
 
         .form-label {
             display: block;
-            font-weight: 600;
             margin-bottom: 0.5rem;
+            font-weight: 600;
             color: var(--text);
+            font-size: 0.9rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.875rem 1.125rem;
             border: 2px solid var(--border);
             border-radius: 12px;
             font-family: 'Sora', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             background: var(--bg);
             color: var(--text);
             transition: all 0.3s;
@@ -308,214 +304,190 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .form-input.error {
-            border-color: var(--danger);
+        .form-input::placeholder {
+            color: var(--text-light);
+            opacity: 0.6;
         }
 
-        .form-help {
-            font-size: 0.85rem;
-            color: var(--text-light);
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
             margin-top: 0.5rem;
         }
 
-        .login-options {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-direction: column;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-login {
-            width: 100%;
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text-light);
-            text-decoration: none;
+        .error-message {
+            background: rgba(245, 101, 101, 0.1);
+            color: var(--danger);
+            padding: 0.875rem 1.125rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             font-size: 0.9rem;
-            transition: color 0.3s;
+            border: 2px solid rgba(245, 101, 101, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .back-link:hover {
-            color: var(--primary);
+        .success-message {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--success);
+            padding: 0.875rem 1.125rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border: 2px solid rgba(72, 187, 120, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .divider {
+        .pending-container {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .pending-box {
+            background: var(--card);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 100%;
             text-align: center;
-            margin: 1.5rem 0;
-            color: var(--text-light);
-            position: relative;
+            border: 2px solid var(--border);
         }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40%;
-            height: 1px;
-            background: var(--border);
+        .pending-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
         }
 
-        .divider::before { left: 0; }
-        .divider::after { right: 0; }
-
-        .dashboard-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .dashboard-title {
+        .pending-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 1.75rem;
             font-weight: 800;
+            margin-bottom: 1rem;
             color: var(--text);
-            margin-bottom: 0.5rem;
         }
 
-        .dashboard-subtitle {
+        .pending-text {
             color: var(--text-light);
-            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
             background: var(--card);
-            padding: 2rem;
-            border-radius: 20px;
+            padding: 1.75rem;
+            border-radius: 16px;
+            border: 2px solid var(--border);
             box-shadow: var(--shadow);
             transition: all 0.3s;
-            border: 2px solid var(--border);
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
             border-color: var(--primary);
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.75rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
         }
 
-        .stat-icon.primary {
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-        }
-
-        .stat-icon.secondary {
-            background: linear-gradient(135deg, #48bb7820 0%, #38a16920 100%);
-        }
-
-        .stat-icon.accent {
-            background: linear-gradient(135deg, #f6ad5520 0%, #ed8f2420 100%);
-        }
-
-        .stat-icon.warning {
-            background: linear-gradient(135deg, #f6ad5520 0%, #ed8f2420 100%);
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-value {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             font-weight: 800;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
         }
 
         .challenges-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
         }
 
         .challenge-card {
             background: var(--card);
+            border: 2px solid var(--border);
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: var(--shadow);
             transition: all 0.3s;
-            cursor: pointer;
-            border: 2px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .challenge-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient);
-            transform: scaleX(0);
-            transition: transform 0.3s;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
         }
 
         .challenge-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
             border-color: var(--primary);
         }
 
-        .challenge-card:hover::before {
-            transform: scaleX(1);
-        }
-
         .challenge-icon {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
 
         .challenge-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            margin-bottom: 0.75rem;
             color: var(--text);
-            margin-bottom: 0.5rem;
         }
 
         .challenge-description {
             color: var(--text-light);
             margin-bottom: 1.5rem;
-            font-size: 0.95rem;
             line-height: 1.6;
+            flex-grow: 1;
         }
 
         .challenge-meta {
@@ -524,6 +496,7 @@
             align-items: center;
             padding-top: 1rem;
             border-top: 2px solid var(--border);
+            margin-bottom: 1rem;
         }
 
         .challenge-duration {
@@ -535,111 +508,153 @@
             font-size: 0.9rem;
         }
 
-        .streak-display {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .streak-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .checked-in-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--success);
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            background: #48bb7815;
-            border-radius: 8px;
-        }
-
-        .info-box {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border: 2px solid var(--primary);
+        .progress-container {
+            background: var(--bg-alt);
+            padding: 2rem;
             border-radius: 16px;
-            padding: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .info-box.warning {
-            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
-            border-color: var(--warning);
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .info-box.pending {
-            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
-            border-color: var(--warning);
-        }
-
-        .info-box-title {
+        .progress-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .streak-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
-        .info-box.warning .info-box-title,
-        .info-box.pending .info-box-title {
-            color: var(--warning);
-        }
-
-        .info-box-content {
-            color: var(--text);
-            line-height: 1.8;
-        }
-
-        .info-box-content strong {
-            color: var(--primary);
-        }
-
-        .progress-circle {
+        .progress-bar-container {
+            background: var(--card);
+            border-radius: 12px;
+            height: 40px;
+            overflow: hidden;
             position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 1.5rem auto;
+            border: 2px solid var(--border);
         }
 
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.5s ease;
-            stroke: url(#gradient);
-            stroke-linecap: round;
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            transition: width 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
         }
 
         .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
 
-        .progress-value {
-            font-size: 2rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .tasks-container {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid var(--border);
         }
 
-        .progress-label {
-            font-size: 0.8rem;
-            color: var(--text-light);
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: var(--bg-alt);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .task-item.completed {
+            background: rgba(72, 187, 120, 0.1);
+            border-color: var(--success);
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .task-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: var(--card);
+        }
+
+        .task-checkbox:hover {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .task-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .task-name {
             font-weight: 600;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .task-item.completed .task-name {
+            color: var(--success);
+        }
+
+        .checkin-btn {
+            width: 100%;
+            margin-top: 2rem;
+            padding: 1.25rem;
+            font-size: 1.1rem;
         }
 
         .modal-overlay {
@@ -648,13 +663,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            animation: fadeIn 0.3s ease-out;
+            padding: 1rem;
+            animation: fadeIn 0.2s;
         }
 
         @keyframes fadeIn {
@@ -664,258 +679,219 @@
 
         .modal {
             background: var(--card);
-            border-radius: 24px;
-            padding: 2.5rem;
-            max-width: 550px;
-            width: 90%;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalSlide 0.3s ease-out;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            animation: slideUp 0.3s;
         }
 
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
+            padding: 2rem;
+            border-bottom: 2px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
         }
 
         .modal-title {
             font-family: 'Outfit', sans-serif;
             font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .close-btn {
-            background: var(--bg-alt);
-            border: none;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: all 0.3s;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .close-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .modal-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .modal-stat {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--bg-alt);
-            border-radius: 12px;
-            border: 2px solid var(--border);
-        }
-
-        .modal-stat-value {
-            font-size: 2rem;
             font-weight: 800;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.25rem;
         }
 
-        .modal-stat-label {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 600;
+        .close-btn {
+            background: var(--bg-alt);
+            border: 2px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            color: var(--text);
         }
 
-        .checkin-btn {
-            width: 100%;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            font-size: 1.05rem;
+        .close-btn:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            transform: rotate(90deg);
         }
 
-        .success-message {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #48bb7815 0%, #38a16915 100%);
-            border-radius: 12px;
-            color: var(--success);
-            font-weight: 600;
-            border: 2px solid #48bb7830;
-        }
-
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            border: 2px solid #fcc;
-        }
-
-        .admin-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .admin-sidebar {
-            background: var(--card);
-            border-radius: 20px;
+        .modal form {
             padding: 2rem;
-            box-shadow: var(--shadow);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
+        }
+
+        .admin-nav {
+            background: var(--card);
+            border-bottom: 2px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+        }
+
+        .admin-nav-item {
+            padding: 1.25rem 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-nav-item:hover {
+            color: var(--primary);
+        }
+
+        .admin-nav-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
 
         .admin-main {
-            background: var(--card);
-            border-radius: 20px;
             padding: 2rem;
-            box-shadow: var(--shadow);
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .user-list {
-            margin-top: 1.5rem;
+        .users-table-container {
+            background: var(--card);
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            overflow: hidden;
         }
 
-        .user-item {
-            padding: 1rem;
-            border-radius: 12px;
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th {
             background: var(--bg-alt);
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid transparent;
-        }
-
-        .user-item:hover {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            transform: translateX(5px);
-            border-color: var(--primary);
-        }
-
-        .user-item.active {
-            background: var(--gradient);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .user-item.active .user-details {
-            color: rgba(255,255,255,0.9);
-        }
-
-        .user-item.pending {
-            background: linear-gradient(135deg, #f6ad5515 0%, #ed8f2415 100%);
-            border-color: var(--warning);
-        }
-
-        .user-details {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-top: 0.25rem;
-        }
-
-        .pending-badge {
-            background: var(--warning);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            padding: 1.25rem;
+            text-align: left;
             font-weight: 700;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-light);
-        }
-
-        .empty-state svg {
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            color: var(--text);
             border-bottom: 2px solid var(--border);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .tab {
-            padding: 1rem 2rem;
-            border: none;
-            background: none;
-            color: var(--text-light);
-            font-weight: 600;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s;
+        .users-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
         }
 
-        .tab.active {
+        .users-table tr:hover {
+            background: var(--bg-alt);
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .status-approved {
+            background: rgba(72, 187, 120, 0.15);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(246, 173, 85, 0.15);
+            color: var(--warning);
+        }
+
+        .info-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box-title {
+            font-weight: 700;
             color: var(--primary);
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient);
-        }
-
-        .tab:hover {
-            color: var(--primary);
-        }
-
-        .approval-actions {
+            margin-bottom: 0.75rem;
             display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .info-box-content {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
             gap: 0.5rem;
             margin-top: 1rem;
         }
 
-        @media (max-width: 968px) {
-            .admin-layout {
-                grid-template-columns: 1fr;
-            }
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
 
-            .admin-sidebar {
-                position: static;
-            }
+        .calendar-day:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow);
+        }
 
+        .calendar-day.completed {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .calendar-day.today {
+            border-color: var(--primary);
+            border-width: 3px;
+        }
+
+        @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
@@ -929,13 +905,44 @@
                 grid-template-columns: 1fr;
             }
 
-            .login-card {
-                padding: 2rem;
+            .admin-nav {
+                gap: 1rem;
+                padding: 0 1rem;
             }
 
-            .container {
+            .users-table {
+                font-size: 0.85rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.875rem 0.5rem;
+            }
+
+            .container, .admin-main {
                 padding: 1rem;
             }
+        }
+
+        .firebase-warning {
+            background: rgba(245, 101, 101, 0.1);
+            border: 2px solid var(--danger);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem;
+            text-align: center;
+        }
+
+        .firebase-warning h2 {
+            color: var(--danger);
+            margin-bottom: 1rem;
+        }
+
+        .firebase-warning code {
+            background: var(--card);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
         }
     </style>
 </head>
@@ -945,33 +952,478 @@
         <span class="moon">🌙</span>
     </div>
 
-    <div id="app"></div>
+    <div id="app">
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <div style="color: var(--text-light); font-weight: 600;">Loading...</div>
+        </div>
+    </div>
 
     <script>
-        // FIXED ADMIN CREDENTIALS - Only these can access admin
-        const ADMIN_EMAIL = "habibabhombal04@gmail.com";
-        const ADMIN_PASSWORD = "habiba@2026";
-        
-        // Email validation regex
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+        // ====================================================================
+        // FIREBASE CONFIGURATION
+        // ====================================================================
+        // IMPORTANT: Replace these with your actual Firebase config
+        const firebaseConfig = {
+    apiKey: "AIzaSyD_oycEr_bza7OLIeiC2wss8iaKAFaaeTM",
+    authDomain: "challenge-tracker-new.firebaseapp.com",
+    databaseURL: "https://challenge-tracker-new-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "challenge-tracker-new",
+    storageBucket: "challenge-tracker-new.firebasestorage.app",
+    messagingSenderId: "35927063819",
+    appId: "1:35927063819:web:63c6e7712df756207fb60e"
+  };
+
+        // Check if Firebase is configured
+        const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY_HERE";
+
+        if (!isFirebaseConfigured) {
+            document.getElementById('app').innerHTML = `
+                <div class="firebase-warning">
+                    <h2>⚠️ Firebase Not Configured</h2>
+                    <p style="margin: 1rem 0; color: var(--text);">
+                        This app requires Firebase setup. Please follow these steps:
+                    </p>
+                    <ol style="text-align: left; max-width: 600px; margin: 1rem auto; color: var(--text-light); line-height: 1.8;">
+                        <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: var(--primary);">Firebase Console</a></li>
+                        <li>Create a new project (or use existing)</li>
+                        <li>Enable "Realtime Database" in the Build section</li>
+                        <li>Set database rules to allow read/write (see instructions below)</li>
+                        <li>Get your config from Project Settings > General</li>
+                        <li>Replace the <code>firebaseConfig</code> object in this HTML file</li>
+                    </ol>
+                    <p style="margin-top: 2rem; color: var(--text-light); font-size: 0.9rem;">
+                        Scroll down in this file to find detailed instructions!
+                    </p>
+                </div>
+            `;
+            throw new Error('Firebase not configured');
         }
 
-        // Phone validation regex (supports multiple formats)
-        function isValidPhone(phone) {
-            // Remove all non-digit characters
-            const digitsOnly = phone.replace(/\D/g, '');
-            // Check if it's 10-15 digits (international phone numbers)
-            return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // ====================================================================
+        // DATABASE HELPER FUNCTIONS
+        // ====================================================================
+        async function dbGet(path) {
+            const snapshot = await database.ref(path).once('value');
+            return snapshot.val();
         }
 
-        // Validate email or phone
-        function isValidContact(input) {
-            return isValidEmail(input) || isValidPhone(input);
+        async function dbSet(path, data) {
+            await database.ref(path).set(data);
         }
 
-        // Theme Toggle
+        async function dbUpdate(path, data) {
+            await database.ref(path).update(data);
+        }
+
+        async function dbPush(path, data) {
+            const newRef = database.ref(path).push();
+            await newRef.set(data);
+            return newRef.key;
+        }
+
+        // ====================================================================
+        // APPLICATION STATE
+        // ====================================================================
+        const appState = {
+            currentUser: null,
+            view: 'login',
+            currentChallenge: null,
+            showCheckinModal: false,
+            showAddModal: false,
+            adminTab: 'users',
+            challenges: [],
+            users: [],
+            progressData: {}
+        };
+
+        const defaultChallenges = [{
+            id: 'c1',
+            title: '75 Intentional',
+            description: 'Transform your career in 75 days with focused daily actions towards your professional goals.',
+            duration: 75,
+            icon: '🎯',
+            tasks: [
+                { id: 't1', name: 'LinkedIn Networking' },
+                { id: 't2', name: 'Resume Update' },
+                { id: 't3', name: 'Skill Learning (30 min)' },
+                { id: 't4', name: 'Job Application or Portfolio Work' },
+                { id: 't5', name: 'Read Career Content' }
+            ],
+            progressReportQuestions: [
+                'What did you accomplish today toward your career goal?',
+                'What challenges did you face?',
+                'What will you focus on tomorrow?'
+            ]
+        }];
+
+        // ====================================================================
+        // INITIALIZATION
+        // ====================================================================
+        async function initializeData() {
+            try {
+                // Check if challenges exist
+                const challengesData = await dbGet('challenges');
+                if (!challengesData) {
+                    // Initialize with default challenges
+                    await dbSet('challenges', defaultChallenges);
+                    appState.challenges = defaultChallenges;
+                } else {
+                    appState.challenges = Object.values(challengesData);
+                }
+
+                // Check for logged-in user in localStorage (for session persistence)
+                const savedEmail = localStorage.getItem('currentUserEmail');
+                if (savedEmail) {
+                    const usersData = await dbGet('users');
+                    if (usersData) {
+                        const users = Object.entries(usersData).map(([key, value]) => ({
+                            id: key,
+                            ...value
+                        }));
+                        const user = users.find(u => u.email === savedEmail);
+                        if (user) {
+                            appState.currentUser = user;
+                            if (user.status === 'approved') {
+                                if (user.role === 'admin') {
+                                    appState.view = 'admin';
+                                    await loadAdminData();
+                                } else {
+                                    appState.view = 'dashboard';
+                                    await loadUserProgress();
+                                }
+                            } else {
+                                appState.view = 'pending';
+                            }
+                        }
+                    }
+                }
+
+                render();
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('Error loading data. Please refresh the page.');
+            }
+        }
+
+        // ====================================================================
+        // USER MANAGEMENT
+        // ====================================================================
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                // Get all users from Firebase
+                const usersData = await dbGet('users');
+                let users = [];
+                
+                if (usersData) {
+                    users = Object.entries(usersData).map(([key, value]) => ({
+                        id: key,
+                        ...value
+                    }));
+                }
+
+                const user = users.find(u => u.email === email);
+
+                if (!user) {
+                    // Create new user
+                    const newUserId = await dbPush('users', {
+                        email: email,
+                        password: password,
+                        status: 'pending',
+                        role: 'user',
+                        joinedAt: new Date().toISOString()
+                    });
+
+                    appState.currentUser = {
+                        id: newUserId,
+                        email: email,
+                        password: password,
+                        status: 'pending',
+                        role: 'user'
+                    };
+
+                    localStorage.setItem('currentUserEmail', email);
+                    appState.view = 'pending';
+                    render();
+                } else {
+                    // Existing user login
+                    if (user.password !== password) {
+                        alert('Incorrect password');
+                        return;
+                    }
+
+                    appState.currentUser = user;
+                    localStorage.setItem('currentUserEmail', email);
+
+                    if (user.status === 'pending') {
+                        appState.view = 'pending';
+                    } else if (user.role === 'admin') {
+                        appState.view = 'admin';
+                        await loadAdminData();
+                    } else {
+                        appState.view = 'dashboard';
+                        await loadUserProgress();
+                    }
+                    
+                    render();
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        }
+
+        async function loadUserProgress() {
+            if (!appState.currentUser) return;
+            
+            try {
+                const progressData = await dbGet(`progress/${appState.currentUser.id}`);
+                if (progressData) {
+                    appState.progressData = progressData;
+                }
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        async function loadAdminData() {
+            try {
+                // Load users
+                const usersData = await dbGet('users');
+                if (usersData) {
+                    appState.users = Object.entries(usersData).map(([key, value]) => ({
+                        id: key,
+                        ...value
+                    }));
+                }
+
+                // Load all progress data
+                const progressData = await dbGet('progress');
+                if (progressData) {
+                    appState.progressData = progressData;
+                }
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+            }
+        }
+
+        function handleLogout() {
+            appState.currentUser = null;
+            appState.view = 'login';
+            appState.progressData = {};
+            localStorage.removeItem('currentUserEmail');
+            render();
+        }
+
+        async function approveUser(userId) {
+            try {
+                await dbUpdate(`users/${userId}`, { status: 'approved' });
+                await loadAdminData();
+                render();
+            } catch (error) {
+                console.error('Error approving user:', error);
+                alert('Failed to approve user');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+
+            try {
+                // Delete user
+                await database.ref(`users/${userId}`).remove();
+                
+                // Delete their progress
+                await database.ref(`progress/${userId}`).remove();
+                
+                await loadAdminData();
+                render();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user');
+            }
+        }
+
+        // ====================================================================
+        // CHALLENGE MANAGEMENT
+        // ====================================================================
+        function joinChallenge(challengeId) {
+            const challenge = appState.challenges.find(c => c.id === challengeId);
+            if (!challenge) return;
+
+            appState.currentChallenge = challenge;
+            
+            // Initialize progress for this challenge if not exists
+            if (!appState.progressData[challengeId]) {
+                appState.progressData[challengeId] = {
+                    challengeId: challengeId,
+                    userId: appState.currentUser.id,
+                    startDate: new Date().toISOString(),
+                    currentStreak: 0,
+                    longestStreak: 0,
+                    totalDays: 0,
+                    dailyData: {}
+                };
+            }
+
+            render();
+        }
+
+        function leaveChallenge() {
+            appState.currentChallenge = null;
+            render();
+        }
+
+        async function addChallenge(title, description, duration, icon) {
+            try {
+                const newChallenge = {
+                    id: 'c' + Date.now(),
+                    title,
+                    description,
+                    duration: parseInt(duration),
+                    icon,
+                    tasks: [
+                        { id: 't1', name: 'Task 1' },
+                        { id: 't2', name: 'Task 2' },
+                        { id: 't3', name: 'Task 3' }
+                    ],
+                    progressReportQuestions: [
+                        'What did you accomplish today?',
+                        'What challenges did you face?',
+                        'What will you focus on tomorrow?'
+                    ]
+                };
+
+                appState.challenges.push(newChallenge);
+                await dbSet('challenges', appState.challenges);
+                
+                appState.showAddModal = false;
+                render();
+            } catch (error) {
+                console.error('Error adding challenge:', error);
+                alert('Failed to add challenge');
+            }
+        }
+
+        async function resetChallenges() {
+            if (!confirm('This will delete all challenges and reset to the default "75 Intentional" challenge. All user progress will be lost. Continue?')) {
+                return;
+            }
+
+            try {
+                appState.challenges = defaultChallenges;
+                await dbSet('challenges', defaultChallenges);
+                
+                // Clear all user progress
+                await database.ref('progress').remove();
+                appState.progressData = {};
+                
+                alert('Challenges reset successfully!');
+                render();
+            } catch (error) {
+                console.error('Error resetting challenges:', error);
+                alert('Failed to reset challenges');
+            }
+        }
+
+        // ====================================================================
+        // PROGRESS TRACKING
+        // ====================================================================
+        async function handleCheckin(event) {
+            event.preventDefault();
+
+            const today = new Date().toISOString().split('T')[0];
+            const challenge = appState.currentChallenge;
+            
+            if (!challenge) return;
+
+            const tasks = {};
+            challenge.tasks.forEach(task => {
+                tasks[task.id] = document.getElementById(`task-${task.id}`).checked;
+            });
+
+            const allTasksComplete = Object.values(tasks).every(v => v);
+
+            const progressReport = {};
+            if (challenge.progressReportQuestions) {
+                challenge.progressReportQuestions.forEach((q, idx) => {
+                    progressReport[`q${idx}`] = document.getElementById(`report-q${idx}`).value;
+                });
+            }
+
+            // Update progress
+            const currentProgress = appState.progressData[challenge.id] || {
+                challengeId: challenge.id,
+                userId: appState.currentUser.id,
+                startDate: new Date().toISOString(),
+                currentStreak: 0,
+                longestStreak: 0,
+                totalDays: 0,
+                dailyData: {}
+            };
+
+            currentProgress.dailyData[today] = {
+                date: today,
+                tasks: tasks,
+                progressReport: progressReport,
+                completed: allTasksComplete
+            };
+
+            // Calculate streaks
+            const dates = Object.keys(currentProgress.dailyData).sort();
+            let currentStreak = 0;
+            let longestStreak = 0;
+            let tempStreak = 0;
+
+            for (let i = 0; i < dates.length; i++) {
+                if (currentProgress.dailyData[dates[i]].completed) {
+                    tempStreak++;
+                    if (i === dates.length - 1) {
+                        currentStreak = tempStreak;
+                    }
+                } else {
+                    if (i === dates.length - 1) {
+                        currentStreak = 0;
+                    }
+                    longestStreak = Math.max(longestStreak, tempStreak);
+                    tempStreak = 0;
+                }
+            }
+            longestStreak = Math.max(longestStreak, tempStreak);
+
+            currentProgress.currentStreak = currentStreak;
+            currentProgress.longestStreak = longestStreak;
+            currentProgress.totalDays = dates.filter(d => currentProgress.dailyData[d].completed).length;
+
+            appState.progressData[challenge.id] = currentProgress;
+
+            // Save to Firebase
+            try {
+                await dbSet(`progress/${appState.currentUser.id}/${challenge.id}`, currentProgress);
+                appState.showCheckinModal = false;
+                render();
+            } catch (error) {
+                console.error('Error saving progress:', error);
+                alert('Failed to save progress');
+            }
+        }
+
+        // ====================================================================
+        // UI FUNCTIONS
+        // ====================================================================
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -980,1627 +1432,543 @@
             localStorage.setItem('theme', newTheme);
         }
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        // Storage API
-        const storage = {
-            async get(key, shared = false) {
-                try {
-                    const value = localStorage.getItem(`${shared ? 'shared-' : ''}${key}`);
-                    return value ? { key, value, shared } : null;
-                } catch (e) {
-                    return null;
-                }
-            },
-            async set(key, value, shared = false) {
-                try {
-                    localStorage.setItem(`${shared ? 'shared-' : ''}${key}`, value);
-                    return { key, value, shared };
-                } catch (e) {
-                    return null;
-                }
-            },
-            async delete(key, shared = false) {
-                try {
-                    localStorage.removeItem(`${shared ? 'shared-' : ''}${key}`);
-                    return { key, deleted: true, shared };
-                } catch (e) {
-                    return null;
-                }
-            }
-        };
-
-        // App State
-        let appState = {
-            user: null,
-            view: 'login',
-            challenges: [],
-            users: [],
-            pendingUsers: [],
-            selectedChallenge: null,
-            selectedUser: null,
-            showModal: false,
-            showAddModal: false,
-            adminError: '',
-            loginError: '',
-            adminTab: 'approved',
-            todayTasks: {}, // Track tasks for today: { challengeId: { taskId: boolean, ... } }
-            progressReports: {}, // Track progress reports: { challengeId: { question1: answer, ... } }
-            viewingDailyProgress: null // Track which challenge's daily progress is being viewed
-        };
-
-        // Initialize Data
-        async function initializeData() {
-            try {
-                const savedUser = await storage.get('current-user');
-                const savedChallenges = await storage.get('challenges', true);
-                const savedUsers = await storage.get('all-users', true);
-                const savedPendingUsers = await storage.get('pending-users', true);
-                
-                // Load current user
-                if (savedUser) {
-                    try {
-                        appState.user = JSON.parse(savedUser.value);
-                    } catch (e) {
-                        console.error('Error parsing user data:', e);
-                        await storage.delete('current-user');
-                    }
-                }
-                
-                // Load or initialize challenges
-                if (savedChallenges) {
-                    try {
-                        appState.challenges = JSON.parse(savedChallenges.value);
-                        
-                        // AUTO-MIGRATION: Update old LinkedIn challenge to 75 Intentional
-                        let needsUpdate = false;
-                        appState.challenges = appState.challenges.map(challenge => {
-                            if (challenge.id === '1' && (challenge.title === 'Daily LinkedIn Post Challenge' || !challenge.hasTasks)) {
-                                console.log('🔄 Migrating challenge to 75 Intentional with tasks...');
-                                needsUpdate = true;
-                                return {
-                                    id: '1',
-                                    title: '75 Intentional',
-                                    description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
-                                    duration: 75,
-                                    icon: '🎯',
-                                    hasTasks: true,
-                                    tasks: [
-                                        { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
-                                        { id: 'concept-app', name: 'Concept to Application', required: true },
-                                        { id: 'pm-output', name: 'One PM Output', required: true },
-                                        { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
-                                        { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
-                                        { id: 'progress-report', name: 'Progress Report', required: true }
-                                    ],
-                                    progressReportQuestions: [
-                                        'What did I understand better today?',
-                                        'Where did I rush?',
-                                        'What would a better PM do here?'
-                                    ]
-                                };
-                            }
-                            return challenge;
-                        });
-                        
-                        // Save updated challenges if migration occurred
-                        if (needsUpdate) {
-                            await storage.set('challenges', JSON.stringify(appState.challenges), true);
-                            console.log('✅ Challenge updated to 75 Intentional!');
-                        }
-                    } catch (e) {
-                        console.error('Error parsing challenges:', e);
-                        // Initialize with 75 Intentional challenge
-                        appState.challenges = [
-                            {
-                                id: '1',
-                                title: '75 Intentional',
-                                description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
-                                duration: 75,
-                                icon: '🎯'
-                            }
-                        ];
-                        await storage.set('challenges', JSON.stringify(appState.challenges), true);
-                    }
-                } else {
-                    // First time initialization with 75 Intentional
-                    appState.challenges = [
-                        {
-                            id: '1',
-                            title: '75 Intentional',
-                            description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
-                            duration: 75,
-                            icon: '🎯',
-                            hasTasks: true,
-                            tasks: [
-                                { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
-                                { id: 'concept-app', name: 'Concept to Application', required: true },
-                                { id: 'pm-output', name: 'One PM Output', required: true },
-                                { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
-                                { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
-                                { id: 'progress-report', name: 'Progress Report', required: true }
-                            ],
-                            progressReportQuestions: [
-                                'What did I understand better today?',
-                                'Where did I rush?',
-                                'What would a better PM do here?'
-                            ]
-                        }
-                    ];
-                    await storage.set('challenges', JSON.stringify(appState.challenges), true);
-                }
-                
-                // Load approved users
-                if (savedUsers) {
-                    try {
-                        appState.users = JSON.parse(savedUsers.value);
-                        // Ensure it's an array
-                        if (!Array.isArray(appState.users)) {
-                            appState.users = [];
-                        }
-                    } catch (e) {
-                        console.error('Error parsing users:', e);
-                        appState.users = [];
-                    }
-                } else {
-                    appState.users = [];
-                }
-                
-                // Load pending users
-                if (savedPendingUsers) {
-                    try {
-                        appState.pendingUsers = JSON.parse(savedPendingUsers.value);
-                        // Ensure it's an array
-                        if (!Array.isArray(appState.pendingUsers)) {
-                            appState.pendingUsers = [];
-                        }
-                    } catch (e) {
-                        console.error('Error parsing pending users:', e);
-                        appState.pendingUsers = [];
-                    }
-                } else {
-                    appState.pendingUsers = [];
-                }
-                
-                // Determine view based on user state
-                if (appState.user) {
-                    if (appState.user.isAdmin) {
-                        appState.view = 'admin';
-                    } else {
-                        // Check if user is approved
-                        const userInApproved = appState.users.find(u => u.email === appState.user.email);
-                        if (userInApproved && userInApproved.approved) {
-                            // Update current user with latest data
-                            appState.user = userInApproved;
-                            await storage.set('current-user', JSON.stringify(appState.user));
-                            appState.view = 'dashboard';
-                        } else {
-                            // Check if still pending
-                            const userInPending = appState.pendingUsers.find(u => u.email === appState.user.email);
-                            if (userInPending) {
-                                appState.view = 'pending';
-                            } else {
-                                // User was rejected or removed
-                                await storage.delete('current-user');
-                                appState.user = null;
-                                appState.view = 'login';
-                            }
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error initializing data:', error);
-                // Reset to default state
-                appState.users = [];
-                appState.pendingUsers = [];
-                appState.challenges = [
-                    {
-                        id: '1',
-                        title: '75 Intentional',
-                        description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
-                        duration: 75,
-                        icon: '🎯',
-                        hasTasks: true,
-                        tasks: [
-                            { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
-                            { id: 'concept-app', name: 'Concept to Application', required: true },
-                            { id: 'pm-output', name: 'One PM Output', required: true },
-                            { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
-                            { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
-                            { id: 'progress-report', name: 'Progress Report', required: true }
-                        ],
-                        progressReportQuestions: [
-                            'What did I understand better today?',
-                            'Where did I rush?',
-                            'What would a better PM do here?'
-                        ]
-                    }
-                ];
-            }
-            render();
-        }
-
-        // Check if user already exists
-        function userExists(contact) {
-            const normalizedContact = contact.toLowerCase().trim();
-            return appState.users.some(u => u.email.toLowerCase() === normalizedContact) ||
-                   appState.pendingUsers.some(u => u.email.toLowerCase() === normalizedContact);
-        }
-
-        // Handle User Signup Request
-        async function handleSignupRequest(contact, name) {
-            // Validate input
-            if (!isValidContact(contact)) {
-                appState.loginError = '❌ Please enter a valid email address or phone number.';
-                render();
-                return;
-            }
-
-            if (!name || name.trim().length < 2) {
-                appState.loginError = '❌ Please enter your full name.';
-                render();
-                return;
-            }
-
-            // Check for duplicates
-            if (userExists(contact)) {
-                appState.loginError = '❌ This email/phone is already registered. Please use a different one or wait for approval.';
-                render();
-                return;
-            }
-
-            // Create pending user
-            const pendingUser = {
-                id: contact.replace(/[^a-z0-9]/gi, '_'),
-                email: contact.toLowerCase().trim(),
-                name: name.trim(),
-                requestDate: new Date().toISOString(),
-                approved: false,
-                isAdmin: false
-            };
-
-            appState.pendingUsers.push(pendingUser);
-            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
-
-            appState.loginError = '';
-            appState.view = 'pending';
-            appState.user = pendingUser;
-            await storage.set('current-user', JSON.stringify(pendingUser));
-            
-            render();
-        }
-
-        // Handle Existing User Sign In
-        async function handleUserSignIn(contact) {
-            // Validate input
-            if (!isValidContact(contact)) {
-                appState.loginError = '❌ Please enter a valid email address or phone number.';
-                render();
-                return;
-            }
-
-            const normalizedContact = contact.toLowerCase().trim();
-
-            // Check if user is approved
-            const approvedUser = appState.users.find(u => u.email.toLowerCase() === normalizedContact);
-            
-            if (approvedUser) {
-                // User is approved, log them in
-                appState.user = approvedUser;
-                appState.loginError = '';
-                await storage.set('current-user', JSON.stringify(approvedUser));
-                appState.view = 'dashboard';
-                render();
-                return;
-            }
-
-            // Check if user is pending
-            const pendingUser = appState.pendingUsers.find(u => u.email.toLowerCase() === normalizedContact);
-            
-            if (pendingUser) {
-                // User is pending, show pending screen
-                appState.user = pendingUser;
-                appState.loginError = '';
-                await storage.set('current-user', JSON.stringify(pendingUser));
-                appState.view = 'pending';
-                render();
-                return;
-            }
-
-            // User not found
-            appState.loginError = '❌ Email/phone not found. Please request access first or check your spelling.';
-            render();
-        }
-
-        // Handle Admin Login
-        async function handleAdminLogin(email, password) {
-            // STRICT CHECK - Only exact match
-            if (email.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase() || password !== ADMIN_PASSWORD) {
-                appState.adminError = '❌ Invalid admin credentials. Access denied.';
-                render();
-                return;
-            }
-
-            const adminUser = {
-                id: 'admin',
-                email: ADMIN_EMAIL,
-                isAdmin: true,
-                loginDate: new Date().toISOString()
-            };
-
-            appState.user = adminUser;
-            appState.adminError = '';
-            appState.loginError = '';
-            await storage.set('current-user', JSON.stringify(adminUser));
-            
-            appState.view = 'admin';
-            render();
-        }
-
-        // Approve User
-        async function approveUser(userId) {
-            const pendingUser = appState.pendingUsers.find(u => u.id === userId);
-            if (!pendingUser) {
-                console.error('Pending user not found:', userId);
-                return;
-            }
-
-            // Create approved user with all necessary fields
-            const approvedUser = {
-                id: pendingUser.id,
-                email: pendingUser.email,
-                name: pendingUser.name,
-                requestDate: pendingUser.requestDate,
-                approved: true,
-                approvedDate: new Date().toISOString(),
-                joinedDate: new Date().toISOString(),
-                isAdmin: false,
-                challenges: []
-            };
-
-            // Add to approved users
-            appState.users.push(approvedUser);
-            
-            // Remove from pending users
-            appState.pendingUsers = appState.pendingUsers.filter(u => u.id !== userId);
-
-            // Save both arrays
-            const usersSaved = await storage.set('all-users', JSON.stringify(appState.users), true);
-            const pendingSaved = await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
-
-            // Log for debugging
-            console.log('User approved:', approvedUser.name, '(', approvedUser.email, ')');
-            console.log('Total approved users:', appState.users.length);
-            console.log('Remaining pending users:', appState.pendingUsers.length);
-            console.log('Data saved successfully:', usersSaved && pendingSaved);
-
-            render();
-        }
-
-        // Reject User
-        async function rejectUser(userId) {
-            const rejectedUser = appState.pendingUsers.find(u => u.id === userId);
-            appState.pendingUsers = appState.pendingUsers.filter(u => u.id !== userId);
-            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
-            
-            console.log('User rejected:', rejectedUser?.name || rejectedUser?.email);
-            console.log('Remaining pending users:', appState.pendingUsers.length);
-            
-            render();
-        }
-
-        // Approve All Pending Users
-        async function approveAllUsers() {
-            const count = appState.pendingUsers.length;
-            
-            if (count === 0) {
-                alert('No pending users to approve.');
-                return;
-            }
-
-            const confirmation = confirm(`Are you sure you want to approve ALL ${count} pending user${count > 1 ? 's' : ''}?`);
-            if (!confirmation) return;
-
-            // Approve each pending user
-            for (const pendingUser of appState.pendingUsers) {
-                const approvedUser = {
-                    id: pendingUser.id,
-                    email: pendingUser.email,
-                    name: pendingUser.name,
-                    requestDate: pendingUser.requestDate,
-                    approved: true,
-                    approvedDate: new Date().toISOString(),
-                    joinedDate: new Date().toISOString(),
-                    isAdmin: false,
-                    challenges: []
-                };
-                appState.users.push(approvedUser);
-            }
-
-            // Clear pending users
-            const approvedCount = appState.pendingUsers.length;
-            appState.pendingUsers = [];
-
-            // Save data
-            await storage.set('all-users', JSON.stringify(appState.users), true);
-            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
-
-            console.log(`Bulk approval: ${approvedCount} users approved`);
-            console.log('Total approved users:', appState.users.length);
-
-            alert(`✅ Successfully approved ${approvedCount} user${approvedCount > 1 ? 's' : ''}!`);
-            render();
-        }
-
-        // Reject All Pending Users
-        async function rejectAllUsers() {
-            const count = appState.pendingUsers.length;
-            
-            if (count === 0) {
-                alert('No pending users to reject.');
-                return;
-            }
-
-            const confirmation = confirm(`⚠️ WARNING: Are you sure you want to REJECT ALL ${count} pending user${count > 1 ? 's' : ''}? This cannot be undone!`);
-            if (!confirmation) return;
-
-            const doubleCheck = confirm(`This will permanently delete ${count} pending request${count > 1 ? 's' : ''}. Are you absolutely sure?`);
-            if (!doubleCheck) return;
-
-            // Clear all pending users
-            const rejectedCount = appState.pendingUsers.length;
-            appState.pendingUsers = [];
-
-            // Save data
-            await storage.set('pending-users', JSON.stringify(appState.pendingUsers), true);
-
-            console.log(`Bulk rejection: ${rejectedCount} users rejected`);
-
-            alert(`❌ Rejected ${rejectedCount} user${rejectedCount > 1 ? 's' : ''}.`);
-            render();
-        }
-
-        // Debug function to check data
-        function showDebugInfo() {
-            console.log('=== DEBUG INFO ===');
-            console.log('Approved Users:', appState.users.length, appState.users);
-            console.log('Pending Users:', appState.pendingUsers.length, appState.pendingUsers);
-            console.log('Challenges:', appState.challenges.length, appState.challenges);
-            console.log('Current User:', appState.user);
-            
-            // Check localStorage directly
-            const storedUsers = localStorage.getItem('shared-all-users');
-            const storedPending = localStorage.getItem('shared-pending-users');
-            console.log('LocalStorage - Users:', storedUsers);
-            console.log('LocalStorage - Pending:', storedPending);
-            
-            alert('Debug info logged to console. Press F12 to view.');
-        }
-
-        // Reset challenges to default (75 Intentional)
-        async function resetChallenges() {
-            const confirmation = confirm('⚠️ This will reset all challenges to "75 Intentional". Users who joined old challenges will lose that progress. Continue?');
-            if (!confirmation) return;
-
-            appState.challenges = [
-                {
-                    id: '1',
-                    title: '75 Intentional',
-                    description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
-                    duration: 75,
-                    icon: '🎯',
-                    hasTasks: true,
-                    tasks: [
-                        { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
-                        { id: 'concept-app', name: 'Concept to Application', required: true },
-                        { id: 'pm-output', name: 'One PM Output', required: true },
-                        { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
-                        { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
-                        { id: 'progress-report', name: 'Progress Report', required: true }
-                    ],
-                    progressReportQuestions: [
-                        'What did I understand better today?',
-                        'Where did I rush?',
-                        'What would a better PM do here?'
-                    ]
-                }
-            ];
-
-            await storage.set('challenges', JSON.stringify(appState.challenges), true);
-            console.log('✅ Challenges reset to 75 Intentional with tasks');
-            alert('✅ Challenges have been reset to "75 Intentional" with daily tasks!');
-            render();
-        }
-
-        // Delete User (Admin)
-        async function deleteUser(userId) {
-            const userToDelete = appState.users.find(u => u.id === userId);
-            if (!userToDelete) {
-                alert('❌ User not found.');
-                return;
-            }
-
-            const confirmation = confirm(`⚠️ Are you sure you want to DELETE ${userToDelete.name || userToDelete.email}?\n\nThis will:\n- Remove their account\n- Delete all their progress\n- Cannot be undone!`);
-            if (!confirmation) return;
-
-            const doubleCheck = confirm(`⚠️ FINAL WARNING!\n\nPermanently delete ${userToDelete.name || userToDelete.email}?`);
-            if (!doubleCheck) return;
-
-            // Remove user from array
-            appState.users = appState.users.filter(u => u.id !== userId);
-            
-            // Save updated users list
-            await storage.set('all-users', JSON.stringify(appState.users), true);
-
-            // Clear selected user if it was the deleted one
-            if (appState.selectedUser?.id === userId) {
-                appState.selectedUser = null;
-            }
-
-            console.log('🗑️ User deleted:', userToDelete.name || userToDelete.email);
-            console.log('Remaining users:', appState.users.length);
-
-            alert(`✅ User "${userToDelete.name || userToDelete.email}" has been deleted.`);
-            render();
-        }
-
-        // Handle Logout
-        async function handleLogout() {
-            await storage.delete('current-user');
-            appState.user = null;
-            appState.view = 'login';
-            appState.adminError = '';
-            appState.loginError = '';
-            render();
-        }
-
-        // Join Challenge
-        async function joinChallenge(challengeId) {
-            const userChallenge = {
-                challengeId,
-                startDate: new Date().toISOString(),
-                currentStreak: 0,
-                longestStreak: 0,
-                completedDays: [],
-                active: true
-            };
-
-            appState.user.challenges = [...(appState.user.challenges || []), userChallenge];
-            await storage.set('current-user', JSON.stringify(appState.user));
-
-            const updatedUsers = appState.users.map(u => 
-                u.id === appState.user.id ? appState.user : u
-            );
-            appState.users = updatedUsers;
-            await storage.set('all-users', JSON.stringify(updatedUsers), true);
-
-            render();
-        }
-
-        // Get today's date in local timezone
-        function getTodayLocal() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        // Check In Today
-        async function checkInToday(challengeId) {
-            const today = getTodayLocal();
-            const challenge = appState.challenges.find(c => c.id === challengeId);
-            
-            // For challenges with tasks, verify all tasks are complete
-            if (challenge && challenge.hasTasks) {
-                const todayTasksForChallenge = appState.todayTasks[challengeId] || {};
-                const allTasksComplete = challenge.tasks.every(task => todayTasksForChallenge[task.id] === true);
-                
-                if (!allTasksComplete) {
-                    alert('⚠️ Please complete ALL tasks before checking in for today!');
-                    return;
-                }
-
-                // Check if progress report is filled
-                const progressReport = appState.progressReports[challengeId] || {};
-                const allQuestionsAnswered = challenge.progressReportQuestions.every((_, idx) => {
-                    const answer = progressReport[`q${idx}`];
-                    return answer && answer.trim().length > 0;
-                });
-
-                if (!allQuestionsAnswered) {
-                    alert('⚠️ Please complete the Progress Report before checking in!');
-                    return;
-                }
-            }
-
-            appState.user.challenges = appState.user.challenges.map(ch => {
-                if (ch.challengeId === challengeId) {
-                    if (ch.completedDays.includes(today)) {
-                        return ch;
-                    }
-
-                    const newCompletedDays = [...ch.completedDays, today];
-                    const sortedDays = newCompletedDays.sort();
-                    
-                    let currentStreak = 1;
-                    
-                    for (let i = sortedDays.length - 2; i >= 0; i--) {
-                        const current = new Date(sortedDays[i + 1]);
-                        const previous = new Date(sortedDays[i]);
-                        const diffTime = Math.abs(current - previous);
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        
-                        if (diffDays === 1) {
-                            currentStreak++;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    // Save task completion and progress report for today
-                    if (!ch.dailyData) ch.dailyData = {};
-                    ch.dailyData[today] = {
-                        tasks: appState.todayTasks[challengeId] || {},
-                        progressReport: appState.progressReports[challengeId] || {},
-                        completedAt: new Date().toISOString()
-                    };
-
-                    return {
-                        ...ch,
-                        completedDays: newCompletedDays,
-                        currentStreak,
-                        longestStreak: Math.max(ch.longestStreak, currentStreak),
-                        dailyData: ch.dailyData
-                    };
-                }
-                return ch;
-            });
-
-            await storage.set('current-user', JSON.stringify(appState.user));
-
-            const updatedUsers = appState.users.map(u => 
-                u.id === appState.user.id ? appState.user : u
-            );
-            appState.users = updatedUsers;
-            await storage.set('all-users', JSON.stringify(updatedUsers), true);
-
-            // Clear today's tasks and progress report
-            delete appState.todayTasks[challengeId];
-            delete appState.progressReports[challengeId];
-
-            appState.showModal = false;
-            render();
-        }
-
-        // Toggle Task Completion
-        function toggleTask(challengeId, taskId) {
-            if (!appState.todayTasks[challengeId]) {
-                appState.todayTasks[challengeId] = {};
-            }
-            appState.todayTasks[challengeId][taskId] = !appState.todayTasks[challengeId][taskId];
-            render();
-        }
-
-        // Update Progress Report Answer
-        function updateProgressReport(challengeId, questionIndex, answer) {
-            if (!appState.progressReports[challengeId]) {
-                appState.progressReports[challengeId] = {};
-            }
-            appState.progressReports[challengeId][`q${questionIndex}`] = answer;
-        }
-
-        // Check if all tasks complete for a challenge
-        function areAllTasksComplete(challengeId) {
-            const challenge = appState.challenges.find(c => c.id === challengeId);
-            if (!challenge || !challenge.hasTasks) return true;
-            
-            const todayTasks = appState.todayTasks[challengeId] || {};
-            return challenge.tasks.every(task => todayTasks[task.id] === true);
-        }
-
-        // Check if progress report complete
-        function isProgressReportComplete(challengeId) {
-            const challenge = appState.challenges.find(c => c.id === challengeId);
-            if (!challenge || !challenge.progressReportQuestions) return true;
-            
-            const progressReport = appState.progressReports[challengeId] || {};
-            return challenge.progressReportQuestions.every((_, idx) => {
-                const answer = progressReport[`q${idx}`];
-                return answer && answer.trim().length > 0;
-            });
-        }
-
-        // Load today's progress if exists
-        function loadTodayProgress(challenge) {
-            const today = getTodayLocal();
-            const userChallenge = appState.user.challenges.find(uc => uc.challengeId === challenge.challengeId);
-            
-            if (userChallenge && userChallenge.dailyData && userChallenge.dailyData[today]) {
-                appState.todayTasks[challenge.challengeId] = userChallenge.dailyData[today].tasks || {};
-                appState.progressReports[challenge.challengeId] = userChallenge.dailyData[today].progressReport || {};
-            }
-        }
-
-        // Add Challenge (Admin)
-        async function addChallenge(title, description, duration, icon) {
-            const challenge = {
-                id: Date.now().toString(),
-                title,
-                description,
-                duration: parseInt(duration),
-                icon
-            };
-            appState.challenges.push(challenge);
-            await storage.set('challenges', JSON.stringify(appState.challenges), true);
-            appState.showAddModal = false;
-            render();
-        }
-
-        // Check if checked in today
-        function isCheckedInToday(challenge) {
-            const today = getTodayLocal();
-            return challenge.completedDays?.includes(today);
-        }
-
-        // Render Functions
+        // ====================================================================
+        // RENDER FUNCTIONS
+        // ====================================================================
         function renderLogin() {
             return `
+                <div class="header">
+                    <div class="header-content">
+                        <div class="logo">
+                            <span>🎯</span>
+                            <span>PMProHabiba</span>
+                        </div>
+                        <a href="https://pmprohabiba.com" class="back-home">
+                            <span>🏠</span>
+                            <span>Back to Home</span>
+                        </a>
+                    </div>
+                </div>
+
                 <div class="login-container">
-                    <div class="login-card">
-                        <div class="login-header">
-                            <div class="login-icon">🎯</div>
-                            <div class="login-title">Challenge Tracker</div>
-                            <div class="login-subtitle">
-                                Track your progress. Build your streaks. Achieve your career goals.
+                    <div class="login-box">
+                        <h1 class="login-title">Welcome Back</h1>
+                        <p class="login-subtitle">Sign in or create your account to start tracking challenges</p>
+
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    class="form-input"
+                                    placeholder="your@email.com"
+                                    required
+                                />
                             </div>
-                        </div>
 
-                        <!-- Existing User Sign In -->
-                        <div style="margin-bottom: 2rem;">
-                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text);">
-                                Already Approved? Sign In
-                            </h3>
-                            <form onsubmit="event.preventDefault(); handleUserSignIn(document.getElementById('signinInput').value);">
-                                <div class="form-group">
-                                    <label class="form-label">Email or Phone</label>
-                                    <input
-                                        type="text"
-                                        id="signinInput"
-                                        class="form-input"
-                                        placeholder="your@email.com or +1234567890"
-                                        required
-                                    />
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-login">
-                                    <span>🔓</span>
-                                    Sign In
-                                </button>
-                            </form>
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Password</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    class="form-input"
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                            </div>
 
-                        <div class="divider">OR</div>
+                            <button type="submit" class="submit-btn">
+                                Sign In / Sign Up
+                            </button>
+                        </form>
 
-                        <!-- New User Request Access -->
-                        <div style="margin-bottom: 2rem;">
-                            <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text);">
-                                New User? Request Access
-                            </h3>
-                            <form onsubmit="event.preventDefault(); handleSignupRequest(document.getElementById('contactInput').value, document.getElementById('nameInput').value);">
-                                <div class="form-group">
-                                    <label class="form-label">Email Address or Phone Number *</label>
-                                    <input
-                                        type="text"
-                                        id="contactInput"
-                                        class="form-input ${appState.loginError ? 'error' : ''}"
-                                        placeholder="your@email.com or +1234567890"
-                                        required
-                                    />
-                                    <div class="form-help">We'll notify you once your request is approved</div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Full Name *</label>
-                                    <input
-                                        type="text"
-                                        id="nameInput"
-                                        class="form-input"
-                                        placeholder="Enter your full name"
-                                        required
-                                    />
-                                </div>
-
-                                <button type="submit" class="btn btn-secondary btn-login">
-                                    <span>✉️</span>
-                                    Request Access
-                                </button>
-                            </form>
-                        </div>
-
-                        ${appState.loginError ? `
-                            <div class="error-message">${appState.loginError}</div>
-                        ` : ''}
-
-                        <div class="divider" style="margin-top: 2rem;">OR</div>
-
-                        <button class="btn btn-secondary btn-login" onclick="showAdminLogin();" style="margin-top: 1rem;">
-                            <span>🔒</span>
-                            Admin Login
-                        </button>
-
-                        ${appState.adminError ? `
-                            <div class="error-message">${appState.adminError}</div>
-                        ` : ''}
-
-                        <a href="index.html" class="back-link">← Back to Main Website</a>
-
-                        <div style="margin-top: 2rem; text-align: center; color: var(--text-light); font-size: 0.85rem;">
-                            By PMProHabiba - Career Challenge Tracker
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--border); text-align: center; color: var(--text-light); font-size: 0.85rem;">
+                            <p>New users will be created automatically and pending admin approval.</p>
                         </div>
                     </div>
                 </div>
             `;
-        }
-
-        function showAdminLogin() {
-            const email = prompt("Enter admin email:");
-            if (!email) return;
-            
-            const password = prompt("Enter admin password:");
-            if (!password) return;
-            
-            handleAdminLogin(email, password);
         }
 
         function renderPendingApproval() {
             return `
-                <div class="login-container">
-                    <div class="login-card">
-                        <div class="login-header">
-                            <div class="login-icon">⏳</div>
-                            <div class="login-title">Pending Approval</div>
-                            <div class="login-subtitle">
-                                Your access request is being reviewed
-                            </div>
+                <div class="header">
+                    <div class="header-content">
+                        <div class="logo">
+                            <span>🎯</span>
+                            <span>PMProHabiba</span>
                         </div>
-
-                        <div class="info-box pending">
-                            <div class="info-box-title">
-                                <span>📋</span>
-                                Request Status
-                            </div>
-                            <div class="info-box-content">
-                                <strong>Name:</strong> ${appState.user.name}<br>
-                                <strong>Contact:</strong> ${appState.user.email}<br>
-                                <strong>Requested:</strong> ${new Date(appState.user.requestDate).toLocaleString()}<br><br>
-                                You'll receive access once the admin approves your request. Please check back later!
-                            </div>
-                        </div>
-
-                        <button class="btn btn-secondary btn-login" onclick="handleLogout();">
-                            <span>←</span>
-                            Back to Login
+                        <button class="btn btn-secondary" onclick="handleLogout()">
+                            <span>👋</span>
+                            Logout
                         </button>
+                    </div>
+                </div>
 
-                        <a href="index.html" class="back-link">← Back to Main Website</a>
+                <div class="pending-container">
+                    <div class="pending-box">
+                        <div class="pending-icon">⏳</div>
+                        <h2 class="pending-title">Account Pending Approval</h2>
+                        <p class="pending-text">
+                            Your account has been created successfully! An administrator needs to approve your account before you can access the challenge tracker.
+                            <br><br>
+                            <strong>Email:</strong> ${appState.currentUser.email}
+                            <br><br>
+                            Please check back later or contact the administrator.
+                        </p>
+                        <button class="btn btn-primary" onclick="handleLogout()">
+                            Return to Login
+                        </button>
                     </div>
                 </div>
             `;
         }
 
-        function renderHeader() {
-            return `
-                <header class="header">
-                    <div class="header-content">
-                        <div class="logo">
-                            <span>🎯</span>
-                            Challenge Tracker
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                            ${appState.user && appState.user.isAdmin ? `
-                                <button class="btn btn-secondary" onclick="appState.view = appState.view === 'admin' ? 'dashboard' : 'admin'; render();">
-                                    ${appState.view === 'admin' ? '👤 User View' : '⚙️ Admin Panel'}
-                                </button>
-                            ` : ''}
-                            <button class="btn btn-logout" onclick="handleLogout()">
-                                <span>🚪</span> Logout
+        function renderDashboard() {
+            const progress = appState.currentChallenge 
+                ? appState.progressData[appState.currentChallenge.id] 
+                : null;
+
+            if (!appState.currentChallenge) {
+                return `
+                    <div class="header">
+                        <div class="header-content">
+                            <div class="logo">
+                                <span>🎯</span>
+                                <span>Challenge Tracker</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="handleLogout()">
+                                <span>👋</span>
+                                Logout
                             </button>
-                            <a href="index.html" class="back-home">
-                                <span>←</span> Back to Home
-                            </a>
                         </div>
                     </div>
-                </header>
-                ${appState.user ? `
+
                     <div class="user-bar">
                         <div class="user-bar-content">
                             <div class="user-email">
-                                ${appState.user.isAdmin ? '🔑 Admin Access' : `Logged in as: <strong>${appState.user.name || appState.user.email}</strong>`}
+                                <strong>👤</strong> ${appState.currentUser.email}
                             </div>
-                            ${!appState.user.isAdmin ? `
-                                <div style="color: var(--text-light); font-size: 0.85rem;">
-                                    Member since ${new Date(appState.user.joinedDate || appState.user.requestDate).toLocaleDateString()}
-                                </div>
-                            ` : ''}
                         </div>
                     </div>
-                ` : ''}
-            `;
-        }
 
-        function renderDashboard() {
-            const userChallenges = (appState.user.challenges || []).map(uc => {
-                const challenge = appState.challenges.find(c => c.id === uc.challengeId);
-                return { ...uc, ...challenge };
-            });
+                    <div class="container">
+                        <h2 class="section-title">
+                            <span>🎯</span>
+                            Choose Your Challenge
+                        </h2>
 
-            const availableChallenges = appState.challenges.filter(
-                c => !userChallenges.some(uc => uc.id === c.id)
-            );
+                        <div class="challenges-grid">
+                            ${appState.challenges.map(challenge => `
+                                <div class="challenge-card">
+                                    <div class="challenge-icon">${challenge.icon}</div>
+                                    <h3 class="challenge-title">${challenge.title}</h3>
+                                    <p class="challenge-description">${challenge.description}</p>
+                                    <div class="challenge-meta">
+                                        <div class="challenge-duration">
+                                            <span>📅</span>
+                                            ${challenge.duration} days
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="joinChallenge('${challenge.id}')" style="width: 100%; margin-top: 1rem;">
+                                        <span>🚀</span>
+                                        Start Challenge
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
 
-            const totalStreak = userChallenges.reduce((sum, ch) => sum + (ch.currentStreak || 0), 0);
-            const activeChallenges = userChallenges.filter(ch => ch.active).length;
-            const longestStreak = Math.max(...userChallenges.map(ch => ch.longestStreak || 0), 0);
+            const today = new Date().toISOString().split('T')[0];
+            const todayComplete = progress?.dailyData?.[today]?.completed || false;
+            const progressPercent = progress 
+                ? Math.round((progress.totalDays / appState.currentChallenge.duration) * 100)
+                : 0;
 
             return `
-                ${renderHeader()}
+                <div class="header">
+                    <div class="header-content">
+                        <div class="logo">
+                            <span>${appState.currentChallenge.icon}</span>
+                            <span>${appState.currentChallenge.title}</span>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-secondary" onclick="leaveChallenge()">
+                                <span>←</span>
+                                Change Challenge
+                            </button>
+                            <button class="btn btn-secondary" onclick="handleLogout()">
+                                <span>👋</span>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-bar">
+                    <div class="user-bar-content">
+                        <div class="user-email">
+                            <strong>👤</strong> ${appState.currentUser.email}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container">
-                    <div class="dashboard-header">
-                        <h1 class="dashboard-title">Your Dashboard</h1>
-                        <p class="dashboard-subtitle">Keep pushing forward, ${appState.user.name || appState.user.email.split('@')[0]}! 💪</p>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-box-title">
-                            <span>📊</span>
-                            How 75 Intentional Works
-                        </div>
-                        <div class="info-box-content">
-                            <strong>Daily Requirements:</strong><br>
-                            ✅ Complete ALL 6 tasks every single day<br>
-                            📝 Fill out the Progress Report (3 questions)<br>
-                            🔥 Only then does the day count toward your streak<br><br>
-                            <strong>Tasks:</strong> PMP Focus Block, Concept to Application, One PM Output, Intentional Learning (Non PMP), Dopamine Discipline, Progress Report<br><br>
-                            ⚠️ <strong>Miss ANY task or the Progress Report → Day doesn't count</strong><br>
-                            🏆 <strong>Complete all 75 days to finish the challenge!</strong>
-                        </div>
-                    </div>
-
+                    <!-- Stats -->
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-icon primary">🔥</div>
-                            <div class="stat-value">${totalStreak}</div>
-                            <div class="stat-label">Total Streak Days</div>
+                            <span class="stat-icon">🔥</span>
+                            <div class="stat-label">Current Streak</div>
+                            <div class="stat-value">${progress?.currentStreak || 0}</div>
                         </div>
-
                         <div class="stat-card">
-                            <div class="stat-icon secondary">🏆</div>
-                            <div class="stat-value">${activeChallenges}</div>
-                            <div class="stat-label">Active Challenges</div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon accent">📅</div>
-                            <div class="stat-value">${longestStreak}</div>
+                            <span class="stat-icon">🏆</span>
                             <div class="stat-label">Longest Streak</div>
+                            <div class="stat-value">${progress?.longestStreak || 0}</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">📊</span>
+                            <div class="stat-label">Total Days</div>
+                            <div class="stat-value">${progress?.totalDays || 0} / ${appState.currentChallenge.duration}</div>
                         </div>
                     </div>
 
-                    ${userChallenges.length > 0 ? `
-                        <div style="margin-bottom: 3rem;">
-                            <h2 class="section-title">
-                                <span>🏆</span>
-                                My Challenges
-                            </h2>
-                            <div class="challenges-grid">
-                                ${userChallenges.map(challenge => {
-                                    const progress = (challenge.completedDays?.length || 0) / challenge.duration * 100;
-                                    const checkedIn = isCheckedInToday(challenge);
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <h3 class="progress-title">Challenge Progress</h3>
+                            <div class="streak-badge">
+                                <span>🔥</span>
+                                <span>${progress?.currentStreak || 0} Day Streak</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${progressPercent}%">
+                                <span class="progress-text">${progressPercent}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Tasks -->
+                    <div class="tasks-container">
+                        <h3 class="section-title">
+                            <span>✅</span>
+                            Today's Tasks
+                        </h3>
+
+                        ${todayComplete ? `
+                            <div class="success-message">
+                                <span>🎉</span>
+                                <span>You've completed today's check-in! Come back tomorrow!</span>
+                            </div>
+                        ` : ''}
+
+                        ${appState.currentChallenge.tasks.map(task => {
+                            const isComplete = progress?.dailyData?.[today]?.tasks?.[task.id] || false;
+                            return `
+                                <div class="task-item ${isComplete ? 'completed' : ''}">
+                                    <div class="task-info">
+                                        <div class="task-checkbox ${isComplete ? 'checked' : ''}">
+                                            ${isComplete ? '✓' : ''}
+                                        </div>
+                                        <span class="task-name">${task.name}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+
+                        ${!todayComplete ? `
+                            <button class="btn btn-primary checkin-btn" onclick="appState.showCheckinModal = true; render();">
+                                <span>✓</span>
+                                Complete Today's Check-in
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    <!-- Calendar View -->
+                    ${progress && Object.keys(progress.dailyData).length > 0 ? `
+                        <div class="tasks-container" style="margin-top: 2rem;">
+                            <h3 class="section-title">
+                                <span>📅</span>
+                                Progress Calendar
+                            </h3>
+                            <div class="calendar-grid">
+                                ${Array.from({length: appState.currentChallenge.duration}, (_, i) => {
+                                    const startDate = new Date(progress.startDate);
+                                    const currentDate = new Date(startDate);
+                                    currentDate.setDate(startDate.getDate() + i);
+                                    const dateStr = currentDate.toISOString().split('T')[0];
+                                    const isComplete = progress.dailyData[dateStr]?.completed || false;
+                                    const isToday = dateStr === today;
                                     
                                     return `
-                                        <div class="challenge-card" onclick="appState.selectedChallenge = ${JSON.stringify(challenge).replace(/"/g, '&quot;')}; appState.showModal = true; render();">
-                                            <div class="challenge-icon">${challenge.icon}</div>
-                                            <h3 class="challenge-title">${challenge.title}</h3>
-                                            <p class="challenge-description">${challenge.description}</p>
-                                            
-                                            ${renderProgressCircle(progress)}
-                                            
-                                            <div class="challenge-meta">
-                                                <div class="streak-display">
-                                                    <span style="font-size: 1.5rem;">🔥</span>
-                                                    <span class="streak-number">${challenge.currentStreak}</span>
-                                                    <span style="color: var(--text-light); font-weight: 600;">day streak</span>
-                                                </div>
-                                                ${checkedIn ? `
-                                                    <div class="checked-in-badge">
-                                                        <span>✓</span>
-                                                        Done Today
-                                                    </div>
-                                                ` : `
-                                                    <span style="color: var(--text-light);">→</span>
-                                                `}
-                                            </div>
+                                        <div class="calendar-day ${isComplete ? 'completed' : ''} ${isToday ? 'today' : ''}"
+                                             title="${dateStr}">
+                                            ${i + 1}
                                         </div>
                                     `;
                                 }).join('')}
                             </div>
                         </div>
                     ` : ''}
-
-                    ${availableChallenges.length > 0 ? `
-                        <div>
-                            <h2 class="section-title">
-                                <span>➕</span>
-                                Available Challenges
-                            </h2>
-                            <div class="challenges-grid">
-                                ${availableChallenges.map(challenge => `
-                                    <div class="challenge-card" onclick="if(confirm('Join ${challenge.title}?')) joinChallenge('${challenge.id}');">
-                                        <div class="challenge-icon">${challenge.icon}</div>
-                                        <h3 class="challenge-title">${challenge.title}</h3>
-                                        <p class="challenge-description">${challenge.description}</p>
-                                        <div class="challenge-meta">
-                                            <div class="challenge-duration">
-                                                <span>📅</span>
-                                                ${challenge.duration} days
-                                            </div>
-                                            <button class="btn btn-primary" onclick="event.stopPropagation(); joinChallenge('${challenge.id}');">
-                                                Join Challenge
-                                            </button>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
                 </div>
 
-                ${appState.showModal && appState.selectedChallenge ? renderModal() : ''}
+                ${appState.showCheckinModal ? renderCheckinModal() : ''}
             `;
         }
 
-        function renderProgressCircle(value) {
-            const radius = 60;
-            const circumference = 2 * Math.PI * radius;
-            const offset = circumference - (value / 100) * circumference;
-
+        function renderCheckinModal() {
+            const challenge = appState.currentChallenge;
+            
             return `
-                <div class="progress-circle">
-                    <svg class="progress-ring" width="140" height="140">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <circle
-                            cx="70"
-                            cy="70"
-                            r="${radius}"
-                            stroke="var(--border)"
-                            stroke-width="10"
-                            fill="none"
-                        />
-                        <circle
-                            class="progress-ring-circle"
-                            cx="70"
-                            cy="70"
-                            r="${radius}"
-                            stroke="url(#gradient)"
-                            stroke-width="10"
-                            fill="none"
-                            stroke-dasharray="${circumference}"
-                            stroke-dashoffset="${offset}"
-                            style="transform: rotate(-90deg); transform-origin: center;"
-                        />
-                    </svg>
-                    <div class="progress-text">
-                        <div class="progress-value">${Math.round(value)}%</div>
-                        <div class="progress-label">Complete</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderModal() {
-            const challenge = appState.selectedChallenge;
-            const checkedIn = isCheckedInToday(challenge);
-            const fullChallenge = appState.challenges.find(c => c.id === challenge.challengeId);
-
-            // Load today's progress if checking in
-            if (!checkedIn && fullChallenge && fullChallenge.hasTasks) {
-                loadTodayProgress(challenge);
-            }
-
-            return `
-                <div class="modal-overlay" onclick="appState.showModal = false; render();">
-                    <div class="modal" onclick="event.stopPropagation();" style="max-width: 700px;">
+                <div class="modal-overlay" onclick="appState.showCheckinModal = false; render();">
+                    <div class="modal" onclick="event.stopPropagation();">
                         <div class="modal-header">
-                            <h2 class="modal-title">${challenge.title}</h2>
-                            <button class="close-btn" onclick="appState.showModal = false; render();">
+                            <h2 class="modal-title">Daily Check-in</h2>
+                            <button class="close-btn" onclick="appState.showCheckinModal = false; render();">
                                 ✕
                             </button>
                         </div>
-                        
-                        <div class="challenge-icon" style="text-align: center; font-size: 5rem; margin: 1rem 0;">
-                            ${challenge.icon}
-                        </div>
-                        
-                        <p style="margin-bottom: 1.5rem; text-align: center; color: var(--text-light);">
-                            ${challenge.description}
-                        </p>
-                        
-                        <div class="modal-stats">
-                            <div class="modal-stat">
-                                <div class="modal-stat-value">${challenge.currentStreak}</div>
-                                <div class="modal-stat-label">Current Streak</div>
-                            </div>
-                            <div class="modal-stat">
-                                <div class="modal-stat-value">${challenge.completedDays?.length || 0}/${challenge.duration}</div>
-                                <div class="modal-stat-label">Days Completed</div>
-                            </div>
-                        </div>
-                        
-                        ${!checkedIn ? (fullChallenge && fullChallenge.hasTasks ? `
-                            <!-- Task Checklist -->
-                            <div style="margin-top: 2rem;">
-                                <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
-                                    <span>✅</span>
-                                    Today's Tasks
-                                </h3>
-                                <div class="info-box warning" style="margin-bottom: 1rem;">
-                                    <div class="info-box-content" style="font-size: 0.9rem;">
-                                        Complete ALL tasks to check in for today. Missing even one task means the day doesn't count!
-                                    </div>
-                                </div>
-                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                    ${fullChallenge.tasks.map(task => {
-                                        const isComplete = appState.todayTasks[challenge.challengeId]?.[task.id] === true;
-                                        return `
-                                            <div onclick="toggleTask('${challenge.challengeId}', '${task.id}');" 
-                                                 style="padding: 1rem; background: var(--bg-alt); border-radius: 12px; cursor: pointer; border: 2px solid ${isComplete ? 'var(--success)' : 'var(--border)'}; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;">
-                                                <div style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isComplete ? 'var(--success)' : 'var(--border)'}; display: flex; align-items: center; justify-content: center; background: ${isComplete ? 'var(--success)' : 'transparent'}; flex-shrink: 0;">
-                                                    ${isComplete ? '<span style="color: white; font-weight: bold;">✓</span>' : ''}
-                                                </div>
-                                                <span style="font-weight: 600; color: var(--text);">${task.name}</span>
-                                            </div>
-                                        `;
-                                    }).join('')}
-                                </div>
-                            </div>
 
-                            <!-- Progress Report -->
-                            ${fullChallenge.progressReportQuestions ? `
-                                <div style="margin-top: 2rem;">
-                                    <h3 style="font-weight: 700; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
-                                        <span>📝</span>
-                                        Progress Report
-                                    </h3>
-                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                        ${fullChallenge.progressReportQuestions.map((question, idx) => `
-                                            <div class="form-group" style="margin-bottom: 0;">
-                                                <label class="form-label" style="font-size: 0.9rem;">${String.fromCharCode(97 + idx)}. ${question}</label>
-                                                <textarea
-                                                    class="form-input"
-                                                    placeholder="Your reflection..."
-                                                    rows="2"
-                                                    onchange="updateProgressReport('${challenge.challengeId}', ${idx}, this.value);"
-                                                    style="resize: vertical; min-height: 60px;"
-                                                >${appState.progressReports[challenge.challengeId]?.[`q${idx}`] || ''}</textarea>
-                                            </div>
-                                        `).join('')}
-                                    </div>
+                        <form onsubmit="handleCheckin(event)">
+                            <h4 style="margin-bottom: 1rem; color: var(--text);">✅ Complete Your Tasks</h4>
+                            ${challenge.tasks.map(task => `
+                                <div class="form-group">
+                                    <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; padding: 0.75rem; background: var(--bg-alt); border-radius: 8px;">
+                                        <input
+                                            type="checkbox"
+                                            id="task-${task.id}"
+                                            style="width: 20px; height: 20px; cursor: pointer;"
+                                        />
+                                        <span style="font-weight: 500;">${task.name}</span>
+                                    </label>
                                 </div>
+                            `).join('')}
+
+                            ${challenge.progressReportQuestions ? `
+                                <h4 style="margin: 2rem 0 1rem; color: var(--text);">📝 Progress Report</h4>
+                                ${challenge.progressReportQuestions.map((question, idx) => `
+                                    <div class="form-group">
+                                        <label class="form-label">${String.fromCharCode(97 + idx)}. ${question}</label>
+                                        <textarea
+                                            id="report-q${idx}"
+                                            class="form-input"
+                                            rows="3"
+                                            placeholder="Your answer..."
+                                        ></textarea>
+                                    </div>
+                                `).join('')}
                             ` : ''}
 
-                            <button class="btn btn-primary checkin-btn" 
-                                    onclick="checkInToday('${challenge.challengeId}');"
-                                    style="${areAllTasksComplete(challenge.challengeId) && isProgressReportComplete(challenge.challengeId) ? '' : 'opacity: 0.5; cursor: not-allowed;'}">
+                            <button type="submit" class="btn btn-primary checkin-btn">
                                 <span>✓</span>
-                                Complete Day ${(challenge.completedDays?.length || 0) + 1}
+                                Submit Check-in
                             </button>
-                        ` : `
-                            <button class="btn btn-primary checkin-btn" onclick="checkInToday('${challenge.challengeId}'); appState.showModal = false;">
-                                <span>✓</span>
-                                Check In for Today
-                            </button>
-                        `) : `
-                            <div class="success-message">
-                                <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">✓</span>
-                                You've checked in today! Great job! Keep it up! 🎉
-                            </div>
-                        `}
+                        </form>
                     </div>
                 </div>
             `;
         }
 
         function renderAdminPanel() {
-            const pendingCount = appState.pendingUsers.length;
-            
+            const tabs = [
+                { id: 'users', label: 'Users', icon: '👥' },
+                { id: 'activity', label: 'Activity', icon: '📊' },
+                { id: 'challenges', label: 'Challenges', icon: '🎯' }
+            ];
+
             return `
-                ${renderHeader()}
-                <div class="container">
-                    <div class="dashboard-header">
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                            <div>
-                                <h1 class="dashboard-title">Admin Dashboard</h1>
-                                <p class="dashboard-subtitle">Manage user access and monitor progress</p>
-                            </div>
-                            <button class="btn btn-secondary" onclick="showDebugInfo();" style="font-size: 0.85rem;">
-                                🔍 Debug Info
-                            </button>
+                <div class="header">
+                    <div class="header-content">
+                        <div class="logo">
+                            <span>⚙️</span>
+                            <span>Admin Panel</span>
                         </div>
-                    </div>
-
-                    ${pendingCount > 0 ? `
-                        <div class="info-box warning">
-                            <div class="info-box-title">
-                                <span>⏰</span>
-                                Pending Approvals
-                            </div>
-                            <div class="info-box-content">
-                                You have <strong>${pendingCount}</strong> user request${pendingCount > 1 ? 's' : ''} waiting for approval. Check the "Pending Users" tab below.
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon primary">👥</div>
-                            <div class="stat-value">${appState.users.length}</div>
-                            <div class="stat-label">Approved Users</div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon warning">⏳</div>
-                            <div class="stat-value">${pendingCount}</div>
-                            <div class="stat-label">Pending Requests</div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon secondary">🏆</div>
-                            <div class="stat-value">${appState.challenges.length}</div>
-                            <div class="stat-label">Active Challenges</div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon accent">🔥</div>
-                            <div class="stat-value">
-                                ${appState.users.reduce((sum, u) => 
-                                    sum + (u.challenges?.reduce((s, ch) => s + (ch.currentStreak || 0), 0) || 0), 0
-                                )}
-                            </div>
-                            <div class="stat-label">Total Streaks</div>
-                        </div>
-                    </div>
-
-                    <div class="tabs">
-                        <button class="tab ${appState.adminTab === 'pending' ? 'active' : ''}" onclick="appState.adminTab = 'pending'; render();">
-                            Pending Users ${pendingCount > 0 ? `(${pendingCount})` : ''}
-                        </button>
-                        <button class="tab ${appState.adminTab === 'approved' ? 'active' : ''}" onclick="appState.adminTab = 'approved'; render();">
-                            Approved Users (${appState.users.length})
-                        </button>
-                        <button class="tab ${appState.adminTab === 'challenges' ? 'active' : ''}" onclick="appState.adminTab = 'challenges'; render();">
-                            Challenges
+                        <button class="btn btn-secondary" onclick="handleLogout()">
+                            <span>👋</span>
+                            Logout
                         </button>
                     </div>
-
-                    ${appState.adminTab === 'pending' ? renderPendingUsersTab() : ''}
-                    ${appState.adminTab === 'approved' ? renderApprovedUsersTab() : ''}
-                    ${appState.adminTab === 'challenges' ? renderChallengesTab() : ''}
                 </div>
 
+                <div class="admin-nav">
+                    ${tabs.map(tab => `
+                        <div class="admin-nav-item ${appState.adminTab === tab.id ? 'active' : ''}"
+                             onclick="appState.adminTab = '${tab.id}'; render();">
+                            <span>${tab.icon}</span>
+                            <span>${tab.label}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                ${appState.adminTab === 'users' ? renderUsersTab() : ''}
+                ${appState.adminTab === 'activity' ? renderActivityTab() : ''}
+                ${appState.adminTab === 'challenges' ? renderChallengesTab() : ''}
                 ${appState.showAddModal ? renderAddChallengeModal() : ''}
             `;
         }
 
-        function renderPendingUsersTab() {
+        function renderUsersTab() {
             return `
                 <div class="admin-main">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                        <h3 class="section-title" style="margin: 0;">
-                            <span>⏳</span>
-                            Pending Access Requests
-                        </h3>
-                        ${appState.pendingUsers.length > 0 ? `
-                            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                                <button class="btn btn-success" onclick="approveAllUsers();">
-                                    <span>✓✓</span>
-                                    Approve All (${appState.pendingUsers.length})
-                                </button>
-                                <button class="btn btn-danger" onclick="rejectAllUsers();">
-                                    <span>✕✕</span>
-                                    Reject All
-                                </button>
-                            </div>
-                        ` : ''}
-                    </div>
-                    
-                    ${appState.pendingUsers.length > 0 ? `
-                        <div class="info-box" style="margin-bottom: 2rem;">
-                            <div class="info-box-title">
-                                <span>💡</span>
-                                Bulk Actions
-                            </div>
-                            <div class="info-box-content">
-                                <strong>Approve All:</strong> Grants immediate access to all pending users<br>
-                                <strong>Reject All:</strong> Permanently removes all pending requests<br>
-                                <em>Or approve/reject individually using buttons on each card below</em>
-                            </div>
-                        </div>
+                    <h3 class="section-title" style="margin-bottom: 2rem;">
+                        <span>👥</span>
+                        User Management
+                    </h3>
 
+                    <div class="users-table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${appState.users.map(user => `
+                                    <tr>
+                                        <td>${user.email}</td>
+                                        <td>
+                                            <span class="status-badge status-${user.status}">
+                                                ${user.status === 'approved' ? '✓' : '⏳'}
+                                                ${user.status}
+                                            </span>
+                                        </td>
+                                        <td>${user.role}</td>
+                                        <td>${new Date(user.joinedAt).toLocaleDateString()}</td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                ${user.status === 'pending' ? `
+                                                    <button class="btn btn-primary" onclick="approveUser('${user.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                                        Approve
+                                                    </button>
+                                                ` : ''}
+                                                ${user.role !== 'admin' ? `
+                                                    <button class="btn btn-danger" onclick="deleteUser('${user.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                                        Delete
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderActivityTab() {
+            const allUserProgress = [];
+            
+            // Compile all user progress
+            Object.entries(appState.progressData).forEach(([userId, challenges]) => {
+                const user = appState.users.find(u => u.id === userId);
+                if (!user) return;
+                
+                Object.entries(challenges).forEach(([challengeId, progress]) => {
+                    const challenge = appState.challenges.find(c => c.id === challengeId);
+                    if (!challenge) return;
+                    
+                    allUserProgress.push({
+                        user,
+                        challenge,
+                        progress
+                    });
+                });
+            });
+
+            return `
+                <div class="admin-main">
+                    <h3 class="section-title" style="margin-bottom: 2rem;">
+                        <span>📊</span>
+                        User Activity
+                    </h3>
+
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span>📊</span>
+                            Activity Overview
+                        </div>
+                        <div class="info-box-content">
+                            <strong>Total Users:</strong> ${appState.users.length}<br>
+                            <strong>Active Challenges:</strong> ${allUserProgress.length}<br>
+                            <strong>Pending Approvals:</strong> ${appState.users.filter(u => u.status === 'pending').length}
+                        </div>
+                    </div>
+
+                    ${allUserProgress.length === 0 ? `
+                        <div style="text-align: center; padding: 3rem; color: var(--text-light);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                            <p>No user activity yet</p>
+                        </div>
+                    ` : `
                         <div class="challenges-grid">
-                            ${appState.pendingUsers.map(user => `
-                                <div class="challenge-card user-item pending">
-                                    <div>
-                                        <div class="challenge-icon" style="font-size: 2.5rem;">👤</div>
-                                        <h3 class="challenge-title">${user.name}</h3>
-                                        <p class="challenge-description">
-                                            <strong>Contact:</strong> ${user.email}<br>
-                                            <strong>Requested:</strong> ${new Date(user.requestDate).toLocaleString()}
-                                        </p>
-                                        <div class="approval-actions">
-                                            <button class="btn btn-success" onclick="approveUser('${user.id}');">
-                                                ✓ Approve
-                                            </button>
-                                            <button class="btn btn-danger" onclick="if(confirm('Reject ${user.name}?')) rejectUser('${user.id}');">
-                                                ✕ Reject
-                                            </button>
+                            ${allUserProgress.map(({ user, challenge, progress }) => `
+                                <div class="challenge-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border);">
+                                        <div class="challenge-icon" style="font-size: 2rem; margin: 0;">${challenge.icon}</div>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 700; color: var(--text); font-size: 1.1rem;">${challenge.title}</div>
+                                            <div style="color: var(--text-light); font-size: 0.85rem;">👤 ${user.email}</div>
                                         </div>
+                                    </div>
+
+                                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                                ${progress.currentStreak || 0}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                                Current Streak
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                                ${progress.longestStreak || 0}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                                Longest Streak
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">
+                                                ${progress.totalDays || 0}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 600;">
+                                                Total Days
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="calendar-grid" style="grid-template-columns: repeat(10, 1fr);">
+                                        ${Array.from({length: challenge.duration}, (_, i) => {
+                                            const startDate = new Date(progress.startDate);
+                                            const currentDate = new Date(startDate);
+                                            currentDate.setDate(startDate.getDate() + i);
+                                            const dateStr = currentDate.toISOString().split('T')[0];
+                                            const isComplete = progress.dailyData?.[dateStr]?.completed || false;
+                                            
+                                            return `
+                                                <div class="calendar-day ${isComplete ? 'completed' : ''}"
+                                                     title="${dateStr}"
+                                                     style="font-size: 0.7rem;">
+                                                    ${i + 1}
+                                                </div>
+                                            `;
+                                        }).join('')}
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
-                    ` : `
-                        <div class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-                            <p style="font-size: 1.1rem; font-weight: 600;">All caught up!</p>
-                            <p style="margin-top: 0.5rem;">No pending requests at the moment.</p>
-                        </div>
                     `}
-                </div>
-            `;
-        }
-
-        function renderApprovedUsersTab() {
-            // Automatically select first user if none selected and users exist
-            if (!appState.selectedUser && appState.users.length > 0) {
-                appState.selectedUser = appState.users[0];
-            }
-
-            return `
-                <div class="admin-layout">
-                    <div class="admin-sidebar">
-                        <h3 class="section-title" style="font-size: 1.25rem;">
-                            All Users (${appState.users.length})
-                        </h3>
-                        <div class="user-list">
-                            ${appState.users.length > 0 ? appState.users.map(user => `
-                                <div class="user-item ${appState.selectedUser?.id === user.id ? 'active' : ''}" 
-                                     onclick="appState.selectedUser = ${JSON.stringify(user).replace(/"/g, '&quot;')}; render();">
-                                    <div>
-                                        <div style="font-weight: 600;">${user.name || user.email}</div>
-                                        <div class="user-details">
-                                            Joined: ${new Date(user.joinedDate).toLocaleDateString()}<br>
-                                            ${user.challenges?.length || 0} challenge${(user.challenges?.length || 0) !== 1 ? 's' : ''}
-                                        </div>
-                                    </div>
-                                    <span>→</span>
-                                </div>
-                            `).join('') : '<div class="user-details" style="padding: 1rem;">No approved users yet. Approve pending requests to see them here.</div>'}
-                        </div>
-                    </div>
-
-                    <div class="admin-main">
-                        ${appState.users.length > 0 ? renderUserDetails() : `
-                            <div class="empty-state">
-                                <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                                <p>No approved users yet</p>
-                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Check the Pending Users tab to approve access requests</p>
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderUserDetails() {
-            const user = appState.selectedUser;
-            const totalChallenges = user.challenges?.length || 0;
-            const activeStreak = user.challenges?.reduce((sum, ch) => sum + (ch.currentStreak || 0), 0) || 0;
-            const completedDays = user.challenges?.reduce((sum, ch) => sum + (ch.completedDays?.length || 0), 0) || 0;
-            const longestStreak = Math.max(...(user.challenges?.map(ch => ch.longestStreak || 0) || [0]), 0);
-
-            return `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h3 class="section-title" style="margin: 0;">${user.name || user.email}'s Profile</h3>
-                    <button class="btn btn-danger" onclick="deleteUser('${user.id}');" style="font-size: 0.9rem;">
-                        <span>🗑️</span>
-                        Delete User
-                    </button>
-                </div>
-                
-                <div class="info-box" style="margin-bottom: 2rem;">
-                    <div class="info-box-title">
-                        <span>👤</span>
-                        User Information
-                    </div>
-                    <div class="info-box-content">
-                        <strong>Name:</strong> ${user.name || 'Not provided'}<br>
-                        <strong>Contact:</strong> ${user.email}<br>
-                        <strong>Joined:</strong> ${new Date(user.joinedDate).toLocaleString()}<br>
-                        <strong>Status:</strong> <span style="color: var(--success); font-weight: 600;">✓ Active</span>
-                    </div>
-                </div>
-
-                <h3 class="section-title" style="font-size: 1.25rem;">Progress Statistics</h3>
-                
-                <div class="stats-grid" style="margin-bottom: 2rem;">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">🎯</div>
-                        <div class="stat-value">${totalChallenges}</div>
-                        <div class="stat-label">Challenges Joined</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon secondary">🔥</div>
-                        <div class="stat-value">${activeStreak}</div>
-                        <div class="stat-label">Current Streak</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon accent">✓</div>
-                        <div class="stat-value">${completedDays}</div>
-                        <div class="stat-label">Total Check-ins</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon warning">🏆</div>
-                        <div class="stat-value">${longestStreak}</div>
-                        <div class="stat-label">Longest Streak</div>
-                    </div>
-                </div>
-
-                ${totalChallenges > 0 ? `
-                    <h4 style="margin-bottom: 1rem; font-weight: 600; color: var(--text); font-size: 1.1rem;">Challenge Details</h4>
-                    <div class="challenges-grid">
-                        ${user.challenges.map(userChallenge => {
-                            const challenge = appState.challenges.find(c => c.id === userChallenge.challengeId);
-                            if (!challenge) return '';
-                            
-                            const progress = (userChallenge.completedDays?.length || 0) / challenge.duration * 100;
-                            
-                            return `
-                                <div class="challenge-card">
-                                    <div class="challenge-icon">${challenge.icon}</div>
-                                    <h3 class="challenge-title">${challenge.title}</h3>
-                                    <p class="challenge-description">
-                                        Started: ${new Date(userChallenge.startDate).toLocaleDateString()}
-                                    </p>
-                                    ${renderProgressCircle(progress)}
-                                    <div class="challenge-meta">
-                                        <div class="streak-display">
-                                            <span style="font-size: 1.25rem;">🔥</span>
-                                            <span class="streak-number">${userChallenge.currentStreak}</span>
-                                        </div>
-                                        <div style="color: var(--text-light); font-weight: 600;">
-                                            ${userChallenge.completedDays?.length || 0}/${challenge.duration} days
-                                        </div>
-                                    </div>
-                                    ${challenge.hasTasks && userChallenge.completedDays?.length > 0 ? `
-                                        <button class="btn btn-secondary" onclick="appState.viewingDailyProgress = appState.viewingDailyProgress === '${userChallenge.challengeId}' ? null : '${userChallenge.challengeId}'; render();" style="margin-top: 1rem; width: 100%;">
-                                            <span>📊</span>
-                                            ${appState.viewingDailyProgress === userChallenge.challengeId ? 'Hide' : 'View'} Daily Progress
-                                        </button>
-                                    ` : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-
-                    ${user.challenges.some(uc => appState.viewingDailyProgress === uc.challengeId) ? 
-                        renderDailyProgressView(user) : ''}
-                ` : `
-                    <div class="info-box warning">
-                        <div class="info-box-title">
-                            <span>📋</span>
-                            No Challenges Yet
-                        </div>
-                        <div class="info-box-content">
-                            This user hasn't joined any challenges yet. They can start by selecting a challenge from their dashboard.
-                        </div>
-                    </div>
-                `}
-            `;
-        }
-
-        function renderDailyProgressView(user) {
-            const challengeId = appState.viewingDailyProgress;
-            const userChallenge = user.challenges.find(uc => uc.challengeId === challengeId);
-            const challenge = appState.challenges.find(c => c.id === challengeId);
-            
-            if (!userChallenge || !challenge || !challenge.hasTasks) return '';
-
-            const sortedDays = [...(userChallenge.completedDays || [])].sort().reverse(); // Most recent first
-
-            return `
-                <div style="margin-top: 2rem;">
-                    <h4 style="margin-bottom: 1rem; font-weight: 600; color: var(--text); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <span>📊</span>
-                        Daily Progress & Responses - ${challenge.title}
-                    </h4>
-                    
-                    <div class="info-box" style="margin-bottom: 1.5rem;">
-                        <div class="info-box-content">
-                            Showing all completed days with task completion status and progress report answers. Most recent days first.
-                        </div>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        ${sortedDays.map(date => {
-                            const dailyData = userChallenge.dailyData?.[date];
-                            if (!dailyData) return '';
-
-                            const dateObj = new Date(date);
-                            const dayNumber = sortedDays.reverse().indexOf(date) + 1;
-                            
-                            return `
-                                <div style="background: var(--bg-alt); border-radius: 12px; padding: 1.5rem; border: 2px solid var(--border);">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                        <h5 style="font-weight: 700; color: var(--text); margin: 0;">
-                                            Day ${dayNumber} - ${dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                                        </h5>
-                                        <span style="font-size: 0.85rem; color: var(--text-light);">
-                                            Completed: ${new Date(dailyData.completedAt).toLocaleTimeString()}
-                                        </span>
-                                    </div>
-
-                                    <!-- Tasks Completed -->
-                                    <div style="margin-bottom: 1.5rem;">
-                                        <h6 style="font-weight: 600; color: var(--text); margin-bottom: 0.75rem; font-size: 0.95rem;">
-                                            ✅ Tasks Completed:
-                                        </h6>
-                                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
-                                            ${challenge.tasks.map(task => {
-                                                const isComplete = dailyData.tasks[task.id];
-                                                return `
-                                                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: var(--bg); border-radius: 6px;">
-                                                        <span style="color: ${isComplete ? 'var(--success)' : 'var(--danger)'}; font-size: 1.1rem;">
-                                                            ${isComplete ? '✓' : '✗'}
-                                                        </span>
-                                                        <span style="font-size: 0.85rem; color: var(--text);">${task.name}</span>
-                                                    </div>
-                                                `;
-                                            }).join('')}
-                                        </div>
-                                    </div>
-
-                                    <!-- Progress Report -->
-                                    ${challenge.progressReportQuestions && dailyData.progressReport ? `
-                                        <div>
-                                            <h6 style="font-weight: 600; color: var(--text); margin-bottom: 0.75rem; font-size: 0.95rem;">
-                                                📝 Progress Report:
-                                            </h6>
-                                            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                                ${challenge.progressReportQuestions.map((question, idx) => `
-                                                    <div style="background: var(--bg); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
-                                                        <div style="font-weight: 600; color: var(--text); margin-bottom: 0.5rem; font-size: 0.9rem;">
-                                                            ${String.fromCharCode(97 + idx)}. ${question}
-                                                        </div>
-                                                        <div style="color: var(--text-light); font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap;">
-                                                            ${dailyData.progressReport[`q${idx}`] || '<em>No answer provided</em>'}
-                                                        </div>
-                                                    </div>
-                                                `).join('')}
-                                            </div>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
                 </div>
             `;
         }
@@ -2614,7 +1982,7 @@
                             Manage Challenges
                         </h3>
                         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                            <button class="btn btn-secondary" onclick="resetChallenges();" style="font-size: 0.9rem;">
+                            <button class="btn btn-secondary" onclick="resetChallenges();">
                                 🔄 Reset to 75 Intentional
                             </button>
                             <button class="btn btn-primary" onclick="appState.showAddModal = true; render();">
@@ -2729,7 +2097,6 @@
             `;
         }
 
-        // Main Render Function
         function render() {
             const app = document.getElementById('app');
             
@@ -2744,8 +2111,86 @@
             }
         }
 
-        // Initialize
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        // Initialize app
         initializeData();
     </script>
 </body>
 </html>
+
+<!-- 
+================================================================================
+FIREBASE SETUP INSTRUCTIONS
+================================================================================
+
+1. GO TO FIREBASE CONSOLE
+   Visit: https://console.firebase.google.com
+
+2. CREATE A NEW PROJECT (or use existing)
+   - Click "Add project"
+   - Enter project name
+   - Follow the setup wizard
+
+3. ENABLE REALTIME DATABASE
+   - In left sidebar, click "Build" > "Realtime Database"
+   - Click "Create Database"
+   - Choose location (e.g., us-central1)
+   - Start in TEST MODE (we'll secure it in step 5)
+
+4. GET YOUR FIREBASE CONFIG
+   - Go to Project Settings (gear icon) > General
+   - Scroll to "Your apps" section
+   - Click the Web icon (</>) to add a web app
+   - Register your app (name it anything)
+   - Copy the firebaseConfig object
+   - Paste it into this file, replacing the placeholder
+
+5. SET UP SECURITY RULES
+   - Go to Realtime Database > Rules tab
+   - Replace with these rules:
+
+{
+  "rules": {
+    "users": {
+      ".read": true,
+      ".write": true
+    },
+    "challenges": {
+      ".read": true,
+      ".write": true
+    },
+    "progress": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
+
+   - Click "Publish"
+
+6. DEPLOY YOUR WEBSITE
+   - Save this HTML file
+   - Upload to your hosting (GitHub Pages, Netlify, etc.)
+   - Your app is now live with centralized data storage!
+
+================================================================================
+IMPORTANT NOTES
+================================================================================
+
+- All users will now see the same data because it's stored in Firebase
+- The admin can see all user progress from any device
+- Data persists even if users close their browser
+- Free tier includes: 1GB storage, 10GB/month downloads, 100 simultaneous connections
+
+For production, you should:
+1. Add Firebase Authentication for secure login
+2. Update security rules to restrict access based on user roles
+3. See Firebase docs: https://firebase.google.com/docs
+
+================================================================================
+-->
