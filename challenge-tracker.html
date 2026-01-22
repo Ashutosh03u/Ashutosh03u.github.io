@@ -965,14 +965,14 @@
         // ====================================================================
         // IMPORTANT: Replace these with your actual Firebase config
         const firebaseConfig = {
-    apiKey: "AIzaSyD_oycEr_bza7OLIeiC2wss8iaKAFaaeTM",
-    authDomain: "challenge-tracker-new.firebaseapp.com",
-    databaseURL: "https://challenge-tracker-new-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "challenge-tracker-new",
-    storageBucket: "challenge-tracker-new.firebasestorage.app",
-    messagingSenderId: "35927063819",
-    appId: "1:35927063819:web:63c6e7712df756207fb60e"
-  };
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
         // Check if Firebase is configured
         const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY_HERE";
@@ -1042,22 +1042,24 @@
         };
 
         const defaultChallenges = [{
-            id: 'c1',
+            id: '1',
             title: '75 Intentional',
-            description: 'Transform your career in 75 days with focused daily actions towards your professional goals.',
+            description: '75 Intentional is designed to help you master project management systems, think smarter, and grow beyond just your job title. It\'s about expanding your horizons and becoming intentional in life. Miss even a single task on any day, and the challenge resets to Day 1.',
             duration: 75,
             icon: '🎯',
+            hasTasks: true,
             tasks: [
-                { id: 't1', name: 'LinkedIn Networking' },
-                { id: 't2', name: 'Resume Update' },
-                { id: 't3', name: 'Skill Learning (30 min)' },
-                { id: 't4', name: 'Job Application or Portfolio Work' },
-                { id: 't5', name: 'Read Career Content' }
+                { id: 'pmp-focus', name: 'PMP Focus Block', required: true },
+                { id: 'concept-app', name: 'Concept to Application', required: true },
+                { id: 'pm-output', name: 'One PM Output', required: true },
+                { id: 'intentional-learning', name: 'Intentional Learning (Non PMP)', required: true },
+                { id: 'dopamine-discipline', name: 'Dopamine Discipline', required: true },
+                { id: 'progress-report', name: 'Progress Report', required: true }
             ],
             progressReportQuestions: [
-                'What did you accomplish today toward your career goal?',
-                'What challenges did you face?',
-                'What will you focus on tomorrow?'
+                'What did I understand better today?',
+                'Where did I rush?',
+                'What would a better PM do here?'
             ]
         }];
 
@@ -1295,10 +1297,11 @@
                     description,
                     duration: parseInt(duration),
                     icon,
+                    hasTasks: true,
                     tasks: [
-                        { id: 't1', name: 'Task 1' },
-                        { id: 't2', name: 'Task 2' },
-                        { id: 't3', name: 'Task 3' }
+                        { id: 't1', name: 'Task 1', required: true },
+                        { id: 't2', name: 'Task 2', required: true },
+                        { id: 't3', name: 'Task 3', required: true }
                     ],
                     progressReportQuestions: [
                         'What did you accomplish today?',
